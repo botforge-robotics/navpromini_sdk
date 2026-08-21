@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NavProMini SDK — API Reference</title>
+  <link rel="icon" href="assets/favicon.svg">
+  <style>
+    body { margin: 0; padding: 0; font-family: Inter, system-ui, sans-serif; }
+    .bar {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.7rem 1.2rem; color: #fff;
+      background: linear-gradient(135deg, #3949ab 0%, #00897b 100%);
+    }
+    .bar a { color: #fff; text-decoration: none; font-weight: 600; }
+    .bar a:hover { text-decoration: underline; }
+    .bar .spacer { flex: 1; }
+    .bar .title { font-weight: 700; letter-spacing: 0.01em; }
+    .fallback { padding: 2rem 1.2rem; font-size: 0.95rem; line-height: 1.6; }
+    .fallback code { background: #eceff1; padding: 0.1em 0.35em; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <span class="title">NavProMini SDK — API Reference</span>
+    <span class="spacer"></span>
+    <a href="./">Documentation</a>
+    <a href="openapi.yaml" download>openapi.yaml</a>
+    <a href="https://github.com/botforge-robotics/navpromini_sdk">GitHub</a>
+  </div>
+
+  <div id="redoc"></div>
+
+  <noscript>
+    <div class="fallback">
+      This page renders the OpenAPI specification with JavaScript. With scripts disabled,
+      read the spec directly: <a href="openapi.yaml">openapi.yaml</a>.
+    </div>
+  </noscript>
+
+  <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+  <script>
+    // Rendered client-side rather than pre-built so the published spec file and
+    // the page can never drift apart: there is one openapi.yaml, and this reads it.
+    var mount = document.getElementById('redoc');
+    if (window.Redoc) {
+      Redoc.init('openapi.yaml', {
+        scrollYOffset: 48,
+        hideDownloadButton: false,
+        expandResponses: '200,201,202',
+        pathInMiddlePanel: true,
+        theme: {
+          colors: { primary: { main: '#3949ab' } },
+          typography: {
+            fontFamily: 'Inter, system-ui, sans-serif',
+            code: { fontFamily: 'JetBrains Mono, ui-monospace, monospace' }
+          },
+          rightPanel: { backgroundColor: '#1c2333' }
+        }
+      }, mount);
+    } else {
+      mount.innerHTML =
+        '<div class="fallback">The renderer could not be loaded (offline, or a blocked CDN). ' +
+        'The specification itself is here: <a href="openapi.yaml">openapi.yaml</a>.</div>';
+    }
+  </script>
+</body>
+</html>

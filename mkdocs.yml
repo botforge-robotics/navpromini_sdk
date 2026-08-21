@@ -1,0 +1,129 @@
+site_name: NavProMini SDK
+site_description: HTTP + WebSocket control and telemetry API for the NavProMini AMR.
+site_url: https://botforge-robotics.github.io/navpromini_sdk/
+repo_url: https://github.com/botforge-robotics/navpromini_sdk
+repo_name: botforge-robotics/navpromini_sdk
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; Botforge Robotics — released under the MIT License
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/robot-industrial
+    repo: fontawesome/brands/github
+  favicon: assets/favicon.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Follow system theme
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+    - content.action.edit
+
+extra_css:
+  - assets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/botforge-robotics
+      name: Botforge Robotics on GitHub
+  generator: false
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Link to this section
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+hooks:
+  - docs_hooks.py
+
+nav:
+  - Home:
+      - index.md
+      - getting-started.md
+      - concepts.md
+  - API:
+      - api/index.md
+      - api/system.md
+      - api/state.md
+      - api/mode.md
+      - api/maps.md
+      - api/waypoints.md
+      - api/navigation.md
+      - api/docking.md
+      - api/motion.md
+      - api/events.md
+      - api/errors.md
+  - Reference: reference.html
+  - Clients:
+      - clients.md
+      - recipes.md
+  - Roadmap: roadmap.md

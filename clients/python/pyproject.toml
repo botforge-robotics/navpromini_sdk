@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navpromini"
+version = "1.0.0"
+description = "Python client for the NavProMini SDK API"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Botforge Robotics" }]
+keywords = ["robotics", "amr", "ros2", "navigation", "navpromini"]
+dependencies = ["requests>=2.25"]
+
+[project.optional-dependencies]
+events = ["websocket-client>=1.0"]
+
+[project.urls]
+Homepage = "https://botforge-robotics.github.io/navpromini_sdk/"
+Source = "https://github.com/botforge-robotics/navpromini_sdk"
+
+[tool.setuptools]
+packages = ["navpromini"]
