@@ -1,0 +1,113 @@
+/* NavProMini SDK — documentation theme accents.
+   Material already handles layout and dark mode; this only adds the pieces
+   the API docs specifically need: method badges, stream chips, and a hero. */
+
+:root {
+  --npm-get:    #2e7d32;
+  --npm-post:   #1565c0;
+  --npm-put:    #ef6c00;
+  --npm-delete: #c62828;
+  --npm-ws:     #6a1b9a;
+}
+
+[data-md-color-scheme="slate"] {
+  --npm-get:    #66bb6a;
+  --npm-post:   #64b5f6;
+  --npm-put:    #ffb74d;
+  --npm-delete: #ef5350;
+  --npm-ws:     #ba68c8;
+}
+
+/* ---- HTTP method badges -------------------------------------------------
+   Endpoint headings read as "GET /state/battery". The verb carries as much
+   meaning as the path, so it gets colour rather than being another word. */
+
+.md-typeset .verb {
+  display: inline-block;
+  min-width: 4.6rem;
+  padding: 0.06em 0.5em;
+  margin-right: 0.45em;
+  border-radius: 0.2rem;
+  font-family: var(--md-code-font-family);
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: #fff;
+  vertical-align: 0.16em;
+}
+
+.md-typeset .verb.get    { background: var(--npm-get); }
+.md-typeset .verb.post   { background: var(--npm-post); }
+.md-typeset .verb.put    { background: var(--npm-put); }
+.md-typeset .verb.delete { background: var(--npm-delete); }
+.md-typeset .verb.ws     { background: var(--npm-ws); }
+
+/* Endpoint headings sit on a tinted rule so a long page of them stays
+   scannable — you can find the one you want without reading. */
+.md-typeset h3:has(> .verb) {
+  padding: 0.35rem 0 0.35rem 0.6rem;
+  border-left: 3px solid var(--md-accent-fg-color);
+  background: var(--md-code-bg-color);
+  border-radius: 0 0.2rem 0.2rem 0;
+}
+
+.md-typeset h3 > .verb + code {
+  background: none;
+  padding: 0;
+  font-size: 0.95em;
+  font-weight: 600;
+}
+
+/* ---- Status-code chips -------------------------------------------------- */
+
+.md-typeset .status {
+  display: inline-block;
+  padding: 0.05em 0.45em;
+  border-radius: 1rem;
+  font-family: var(--md-code-font-family);
+  font-size: 0.78em;
+  font-weight: 700;
+  color: #fff;
+}
+
+.md-typeset .status.ok   { background: var(--npm-get); }
+.md-typeset .status.warn { background: var(--npm-put); }
+.md-typeset .status.err  { background: var(--npm-delete); }
+
+/* ---- Home hero ---------------------------------------------------------- */
+
+.npm-hero {
+  margin: 0 0 2.2rem;
+  padding: 2.2rem 1.6rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #3949ab 0%, #00897b 100%);
+}
+
+.npm-hero h1 {
+  margin: 0 0 0.4rem;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+.npm-hero p {
+  margin: 0 auto;
+  max-width: 34rem;
+  opacity: 0.92;
+}
+
+/* Material's grid cards, warmed up slightly on hover. */
+.md-typeset .grid.cards > ul > li {
+  transition: border-color 160ms, box-shadow 160ms, transform 160ms;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Wide endpoint tables must scroll themselves, never the page. */
+.md-typeset__table { width: 100%; }

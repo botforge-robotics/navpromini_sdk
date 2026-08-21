@@ -1,0 +1,704 @@
+openapi: 3.1.0
+info:
+  title: NavProMini SDK API
+  version: "1.0.0"
+  summary: HTTP + WebSocket control and telemetry API for the NavProMini AMR.
+  description: |
+    Control and observe a NavProMini robot over plain HTTP — no ROS knowledge,
+    no ROS installation, no client libraries required beyond an HTTP client.
+
+    The API is **resource-oriented**: nouns in the path, intent in the HTTP verb.
+    `GET /state/battery` reads, `POST /dock` acts, `DELETE /navigation/goal`
+    cancels. There is no separate "command" prefix.
+
+    **Long operations return immediately.** Docking or driving across a room
+    takes minutes — far longer than any reasonable HTTP timeout, and longer
+    than most proxies allow. Those endpoints answer `202 Accepted` as soon as
+    the robot accepts the goal; progress is then read from the matching status
+    endpoint or, better, the WebSocket event stream.
+  license:
+    name: MIT
+    url: https://github.com/botforge-robotics/navpromini_sdk/blob/main/LICENSE
+  contact:
+    name: Botforge Robotics
+    url: https://github.com/botforge-robotics/navpromini_sdk
+
+servers:
+  - url: http://{robot}:{port}/api/v1
+    description: A NavProMini on the local network
+    variables:
+      robot:
+        default: navpromini.local
+        description: Robot hostname or IP address
+      port:
+        default: "8090"
+
+tags:
+  - name: System
+    description: Identity, capabilities and health.
+  - name: State
+    description: Live telemetry. Every response carries `age_sec` so callers can tell fresh data from stale.
+  - name: Mode
+    description: Idle, mapping or navigation. Mutually exclusive by design.
+  - name: Maps
+    description: Save, list, activate and delete maps.
+  - name: Waypoints
+    description: Named poses stored on the robot, per map.
+  - name: Navigation
+    description: Send goals, track them, cancel, localize.
+  - name: Docking
+    description: Autonomous AprilTag docking and undocking.
+  - name: Motion
+    description: Direct velocity and relative moves (teleop-equivalent).
+  - name: Events
+    description: WebSocket stream of state changes.
+
+security: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: |
+        Sent as `Authorization: Bearer <token>`, and as `?token=<token>` on the
+        WebSocket. Disabled by default; enable with the `auth_token` parameter.
+        **Enable it on any network you do not fully control** — without it,
+        anyone who can reach the robot can drive it.
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              description: Stable machine-readable identifier. Branch on this, not on the message.
+              examples: [no_data, goal_active, map_exists]
+            message:
+              type: string
+              description: Human-readable explanation. May change between versions.
+            detail:
+              type: object
+              additionalProperties: true
+
+    Pose:
+      type: object
+      properties:
+        x: { type: number, description: Metres }
+        y: { type: number, description: Metres }
+        theta: { type: number, description: "Yaw in radians, CCW positive" }
+        frame:
+          type: string
+          description: |
+            `map` when localized, `odom` otherwise. An odom pose is relative to
+            wherever the robot started and is **not** comparable with stored
+            waypoints.
+          enum: [map, odom]
+
+    Reading:
+      type: object
+      description: A telemetry value with its age.
+      properties:
+        data: {}
+        age_sec:
+          type: number
+          nullable: true
+          description: Seconds since this value arrived. `null` means never received.
+
+    Battery:
+      type: object
+      properties:
+        percentage: { type: number, nullable: true }
+        voltage: { type: number, nullable: true }
+        current:
+          type: number
+          nullable: true
+          description: Amps. Positive is charging.
+        temperature: { type: number, nullable: true, description: "Hottest cell, °C" }
+        status:
+          type: string
+          enum: [unknown, charging, discharging, not_charging, full]
+        charging:
+          type: boolean
+          description: |
+            True when the pack is taking or holding charge. This is the ground
+            truth for "is the robot on the dock" — it is true whether the robot
+            docked itself or was pushed on by hand.
+
+  responses:
+    NotFound:
+      description: No such resource.
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Conflict:
+      description: The request clashes with current robot state.
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Unavailable:
+      description: Required data or ROS component is not available yet.
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    BadRequest:
+      description: Malformed or out-of-range request.
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+
+paths:
+  /system/info:
+    get:
+      tags: [System]
+      summary: Robot identity and capabilities
+      description: |
+        The first call to make against an unknown robot. `capabilities` states
+        plainly what this unit can do, so a client can adapt instead of probing
+        endpoints and interpreting failures.
+      responses:
+        "200":
+          description: Robot identity.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  robot:
+                    type: object
+                    properties:
+                      name: { type: string }
+                      serial: { type: string, nullable: true }
+                      hostname: { type: string }
+                  sdk_version: { type: string }
+                  api_version: { type: string }
+                  ros_distro: { type: string }
+                  model: { type: string }
+                  uptime_sec: { type: number }
+                  capabilities:
+                    type: object
+                    additionalProperties: { type: [boolean, string] }
+              example:
+                robot: { name: navpromini, serial: "46884ab7aa441027", hostname: navpromini }
+                sdk_version: "1.0.0"
+                api_version: v1
+                ros_distro: jazzy
+                model: NavProMini
+                uptime_sec: 812.4
+                capabilities:
+                  mapping: true
+                  navigation: true
+                  docking: true
+                  docking_method: apriltag
+                  camera: true
+                  virtual_walls: false
+                  fixed_routes: false
+                  missions: false
+
+  /system/health:
+    get:
+      tags: [System]
+      summary: Per-subsystem health
+      description: |
+        Each telemetry source is reported separately with its age and the
+        staleness limit applied. "The robot is unhealthy" is not actionable;
+        "lidar last published 40s ago" is.
+      responses:
+        "200":
+          description: Health snapshot.
+          content:
+            application/json:
+              example:
+                healthy: true
+                sources:
+                  odom: { ok: true, age_sec: 0.07, limit_sec: 2.0 }
+                  battery: { ok: true, age_sec: 3.44, limit_sec: 5.0 }
+                  imu: { ok: true, age_sec: 0.07, limit_sec: 2.0 }
+                  lidar: { ok: true, age_sec: 0.12, limit_sec: 3.0 }
+                  cpu_temperature: { ok: true, age_sec: 0.9, limit_sec: 10.0 }
+                cpu_temperature_c: 55.1
+                disk: { total_gb: 29.5, free_gb: 18.2, used_percent: 35.4 }
+
+  /state/pose:
+    get:
+      tags: [State]
+      summary: Current pose
+      description: |
+        Prefers the `map` frame. When navigation is not running there is no
+        AMCL, so this falls back to `odom` and sets `localized: false`.
+
+        **Check `localized` before storing or comparing a pose.** An odom pose
+        is relative to wherever the robot last started; treating it as a map
+        pose sends the robot to the wrong place.
+      responses:
+        "200":
+          description: Pose with frame and age.
+          content:
+            application/json:
+              example:
+                data: { x: 0.99, y: -0.364, theta: 2.553, frame: odom }
+                age_sec: 0.09
+                localized: false
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /state/battery:
+    get:
+      tags: [State]
+      summary: Battery and charging state
+      responses:
+        "200":
+          description: Battery reading.
+          content:
+            application/json:
+              example:
+                data:
+                  percentage: 100.0
+                  voltage: 14.0
+                  current: 0.1
+                  temperature: 35.0
+                  status: full
+                  charging: true
+                age_sec: 3.45
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /state/velocity:
+    get:
+      tags: [State]
+      summary: Measured linear and angular velocity
+      responses:
+        "200": { description: Velocity in m/s and rad/s. }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /state/imu:
+    get:
+      tags: [State]
+      summary: IMU orientation, angular velocity and acceleration
+      responses:
+        "200": { description: IMU reading. }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /state/scan:
+    get:
+      tags: [State]
+      summary: Latest laser scan
+      description: Ranges in metres; non-finite beams are `null` rather than NaN, which is not valid JSON.
+      responses:
+        "200": { description: Scan with angle limits and ranges. }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /state/temperature:
+    get:
+      tags: [State]
+      summary: CPU and battery temperature
+      responses:
+        "200":
+          description: Temperatures in °C, `null` when unavailable.
+          content: { application/json: { example: { cpu_c: 55.1, battery_c: 35.0 } } }
+
+  /mode:
+    get:
+      tags: [Mode]
+      summary: Current mode
+      responses:
+        "200":
+          description: Mode and backing launch.
+          content:
+            application/json:
+              example: { mode: navigation, map: workRoom, launch_id: "3f2a...", since_sec: 42.1 }
+    post:
+      tags: [Mode]
+      summary: Change mode
+      description: |
+        Mapping and navigation are **mutually exclusive** — both publish the
+        `map -> odom` transform, and two publishers make the transform tree
+        non-deterministic. Switching always stops the current mode first.
+
+        Navigation requires a map. Mapping starts SLAM with a blank map; save
+        it afterwards with `POST /maps`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mode]
+              properties:
+                mode: { type: string, enum: [idle, mapping, navigation] }
+                map:
+                  type: string
+                  description: Required for `navigation` unless a current map is already set.
+            examples:
+              navigation: { value: { mode: navigation, map: workRoom } }
+              mapping: { value: { mode: mapping } }
+              idle: { value: { mode: idle } }
+      responses:
+        "200": { description: Switched to idle. }
+        "202": { description: Mode starting. }
+        "400": { $ref: '#/components/responses/BadRequest' }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /maps:
+    get:
+      tags: [Maps]
+      summary: List saved maps
+      responses:
+        "200":
+          description: Map names.
+          content:
+            application/json:
+              example: { maps: [workRoom, F2020], count: 2, current: workRoom }
+    post:
+      tags: [Maps]
+      summary: Save the current map
+      description: |
+        Saves the map being built in mapping mode. An existing name returns
+        `409` unless `overwrite` is true — silently replacing a map a robot
+        navigates by is not something to do by accident.
+
+        The pose graph is serialized alongside the image, so the map can be
+        **extended** later rather than only re-made from scratch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string, description: 'Simple file name, no slash' }
+                overwrite: { type: boolean, default: false }
+      responses:
+        "201": { description: Saved. }
+        "200": { description: Overwrote an existing map. }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /maps/current:
+    get:
+      tags: [Maps]
+      summary: Which map is in use
+      responses:
+        "200": { description: Current map name and mode. }
+
+  /maps/{name}:
+    delete:
+      tags: [Maps]
+      summary: Delete a map
+      description: Refuses (`409`) if navigation is currently using it.
+      parameters:
+        - { name: name, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Deleted. }
+        "404": { $ref: '#/components/responses/NotFound' }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /maps/{name}/activate:
+    post:
+      tags: [Maps]
+      summary: Switch navigation to this map
+      description: Restarts the navigation stack. Localization is lost — send `POST /navigation/localize` afterwards.
+      parameters:
+        - { name: name, in: path, required: true, schema: { type: string } }
+      responses:
+        "202": { description: Switching. }
+
+  /waypoints:
+    get:
+      tags: [Waypoints]
+      summary: List waypoints for a map
+      parameters:
+        - { name: map, in: query, schema: { type: string }, description: Defaults to the current map. }
+      responses:
+        "200":
+          description: Waypoints.
+          content:
+            application/json:
+              example:
+                map: workRoom
+                waypoints:
+                  - { name: kitchen, type: waypoint, x: 1.5, y: -0.4, theta: 0.2 }
+    post:
+      tags: [Waypoints]
+      summary: Create or replace a waypoint
+      description: |
+        Omit `x`/`y` to capture the robot's **current** position — the usual way
+        to make one: drive there, then name it. That requires the robot to be
+        localized, so it returns `409` in idle or mapping mode.
+
+        Waypoints are stored per map, because the same name in two maps is two
+        different places.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                type: { type: string, enum: [waypoint, dock, pickup, dropoff, home], default: waypoint }
+                x: { type: number }
+                y: { type: number }
+                theta: { type: number, default: 0 }
+                map: { type: string }
+            examples:
+              capture_here: { value: { name: kitchen } }
+              explicit: { value: { name: kitchen, x: 1.5, y: -0.4, theta: 0.2 } }
+      responses:
+        "201": { description: Stored. }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /waypoints/{name}:
+    get:
+      tags: [Waypoints]
+      summary: Read one waypoint
+      parameters:
+        - { name: name, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: The waypoint. }
+        "404": { $ref: '#/components/responses/NotFound' }
+    delete:
+      tags: [Waypoints]
+      summary: Delete a waypoint
+      parameters:
+        - { name: name, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Deleted. }
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /navigation/goto:
+    post:
+      tags: [Navigation]
+      summary: Send a navigation goal
+      description: |
+        Accepts either a saved `waypoint` name or explicit `x`/`y`(/`theta`).
+
+        Returns `202` once the goal is **accepted**, not when the robot
+        arrives. Poll `GET /navigation/status` or watch the event stream.
+
+        **If the robot is docked it undocks first, automatically.** Goals are
+        routed through the robot's dock-aware entry point, so a docked robot
+        cannot be told to drive off while still on the charging contacts.
+
+        One goal at a time: a second goal returns `409` unless `replace` is true.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                waypoint: { type: string }
+                x: { type: number }
+                y: { type: number }
+                theta: { type: number, default: 0 }
+                replace: { type: boolean, default: false, description: Cancel any running goal and take over. }
+            examples:
+              by_name: { value: { waypoint: kitchen } }
+              by_coords: { value: { x: 2.4, y: 1.1, theta: 1.57 } }
+      responses:
+        "202": { description: Goal accepted. }
+        "400": { $ref: '#/components/responses/BadRequest' }
+        "404": { $ref: '#/components/responses/NotFound' }
+        "409": { $ref: '#/components/responses/Conflict' }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /navigation/status:
+    get:
+      tags: [Navigation]
+      summary: Current goal progress
+      responses:
+        "200":
+          description: Goal state.
+          content:
+            application/json:
+              example:
+                state: active
+                target: { waypoint: kitchen, x: 1.5, y: -0.4, theta: 0.2 }
+                message: ""
+                elapsed_sec: 12.4
+                distance_remaining: 3.271
+
+  /navigation/goal:
+    delete:
+      tags: [Navigation]
+      summary: Cancel the active goal
+      responses:
+        "200": { description: "Cancelled, or nothing was running." }
+
+  /navigation/localize:
+    post:
+      tags: [Navigation]
+      summary: Set the estimated pose
+      description: |
+        The equivalent of "2D Pose Estimate". Needed after switching maps or
+        when localization is lost. Accuracy of a few tens of centimetres is
+        enough — AMCL converges from there.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [x, y]
+              properties:
+                x: { type: number }
+                y: { type: number }
+                theta: { type: number, default: 0 }
+      responses:
+        "200": { description: Pose published. }
+
+  /navigation/path:
+    get:
+      tags: [Navigation]
+      summary: Current planned path
+      responses:
+        "200": { description: Planned path as a list of points. }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /dock:
+    post:
+      tags: [Docking]
+      summary: Dock the robot
+      description: |
+        Drives to the dock's staging pose, then uses the rear camera and the
+        dock's AprilTag to centre and reverse in until the battery reports
+        charging.
+
+        **Charging is the only success condition** — arriving, or stalling
+        against something, is not evidence of contact. Returns `202`; watch
+        `GET /dock/status` for `charging: true`.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                navigate_to_staging:
+                  type: boolean
+                  default: true
+                  description: Set false only when the robot is already parked in front of the dock.
+      responses:
+        "202": { description: Docking started. }
+        "409": { $ref: '#/components/responses/Conflict' }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /undock:
+    post:
+      tags: [Docking]
+      summary: Undock and stop
+      description: Drives clear of the charging contacts and stops. To undock *and* go somewhere, just send `POST /navigation/goto` — it undocks first.
+      responses:
+        "202": { description: Undocking started. }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /dock/status:
+    get:
+      tags: [Docking]
+      summary: Docking state
+      description: |
+        Reports both what the docking controller believes and what the battery
+        proves. They can legitimately disagree — a robot pushed onto the dock
+        by hand is `charging: true` while `state` is still `undocked`.
+        **`charging` is the ground truth for physical connection.**
+      responses:
+        "200":
+          description: Dock status.
+          content:
+            application/json:
+              example:
+                state: charging
+                operation: docked
+                message: ""
+                charging: true
+                battery_status: full
+                tag_visible: false
+
+  /dock/pose:
+    get:
+      tags: [Docking]
+      summary: Where the robot believes its dock is
+      responses:
+        "200": { description: Dock pose in the map frame. }
+        "404": { $ref: '#/components/responses/NotFound' }
+    put:
+      tags: [Docking]
+      summary: Set the dock pose
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [x, y]
+              properties:
+                x: { type: number }
+                y: { type: number }
+                theta: { type: number, description: "Yaw pointing OUT of the dock face." }
+      responses:
+        "200": { description: Dock pose set. }
+
+  /motion/velocity:
+    post:
+      tags: [Motion]
+      summary: Continuous velocity command
+      description: |
+        **Expires after ~0.5 s.** Repeat at roughly 5 Hz to keep moving. This is
+        deliberate: an HTTP client that crashes mid-drive must not leave the
+        robot running.
+
+        Shares the teleop priority, so it is overridden by an e-stop and does
+        not fight the navigation stack.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                linear: { type: number, description: "m/s, forward positive. Max 0.35." }
+                angular: { type: number, description: "rad/s, CCW positive. Max 1.2." }
+      responses:
+        "200": { description: Command sent. }
+        "400": { $ref: '#/components/responses/BadRequest' }
+
+  /motion/stop:
+    post:
+      tags: [Motion]
+      summary: Stop immediately
+      responses:
+        "200": { description: Stopped. }
+
+  /motion/move:
+    post:
+      tags: [Motion]
+      summary: Drive a fixed distance
+      description: Negative distance reverses. Obstacle avoidance does **not** apply — this is a direct move.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [distance]
+              properties:
+                distance: { type: number, description: "Metres. Negative reverses." }
+                speed: { type: number, default: 0.1 }
+      responses:
+        "200": { description: Accepted. }
+        "400": { $ref: '#/components/responses/BadRequest' }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /motion/rotate:
+    post:
+      tags: [Motion]
+      summary: Rotate in place
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [angle]
+              properties:
+                angle: { type: number, description: "Radians, CCW positive." }
+                speed: { type: number, default: 0.3 }
+      responses:
+        "200": { description: Accepted. }
+        "503": { $ref: '#/components/responses/Unavailable' }
