@@ -8,7 +8,7 @@ pip install -e ".[events]"    # plus the WebSocket event stream
 ```python
 from navpromini import NavProMini
 
-robot = NavProMini("navpromini.local")
+robot = NavProMini("192.168.1.50")
 
 print(robot.info()["robot"]["name"])
 print(robot.battery()["percentage"])

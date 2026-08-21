@@ -3,14 +3,14 @@
 One WebSocket, push updates, no polling interval to tune.
 
 ```
-ws://<robot>:8090/api/v1/events
+ws://<robot-ip>:8090/api/v1/events
 ```
 
 With authentication enabled, pass the token as a query parameter — browsers cannot set
 headers on a WebSocket handshake:
 
 ```
-ws://<robot>:8090/api/v1/events?token=s3cret
+ws://<robot-ip>:8090/api/v1/events?token=s3cret
 ```
 
 ## Protocol
@@ -134,7 +134,7 @@ Authentication failure is the exception: the socket closes with code **4401**
     import json, websockets, asyncio
 
     async def watch():
-        url = "ws://navpromini.local:8090/api/v1/events"
+        url = "ws://192.168.1.50:8090/api/v1/events"
         async with websockets.connect(url) as ws:
             print(json.loads(await ws.recv())["data"]["streams"])   # hello
 
@@ -154,7 +154,7 @@ Authentication failure is the exception: the socket closes with code **4401**
 === "JavaScript"
 
     ```js
-    const ws = new WebSocket("ws://navpromini.local:8090/api/v1/events");
+    const ws = new WebSocket("ws://192.168.1.50:8090/api/v1/events");
 
     ws.onopen = () => ws.send(JSON.stringify({
       action: "subscribe", streams: ["pose", "battery"],
@@ -177,7 +177,7 @@ Authentication failure is the exception: the socket closes with code **4401**
 
     ```bash
     echo '{"action":"subscribe","streams":["battery"]}' \
-      | websocat -n ws://navpromini.local:8090/api/v1/events
+      | websocat -n ws://192.168.1.50:8090/api/v1/events
     ```
 
 ## Reconnecting

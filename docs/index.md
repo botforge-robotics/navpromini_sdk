@@ -13,7 +13,7 @@ No ROS installation, no message definitions, no client library required.
 </div>
 
 ```bash
-curl http://navpromini.local:8090/api/v1/state/battery
+curl http://192.168.1.50:8090/api/v1/state/battery
 ```
 
 ```json

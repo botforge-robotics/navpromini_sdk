@@ -3,7 +3,7 @@
 Runnable scripts against a live robot. Set the host first:
 
 ```bash
-export ROBOT_HOST=navpromini.local     # or the IP
+export ROBOT_HOST=192.168.1.50     # or the IP
 export ROBOT_TOKEN=                    # only if the robot has auth enabled
 ```
 

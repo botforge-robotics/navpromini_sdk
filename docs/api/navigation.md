@@ -168,7 +168,7 @@ Map-frame points from the robot to the target, for drawing on a UI. The planner
 ## A complete run
 
 ```bash
-export ROBOT=http://navpromini.local:8090/api/v1
+export ROBOT=http://192.168.1.50:8090/api/v1
 
 curl -s -X POST $ROBOT/mode -H 'Content-Type: application/json' \
      -d '{"mode":"navigation","map":"workRoom"}'

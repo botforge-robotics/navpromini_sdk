@@ -10,7 +10,7 @@ Drive, map, navigate and dock a NavProMini over plain HTTP. No ROS installation,
 message definitions, no client library required.
 
 ```bash
-curl http://navpromini.local:8090/api/v1/state/battery
+curl http://192.168.1.50:8090/api/v1/state/battery
 ```
 
 ```json
@@ -39,7 +39,7 @@ what an integrator needs; that repo is what the robot runs.
 ## Quick start
 
 ```bash
-export ROBOT=http://navpromini.local:8090/api/v1
+export ROBOT=http://192.168.1.50:8090/api/v1
 
 curl -s $ROBOT/system/info                    # identity and capabilities
 curl -s $ROBOT/system/health                  # per-subsystem freshness
@@ -61,7 +61,7 @@ pip install -e clients/python
 ```python
 from navpromini import NavProMini
 
-robot = NavProMini("navpromini.local")
+robot = NavProMini("192.168.1.50")
 robot.start_navigation("workRoom", wait=True)
 robot.localize(0, 0, 0)
 robot.wait_for_localization()

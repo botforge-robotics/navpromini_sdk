@@ -8,7 +8,7 @@ Complete, working answers to the things people actually build.
 from navpromini import NavProMini
 import time
 
-robot = NavProMini("navpromini.local")
+robot = NavProMini("192.168.1.50")
 
 robot.start_mapping(wait=True)
 
@@ -52,7 +52,7 @@ Capturing the current pose needs the robot localized — see
 import time
 from navpromini import NavProMini, RobotError
 
-robot = NavProMini("navpromini.local")
+robot = NavProMini("192.168.1.50")
 route = ["kitchen", "hallway", "entrance"]
 
 while True:
@@ -117,7 +117,7 @@ moving. A robot stalled against the dock has stopped and is not charging.
 === "Browser"
 
     ```js
-    const ws = new WebSocket("ws://navpromini.local:8090/api/v1/events");
+    const ws = new WebSocket("ws://192.168.1.50:8090/api/v1/events");
     let subscribed = false;
 
     ws.onopen = () => {
@@ -166,7 +166,7 @@ to do.
 ```bash
 #!/bin/bash
 # Alert when a robot is unwell. Suitable for cron.
-ROBOT=http://navpromini.local:8090/api/v1
+ROBOT=http://192.168.1.50:8090/api/v1
 
 health=$(curl -s --max-time 5 $ROBOT/system/health) || {
     echo "CRITICAL: robot unreachable"; exit 2; }
@@ -233,7 +233,7 @@ slowest robot, and there is always a slowest robot.
 ## Shell one-liners
 
 ```bash
-export ROBOT=http://navpromini.local:8090/api/v1
+export ROBOT=http://192.168.1.50:8090/api/v1
 
 # Battery percentage
 curl -s $ROBOT/state/battery | python3 -c 'import sys,json;print(json.load(sys.stdin)["data"]["percentage"])'

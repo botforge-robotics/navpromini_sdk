@@ -51,7 +51,8 @@ class NavProMini:
     """Talks to one robot.
 
     Args:
-        host: hostname or IP. `navpromini.local` usually resolves over mDNS.
+        host: robot IP address, e.g. `192.168.1.50`. A hostname works too,
+            but an IP resolves from anywhere that can route to the robot.
         port: defaults to 8090.
         token: bearer token, if the robot has auth enabled.
         timeout: per-request timeout in seconds. Note this bounds the HTTP

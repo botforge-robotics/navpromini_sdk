@@ -37,7 +37,7 @@ curl -s -X POST $ROBOT/motion/velocity -H 'Content-Type: application/json' \
 ```python
 import time, requests
 
-ROBOT = "http://navpromini.local:8090/api/v1"
+ROBOT = "http://192.168.1.50:8090/api/v1"
 end = time.time() + 3.0
 while time.time() < end:                       # drive forward for 3 seconds
     requests.post(f"{ROBOT}/motion/velocity", json={"linear": 0.15})

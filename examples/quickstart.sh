@@ -2,7 +2,7 @@
 # Every read-only endpoint, in order. Changes nothing on the robot.
 set -euo pipefail
 
-HOST="${ROBOT_HOST:-navpromini.local}"
+HOST="${ROBOT_HOST:-192.168.1.50}"
 ROBOT="http://${HOST}:8090/api/v1"
 AUTH=()
 [ -n "${ROBOT_TOKEN:-}" ] && AUTH=(-H "Authorization: Bearer ${ROBOT_TOKEN}")

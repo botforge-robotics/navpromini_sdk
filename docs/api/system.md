@@ -8,7 +8,7 @@ the first two questions any integration needs settled.
 Identity, versions, and capabilities.
 
 ```bash
-curl -s http://navpromini.local:8090/api/v1/system/info
+curl -s http://192.168.1.50:8090/api/v1/system/info
 ```
 
 ```json
@@ -36,7 +36,7 @@ curl -s http://navpromini.local:8090/api/v1/system/info
 |---|---|
 | `robot.name` | Configured robot name, shown on the robot's own display |
 | `robot.serial` | CPU serial — unique per unit, stable across reinstalls |
-| `robot.hostname` | Network hostname; `<hostname>.local` resolves over mDNS |
+| `robot.hostname` | Network hostname. Informational — address the robot by IP |
 | `sdk_version` | Version of the SDK server |
 | `api_version` | URL namespace in use (`v1`) |
 | `uptime_sec` | How long the SDK server has been running — **not** robot uptime |
@@ -59,7 +59,7 @@ not installed or not running.
 Per-subsystem freshness.
 
 ```bash
-curl -s http://navpromini.local:8090/api/v1/system/health
+curl -s http://192.168.1.50:8090/api/v1/system/health
 ```
 
 ```json

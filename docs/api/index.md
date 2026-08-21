@@ -3,8 +3,10 @@
 Base URL:
 
 ```
-http://<robot>:8090/api/v1
+http://<robot-ip>:8090/api/v1
 ```
+
+Examples on these pages use `192.168.1.50` as the robot's address — substitute your own.
 
 JSON in, JSON out. `Content-Type: application/json` on any request with a body.
 

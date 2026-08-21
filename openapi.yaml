@@ -28,8 +28,11 @@ servers:
     description: A NavProMini on the local network
     variables:
       robot:
-        default: navpromini.local
-        description: Robot hostname or IP address
+        default: 192.168.1.50
+        description: >-
+          Robot IP address. A hostname works if it resolves, but an IP works
+          from anywhere that can route to the robot — mDNS `.local` names do
+          not survive VPNs, routed subnets or containers.
       port:
         default: "8090"
 

@@ -44,7 +44,7 @@ def main() -> None:
         sys.exit(f'usage: {sys.argv[0]} <map> <waypoint> [waypoint …]')
 
     map_name, route = sys.argv[1], sys.argv[2:]
-    robot = NavProMini(os.environ.get('ROBOT_HOST', 'navpromini.local'),
+    robot = NavProMini(os.environ.get('ROBOT_HOST', '192.168.1.50'),
                        token=os.environ.get('ROBOT_TOKEN') or None)
 
     if robot.mode()['mode'] != 'navigation' or robot.current_map() != map_name:

@@ -2,11 +2,25 @@
 
 ## 1. Find the robot
 
-The SDK listens on port **8090**. Every robot advertises itself over mDNS, so on the same
-network `navpromini.local` usually resolves; if it does not, use the IP address.
+Address a robot by **IP and port**: the SDK listens on **8090**.
+
+```
+http://<robot-ip>:8090/api/v1
+```
+
+The examples below use `192.168.1.50` — substitute your robot's address. Find it from your
+router's client list, or on the robot itself with `hostname -I`.
+
+!!! tip "Use the IP, not a `.local` name"
+    Robots also answer to `<hostname>.local` over mDNS, but only from the same broadcast
+    domain. Across a VPN, a routed subnet, a container, or most Windows setups it will not
+    resolve — and the failure looks like the robot being down rather than a name-lookup
+    problem. An IP works from anywhere that can route to the robot.
+
+    If the IP moves between reboots, give the robot a DHCP reservation on your router.
 
 ```bash
-curl http://navpromini.local:8090/api/v1/system/info
+curl http://192.168.1.50:8090/api/v1/system/info
 ```
 
 ```json
@@ -33,7 +47,7 @@ curl http://navpromini.local:8090/api/v1/system/info
 Set a base URL once so the rest of this page is copy-pasteable:
 
 ```bash
-export ROBOT=http://navpromini.local:8090/api/v1
+export ROBOT=http://192.168.1.50:8090/api/v1
 ```
 
 ## 2. Check it is well
@@ -76,7 +90,7 @@ published 40 seconds ago" is.
     ```python
     from navpromini import NavProMini
 
-    robot = NavProMini("navpromini.local")
+    robot = NavProMini("192.168.1.50")
     print(robot.battery())
     print(robot.pose())
     ```
@@ -84,7 +98,7 @@ published 40 seconds ago" is.
 === "JavaScript"
 
     ```js
-    const ROBOT = "http://navpromini.local:8090/api/v1";
+    const ROBOT = "http://192.168.1.50:8090/api/v1";
     const battery = await (await fetch(`${ROBOT}/state/battery`)).json();
     console.log(battery.data.percentage, battery.data.charging);
     ```
@@ -204,7 +218,7 @@ The WebSocket takes it as a query parameter, since browsers cannot set headers o
 WebSocket handshake:
 
 ```
-ws://navpromini.local:8090/api/v1/events?token=s3cret
+ws://192.168.1.50:8090/api/v1/events?token=s3cret
 ```
 
 ## Coexistence

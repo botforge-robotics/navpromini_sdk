@@ -66,7 +66,7 @@ def run(screen, robot: NavProMini) -> None:
 
 
 if __name__ == '__main__':
-    bot = NavProMini(os.environ.get('ROBOT_HOST', 'navpromini.local'),
+    bot = NavProMini(os.environ.get('ROBOT_HOST', '192.168.1.50'),
                      token=os.environ.get('ROBOT_TOKEN') or None)
     try:
         curses.wrapper(run, bot)

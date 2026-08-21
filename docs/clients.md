@@ -13,7 +13,7 @@ pip install -e "clients/python[events]"    # plus the WebSocket stream
 ```python
 from navpromini import NavProMini
 
-robot = NavProMini("navpromini.local")          # port 8090, no auth
+robot = NavProMini("192.168.1.50")          # port 8090, no auth
 # robot = NavProMini("192.168.0.129", token="s3cret")
 
 print(robot.info()["robot"]["name"])
@@ -206,7 +206,7 @@ exact version a given robot runs rather than against the published one.
 For scripts and for debugging, curl is often the right answer:
 
 ```bash
-export ROBOT=http://navpromini.local:8090/api/v1
+export ROBOT=http://192.168.1.50:8090/api/v1
 
 curl -s $ROBOT/state/battery | python3 -m json.tool
 

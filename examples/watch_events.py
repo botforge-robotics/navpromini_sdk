@@ -15,7 +15,7 @@ STREAMS = sys.argv[1:] or ['pose', 'battery', 'dock_status']
 
 
 def main() -> None:
-    robot = NavProMini(os.environ.get('ROBOT_HOST', 'navpromini.local'),
+    robot = NavProMini(os.environ.get('ROBOT_HOST', '192.168.1.50'),
                        token=os.environ.get('ROBOT_TOKEN') or None)
     print(f'connecting to {robot.host} — streams: {", ".join(STREAMS)}')
     print('ctrl-c to stop\n')
