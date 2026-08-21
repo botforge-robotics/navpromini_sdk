@@ -1513,7 +1513,7 @@ converge at all, because the lidar sees a mirror image of what it expects.</p>
 <span class="status err">503 <code>no_data</code></span> when nothing has been planned yet.</p>
 <hr />
 <h2 id="a-complete-run">A complete run<a class="headerlink" href="#a-complete-run" title="Link to this section">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ROBOT</span><span class="o">=</span>http://navpromini.local:8090/api/v1
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ROBOT</span><span class="o">=</span>http://192.168.1.50:8090/api/v1
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/mode<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"mode":"navigation","map":"workRoom"}'</span>

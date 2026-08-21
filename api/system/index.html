@@ -1224,7 +1224,7 @@
 the first two questions any integration needs settled.</p>
 <h3 id="get-systeminfo"><span class="verb get">GET</span> <code>/system/info</code><a class="headerlink" href="#get-systeminfo" title="Link to this section">&para;</a></h3>
 <p>Identity, versions, and capabilities.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://navpromini.local:8090/api/v1/system/info
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://192.168.1.50:8090/api/v1/system/info
 </span></code></pre></div>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"robot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="p">,</span><span class="w"> </span><span class="nt">"serial"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46884ab7aa441027"</span><span class="p">,</span><span class="w"> </span><span class="nt">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="w"> </span><span class="p">},</span>
@@ -1263,7 +1263,7 @@ the first two questions any integration needs settled.</p>
 </tr>
 <tr>
 <td><code>robot.hostname</code></td>
-<td>Network hostname; <code>&lt;hostname&gt;.local</code> resolves over mDNS</td>
+<td>Network hostname. Informational — address the robot by IP</td>
 </tr>
 <tr>
 <td><code>sdk_version</code></td>
@@ -1296,7 +1296,7 @@ not installed or not running.</p>
 <hr />
 <h3 id="get-systemhealth"><span class="verb get">GET</span> <code>/system/health</code><a class="headerlink" href="#get-systemhealth" title="Link to this section">&para;</a></h3>
 <p>Per-subsystem freshness.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://navpromini.local:8090/api/v1/system/health
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://192.168.1.50:8090/api/v1/system/health
 </span></code></pre></div>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"healthy"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
