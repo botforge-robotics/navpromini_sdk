@@ -126,6 +126,15 @@ This **restarts the navigation stack** — it is exactly `POST /mode {"mode": "n
 
 ---
 
+## Getting the actual map image
+
+There is deliberately no `GET /maps/{name}` that returns image bytes or an occupancy grid.
+The live map is a standard ROS topic, `/map` (`nav_msgs/OccupancyGrid`, latched), and every
+consumer this SDK has seen so far — RViz, the NavPro Mini app's own map view — already
+speaks ROS directly over rosbridge (`:9090`) rather than polling an HTTP endpoint for
+pixels. This API's own `/maps/*` routes are metadata only: which named maps exist, which one
+is active, and switching between them. Subscribe to `/map` for the actual grid.
+
 ## Where maps live
 
 Maps are stored inside the robot's ROS install tree rather than in a separate data

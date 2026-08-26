@@ -108,6 +108,7 @@ hooks:
 nav:
   - Home:
       - index.md
+      - robot-setup.md
       - getting-started.md
       - concepts.md
   - API:
@@ -120,6 +121,8 @@ nav:
       - api/navigation.md
       - api/docking.md
       - api/motion.md
+      - api/missions.md
+      - api/schedules.md
       - api/events.md
       - api/errors.md
   - Reference: reference.html

@@ -1,5 +1,10 @@
 # Getting started
 
+!!! tip "Robot not on your network yet?"
+    This page assumes a robot that's already powered on and joined to your Wi-Fi. If
+    you're setting one up for the first time, start at
+    [Robot setup & lifecycle](robot-setup.md) instead.
+
 ## 1. Find the robot
 
 Address a robot by **IP and port**: the SDK listens on **8090**.
@@ -34,7 +39,7 @@ curl http://192.168.1.50:8090/api/v1/system/info
   "capabilities": {
     "mapping": true, "navigation": true, "docking": true,
     "docking_method": "apriltag", "camera": true,
-    "virtual_walls": false, "fixed_routes": false, "missions": false
+    "virtual_walls": false, "fixed_routes": false, "missions": true
   }
 }
 ```
