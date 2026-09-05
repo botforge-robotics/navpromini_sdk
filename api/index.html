@@ -406,6 +406,8 @@
       
         
       
+        
+      
     
     
     
@@ -458,6 +460,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../robot-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Robot setup &amp; lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -536,6 +566,10 @@
       
         
           
+        
+      
+        
+      
         
       
         
@@ -826,6 +860,62 @@
     
   
     Motion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="missions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="schedules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedules
   
 
     
@@ -1342,6 +1432,71 @@
 <td><span class="verb post">POST</span></td>
 <td><code>/motion/stop</code></td>
 <td>Stop now</td>
+</tr>
+<tr>
+<td><span class="verb get">GET</span></td>
+<td><code>/missions</code></td>
+<td>List saved missions</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/missions</code></td>
+<td>Create or replace a mission</td>
+</tr>
+<tr>
+<td><span class="verb get">GET</span></td>
+<td><code>/missions/{id}</code></td>
+<td>Read one mission</td>
+</tr>
+<tr>
+<td><span class="verb delete">DELETE</span></td>
+<td><code>/missions/{id}</code></td>
+<td>Delete a mission</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/missions/{id}/start</code></td>
+<td>Run a mission</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/missions/{id}/pause</code></td>
+<td>Pause the running mission</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/missions/{id}/resume</code></td>
+<td>Resume a paused mission</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/missions/{id}/cancel</code></td>
+<td>Cancel the running mission</td>
+</tr>
+<tr>
+<td><span class="verb get">GET</span></td>
+<td><code>/missions/status</code></td>
+<td>The active mission's progress</td>
+</tr>
+<tr>
+<td><span class="verb get">GET</span></td>
+<td><code>/schedules</code></td>
+<td>List schedules</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/schedules</code></td>
+<td>Create or replace a schedule</td>
+</tr>
+<tr>
+<td><span class="verb get">GET</span></td>
+<td><code>/schedules/{id}</code></td>
+<td>Read one schedule</td>
+</tr>
+<tr>
+<td><span class="verb delete">DELETE</span></td>
+<td><code>/schedules/{id}</code></td>
+<td>Delete a schedule</td>
 </tr>
 <tr>
 <td><span class="verb ws">WS</span></td>

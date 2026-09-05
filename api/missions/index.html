@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://botforge-robotics.github.io/navpromini_sdk/api/waypoints/">
+        <link rel="canonical" href="https://botforge-robotics.github.io/navpromini_sdk/api/missions/">
       
       
-        <link rel="prev" href="../maps/">
+        <link rel="prev" href="../motion/">
       
       
-        <link rel="next" href="../navigation/">
+        <link rel="next" href="../schedules/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Waypoints - NavProMini SDK</title>
+        <title>Missions - NavProMini SDK</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#waypoints" class="md-skip">
+        <a href="#missions" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Waypoints
+              Missions
             
           </span>
         </div>
@@ -765,37 +765,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Waypoints
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../waypoints/" class="md-nav__link">
         
   
   
@@ -811,81 +784,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#get-waypoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GET /waypoints
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#post-waypoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        POST /waypoints
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-waypointsname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GET /waypoints/{name}
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#delete-waypointsname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DELETE /waypoints/{name}
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Storage
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -979,10 +877,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../missions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Missions
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -998,6 +923,136 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#get-missions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /missions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-missionsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /missions/{id}
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delete-missionsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /missions/{id}
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missionsidstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions/{id}/start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missionsidpause" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions/{id}/pause
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missionsidresume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions/{id}/resume
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missionsidcancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions/{id}/cancel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-missionsstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /missions/status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#missions-and-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missions and the app
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1296,10 +1351,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-waypoints" class="md-nav__link">
+  <a href="#get-missions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GET /waypoints
+        GET /missions
       
     </span>
   </a>
@@ -1307,10 +1362,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#post-waypoints" class="md-nav__link">
+  <a href="#post-missions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        POST /waypoints
+        POST /missions
       
     </span>
   </a>
@@ -1318,10 +1373,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-waypointsname" class="md-nav__link">
+  <a href="#get-missionsid" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GET /waypoints/{name}
+        GET /missions/{id}
       
     </span>
   </a>
@@ -1329,10 +1384,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#delete-waypointsname" class="md-nav__link">
+  <a href="#delete-missionsid" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DELETE /waypoints/{name}
+        DELETE /missions/{id}
       
     </span>
   </a>
@@ -1340,10 +1395,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
+  <a href="#post-missionsidstart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Storage
+        POST /missions/{id}/start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missionsidpause" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions/{id}/pause
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missionsidresume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions/{id}/resume
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-missionsidcancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /missions/{id}/cancel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-missionsstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /missions/status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#missions-and-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missions and the app
       
     </span>
   </a>
@@ -1367,7 +1477,7 @@
 
 
   
-    <a href="https://github.com/botforge-robotics/navpromini_sdk/edit/main/docs/api/waypoints.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/botforge-robotics/navpromini_sdk/edit/main/docs/api/missions.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1375,67 +1485,38 @@
   
 
 
-<h1 id="waypoints">Waypoints<a class="headerlink" href="#waypoints" title="Link to this section">&para;</a></h1>
-<p>Named poses stored on the robot, so a client can say "go to <code>kitchen</code>" instead of carrying
-coordinates around.</p>
-<p>Waypoints are stored <strong>per map</strong>. The same name in two maps is two different places, and
-conflating them would send the robot to a coordinate that happens to exist in both.</p>
+<h1 id="missions">Missions<a class="headerlink" href="#missions" title="Link to this section">&para;</a></h1>
+<p>A mission is a saved, named sequence of steps — navigate here, wait, dock, undock, call an
+arbitrary service or action — that runs on the robot as a single unit, optionally repeated.
+Saving a mission does not start it; starting is a separate call, so a mission can be
+prepared ahead of time or fired later by a <a href="../schedules/">schedule</a>.</p>
 <hr />
-<h3 id="get-waypoints"><span class="verb get">GET</span> <code>/waypoints</code><a class="headerlink" href="#get-waypoints" title="Link to this section">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/waypoints
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="nv">$ROBOT</span><span class="s2">/waypoints?map=F2020"</span>
+<h3 id="get-missions"><span class="verb get">GET</span> <code>/missions</code><a class="headerlink" href="#get-missions" title="Link to this section">&para;</a></h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"missions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morning patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"…"</span><span class="p">],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">"loop_forever"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span><span class="p">,</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"waypoints"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kitchen"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"waypoint"</span><span class="p">,</span><span class="w"> </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span><span class="w">  </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.4</span><span class="p">,</span><span class="w"> </span><span class="nt">"theta"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"charger"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dock"</span><span class="p">,</span><span class="w">     </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">  </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">  </span><span class="nt">"theta"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Query</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>map</code></td>
-<td>The current map</td>
-</tr>
-</tbody>
-</table>
-<p>With no map activated, the current map reads <code>"default"</code> — a real bucket that waypoints
-can be stored in, but not one navigation can use. Waypoints saved there are only reachable
-once you copy them to a real map.</p>
 <hr />
-<h3 id="post-waypoints"><span class="verb post">POST</span> <code>/waypoints</code><a class="headerlink" href="#post-waypoints" title="Link to this section">&para;</a></h3>
-<p>Create or replace a waypoint. Two ways to give the position:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Capture where the robot is</label><label for="__tabbed_1_2">Give coordinates</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>The usual way: drive there, then name it.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/waypoints<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"name": "kitchen"}'</span>
+<h3 id="post-missions"><span class="verb post">POST</span> <code>/missions</code><a class="headerlink" href="#post-missions" title="Link to this section">&para;</a></h3>
+<p>Create, or replace by <code>id</code> — the same create-or-replace shape as
+<a href="../docking/"><code>PUT /dock/pose</code></a> and <a href="../waypoints/"><code>POST /waypoints</code></a>, just keyed by a
+caller-supplied <code>id</code> instead of a server-generated one.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/missions<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="s1">  "id": "morning-patrol",</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="s1">  "name": "Morning patrol",</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="s1">  "loop_count": 2,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="s1">  "steps": [</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="s1">    { "type": "navigate", "target": "kitchen" },</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s1">    { "type": "wait", "duration": 10 },</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s1">    { "type": "navigate", "x": 2.1, "y": -0.4, "theta": 1.57 },</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="s1">    { "type": "dock" }</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="s1">  ]</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="s1">}'</span>
 </span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"waypoint"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kitchen"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"waypoint"</span><span class="p">,</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">                </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5023</span><span class="p">,</span><span class="w"> </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.4017</span><span class="p">,</span><span class="w"> </span><span class="nt">"theta"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2044</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"current_pose"</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morning patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"…"</span><span class="p">],</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">               </span><span class="nt">"loop_forever"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/waypoints<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"name": "kitchen", "x": 1.5, "y": -0.4, "theta": 0.2}'</span>
-</span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"waypoint"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kitchen"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"waypoint"</span><span class="p">,</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">                </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.4</span><span class="p">,</span><span class="w"> </span><span class="nt">"theta"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"given"</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-</div>
-</div>
-</div>
-<p><code>source</code> tells you which path was taken — useful when a client is unsure whether its <code>x</code>
-was actually used.</p>
 <table>
 <thead>
 <tr>
@@ -1446,35 +1527,82 @@ was actually used.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>name</code></td>
+<td><code>id</code></td>
 <td>yes</td>
-<td>Non-empty. An existing name is replaced, not rejected</td>
+<td>Caller-chosen. Resending the same <code>id</code> replaces the mission</td>
 </tr>
 <tr>
-<td><code>x</code>, <code>y</code></td>
-<td>no</td>
-<td>Both or neither. Omit to capture the current pose</td>
+<td><code>steps</code></td>
+<td>yes</td>
+<td>Non-empty list — see <strong>Step types</strong> below</td>
 </tr>
 <tr>
-<td><code>theta</code></td>
+<td><code>name</code></td>
 <td>no</td>
-<td>Radians. Default <code>0</code></td>
+<td>Defaults to <code>id</code></td>
 </tr>
 <tr>
-<td><code>type</code></td>
+<td><code>loop_count</code></td>
 <td>no</td>
-<td><code>waypoint</code> (default), <code>dock</code>, <code>pickup</code>, <code>dropoff</code>, <code>home</code></td>
+<td>Repeat the whole step list this many times. Default <code>1</code></td>
 </tr>
 <tr>
-<td><code>map</code></td>
+<td><code>loop_forever</code></td>
 <td>no</td>
-<td>Defaults to the current map</td>
+<td>Repeat until cancelled, ignoring <code>loop_count</code>. Default <code>false</code></td>
 </tr>
 </tbody>
 </table>
-<p><code>type</code> carries no behaviour in the SDK — the robot navigates to all of them the same way.
-It exists so a fleet client can label its own semantics without keeping a parallel database
-of what each name means.</p>
+<p><strong>Step types</strong> — every step needs a <code>type</code>:</p>
+<table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>Required fields</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>navigate</code></td>
+<td><code>target</code> (a waypoint name) <strong>or</strong> <code>x</code>/<code>y</code> (+ optional <code>theta</code>)</td>
+<td>Same goal as <a href="../navigation/"><code>POST /navigation/goto</code></a></td>
+</tr>
+<tr>
+<td><code>wait</code></td>
+<td><code>duration</code> (seconds)</td>
+<td>Pauses the mission, nothing else</td>
+</tr>
+<tr>
+<td><code>dock</code></td>
+<td>—</td>
+<td>Same as <a href="../docking/"><code>POST /dock</code></a>. Optional <code>navigate_to_staging</code> (default <code>true</code>)</td>
+</tr>
+<tr>
+<td><code>undock</code></td>
+<td>—</td>
+<td>Same as <a href="../docking/"><code>POST /undock</code></a></td>
+</tr>
+<tr>
+<td><code>call_service</code></td>
+<td><code>service</code>, <code>service_type</code></td>
+<td>Calls any ROS service by name + type (e.g. <code>std_srvs/srv/Trigger</code>). Optional <code>request</code> (object), <code>timeout</code> (seconds, default 15)</td>
+</tr>
+<tr>
+<td><code>call_action</code></td>
+<td><code>action</code>, <code>action_type</code></td>
+<td>Sends any ROS action goal by name + type (e.g. <code>nav2_msgs/action/Spin</code>). Optional <code>goal</code> (object), <code>timeout</code> (seconds, default 300)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title"><code>call_service</code>/<code>call_action</code> are as powerful as the robot's own ROS graph</p>
+<p>These two step types can invoke <em>anything</em> reachable over ROS by name — the same trust
+boundary the robot's own internals use, not a new one. <code>service_type</code>/<code>action_type</code> are
+resolved to a real message class <strong>at save time</strong>, so a typo'd type string fails
+immediately with <span class="status err">400 <code>invalid_step</code></span> instead of days
+later when the mission actually runs unattended.</p>
+</div>
 <p><strong>Responses</strong></p>
 <table>
 <thead>
@@ -1486,49 +1614,136 @@ of what each name means.</p>
 <tbody>
 <tr>
 <td><span class="status ok">201</span></td>
-<td>Stored</td>
+<td>Saved</td>
 </tr>
 <tr>
 <td><span class="status err">400 <code>invalid_field</code></span></td>
-<td>Empty name, or an unknown <code>type</code></td>
+<td>Missing <code>id</code>/<code>steps</code>, or a bad <code>loop_count</code></td>
 </tr>
 <tr>
-<td><span class="status err">409 <code>not_localized</code></span></td>
-<td>Capture requested, but there is no map-frame pose</td>
+<td><span class="status err">400 <code>invalid_step</code></span></td>
+<td>A step is malformed, or its type is unknown</td>
 </tr>
 </tbody>
 </table>
-<div class="admonition warning">
-<p class="admonition-title">Capture needs localization</p>
-<p>Capturing the current pose requires navigation running <strong>and</strong> the robot localized. In
-idle or mapping mode there is no map-frame pose, only an odom one — and odom
-coordinates mean nothing between sessions.</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"not_localized"</span><span class="p">,</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">             </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No map-frame pose available, so the current position cannot be saved. Start navigation and localize first, or pass x/y explicitly."</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-<p>Passing <code>x</code>/<code>y</code> explicitly works in any mode, because then you are asserting map
-coordinates rather than asking the robot for them.</p>
-</div>
 <hr />
-<h3 id="get-waypointsname"><span class="verb get">GET</span> <code>/waypoints/{name}</code><a class="headerlink" href="#get-waypointsname" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"waypoint"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kitchen"</span><span class="p">,</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"waypoint"</span><span class="p">,</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">                </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.4</span><span class="p">,</span><span class="w"> </span><span class="nt">"theta"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<h3 id="get-missionsid"><span class="verb get">GET</span> <code>/missions/{id}</code><a class="headerlink" href="#get-missionsid" title="Link to this section">&para;</a></h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morning patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"…"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
-<p>Add <code>?map=&lt;name&gt;</code> to read from a map other than the current one.
-<span class="status err">404 <code>waypoint_not_found</code></span> if there is no such name <strong>in that
-map</strong> — worth remembering when a waypoint you are sure exists comes back missing.</p>
+<p><span class="status err">404 <code>mission_not_found</code></span> if no mission has that <code>id</code>.</p>
 <hr />
-<h3 id="delete-waypointsname"><span class="verb delete">DELETE</span> <code>/waypoints/{name}</code><a class="headerlink" href="#delete-waypointsname" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kitchen"</span><span class="w"> </span><span class="p">}</span>
+<h3 id="delete-missionsid"><span class="verb delete">DELETE</span> <code>/missions/{id}</code><a class="headerlink" href="#delete-missionsid" title="Link to this section">&para;</a></h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
-<p><span class="status err">404 <code>waypoint_not_found</code></span> if it was not there.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="status ok">200</span></td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><span class="status err">404 <code>mission_not_found</code></span></td>
+<td>No such mission</td>
+</tr>
+<tr>
+<td><span class="status err">409 <code>mission_active</code></span></td>
+<td>This mission is currently running — cancel it first</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h2 id="storage">Storage<a class="headerlink" href="#storage" title="Link to this section">&para;</a></h2>
-<p>Waypoints persist in a JSON file on the robot, written atomically — a power cut during a
-write leaves the previous version intact rather than a truncated file. They survive
-reboots, SDK restarts and app updates.</p>
-<p>They are <strong>not</strong> included when you copy a map off the robot. To move a set of waypoints,
-<code>GET /waypoints</code> on the source robot and <code>POST</code> each one to the destination.</p>
+<h3 id="post-missionsidstart"><span class="verb post">POST</span> <code>/missions/{id}/start</code><a class="headerlink" href="#post-missionsidstart" title="Link to this section">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/missions/morning-patrol/start
+</span></code></pre></div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"accepted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<p>Returns <span class="status warn">202</span> immediately, the same "accepted, not finished"
+shape as <a href="../navigation/"><code>POST /navigation/goto</code></a> — a mission can run for minutes. Watch
+<a href="#get-missionsstatus"><code>GET /missions/status</code></a> or the <a href="../events/">event stream</a>.</p>
+<p>Only <strong>one</strong> mission may run at a time, robot-wide:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="status err">409 <code>mission_active</code></span></td>
+<td>Another mission is already running or paused</td>
+</tr>
+<tr>
+<td><span class="status err">404 <code>mission_not_found</code></span></td>
+<td>No such mission</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="post-missionsidpause"><span class="verb post">POST</span> <code>/missions/{id}/pause</code><a class="headerlink" href="#post-missionsidpause" title="Link to this section">&para;</a></h3>
+<p>Pauses after the <strong>current step</strong> finishes — not mid-step. A <code>navigate</code> step already
+underway completes or fails on its own terms; the mission simply does not advance to the
+next step until resumed.</p>
+<p><span class="status err">409 <code>mission_not_active</code></span> if this mission is not the one
+currently running.</p>
+<hr />
+<h3 id="post-missionsidresume"><span class="verb post">POST</span> <code>/missions/{id}/resume</code><a class="headerlink" href="#post-missionsidresume" title="Link to this section">&para;</a></h3>
+<p>Clears the pause. Same <code>mission_not_active</code> error if this mission is not current.</p>
+<hr />
+<h3 id="post-missionsidcancel"><span class="verb post">POST</span> <code>/missions/{id}/cancel</code><a class="headerlink" href="#post-missionsidcancel" title="Link to this section">&para;</a></h3>
+<p>Stops the mission for good — unlike pause, there is no resuming a cancelled mission. Ends
+the whole run, including every remaining loop lap, not just the current one.</p>
+<hr />
+<h3 id="get-missionsstatus"><span class="verb get">GET</span> <code>/missions/status</code><a class="headerlink" href="#get-missionsstatus" title="Link to this section">&para;</a></h3>
+<p>The one mission that may be running right now, robot-wide — not scoped to a particular
+<code>{id}</code>, because only one can ever be active.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"running"</span><span class="p">,</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"step_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nt">"elapsed_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">47.3</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td><code>idle</code>, <code>running</code>, <code>paused</code>, <code>completed</code>, <code>failed</code>, <code>canceled</code></td>
+</tr>
+<tr>
+<td><code>step_index</code></td>
+<td>Index into <code>steps</code>, within the current lap</td>
+</tr>
+<tr>
+<td><code>loop_index</code></td>
+<td>Which lap this is (<code>0</code>-based)</td>
+</tr>
+<tr>
+<td><code>loop_total</code></td>
+<td>Total laps, or <code>null</code> for a <code>loop_forever</code> mission — lets a client tell "not looping" from "looping forever" from "lap 2 of 5" without a separate flag</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>The failing step's error, once <code>state</code> is <code>failed</code></td>
+</tr>
+</tbody>
+</table>
+<p>A failure ends the whole mission, including any remaining loops — a broken step does not
+retry itself into the next lap.</p>
+<hr />
+<h2 id="missions-and-the-app">Missions and the app<a class="headerlink" href="#missions-and-the-app" title="Link to this section">&para;</a></h2>
+<p>The NavPro Mini app's own Mission Planner is a client of this exact API, not a separate
+system — a mission created from the app shows up here, and one created with <code>curl</code> shows up
+in the app.</p>
 
 
 
@@ -1566,7 +1781,7 @@ reboots, SDK restarts and app updates.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../maps/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Maps">
+          <a href="../motion/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Motion">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1576,20 +1791,20 @@ reboots, SDK restarts and app updates.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Maps
+                Motion
               </div>
             </div>
           </a>
         
         
           
-          <a href="../navigation/" class="md-footer__link md-footer__link--next" aria-label="Next: Navigation">
+          <a href="../schedules/" class="md-footer__link md-footer__link--next" aria-label="Next: Schedules">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Navigation
+                Schedules
               </div>
             </div>
             <div class="md-footer__button md-icon">

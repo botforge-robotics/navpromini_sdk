@@ -406,6 +406,8 @@
       
         
       
+        
+      
     
     
     
@@ -458,6 +460,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../robot-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Robot setup &amp; lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -536,6 +566,10 @@
       
         
           
+        
+      
+        
+      
         
       
         
@@ -821,6 +855,50 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#get-mapscurrentinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /maps/current/info
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-mapscurrentimage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /maps/current/image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-mapscurrentraw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /maps/current/raw
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-actual-map-over-ros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting the actual map over ROS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#where-maps-live" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -939,6 +1017,62 @@
     
   
     Motion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../missions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedules
   
 
     
@@ -1272,6 +1406,50 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#get-mapscurrentinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /maps/current/info
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-mapscurrentimage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /maps/current/image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-mapscurrentraw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /maps/current/raw
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-actual-map-over-ros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting the actual map over ROS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#where-maps-live" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1447,16 +1625,61 @@ confusing depending on whether you meant to reuse the name.</p>
 <a href="../navigation/"><code>POST /navigation/localize</code></a> with an approximate pose and wait for
 <code>localized: true</code> before sending goals.</p>
 </div>
+<h3 id="get-mapscurrentinfo"><span class="verb get">GET</span> <code>/maps/current/info</code><a class="headerlink" href="#get-mapscurrentinfo" title="Link to this section">&para;</a></h3>
+<p>Active map dimensions, resolution, and origin metadata from the current occupancy grid.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/maps/current/info
+</span></code></pre></div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">"loaded"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">"current"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span><span class="p">,</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">"width"</span><span class="p">:</span><span class="w"> </span><span class="mi">800</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">"height"</span><span class="p">:</span><span class="w"> </span><span class="mi">600</span><span class="p">,</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span><span class="nt">"resolution"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mf">-20.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="mf">-15.0</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Returns <code>"loaded": false</code> if no occupancy grid is currently published.</p>
 <hr />
+<h3 id="get-mapscurrentimage"><span class="verb get">GET</span> <code>/maps/current/image</code><a class="headerlink" href="#get-mapscurrentimage" title="Link to this section">&para;</a></h3>
+<p>Renders the active occupancy grid into a PNG image.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="nv">$ROBOT</span><span class="s2">/maps/current/image?rotate=90"</span><span class="w"> </span>-o<span class="w"> </span>map.png
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Query Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rotate</code></td>
+<td>integer</td>
+<td><code>90</code></td>
+<td>Clockwise rotation angle (<code>0</code>, <code>90</code>, <code>180</code>, <code>270</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Returns <code>image/png</code> binary content:
+- <strong>Unknown space (-1)</strong>: <code>#0B0F19</code> (Dark blue-gray)
+- <strong>Free space (0)</strong>: <code>#1E293B</code> (Slate)
+- <strong>Obstacles / walls (&gt;50)</strong>: <code>#38BDF8</code> (Sky blue highlight)</p>
+<p><span class="status err">404 <code>no_map</code></span> if no active map is loaded.</p>
+<hr />
+<h3 id="get-mapscurrentraw"><span class="verb get">GET</span> <code>/maps/current/raw</code><a class="headerlink" href="#get-mapscurrentraw" title="Link to this section">&para;</a></h3>
+<p>Returns the raw RGB565 binary pixel buffer of the active occupancy grid. Includes map dimensions and origin as HTTP headers:
+- <code>X-Map-Width</code>
+- <code>X-Map-Height</code>
+- <code>X-Map-Resolution</code>
+- <code>X-Map-Origin-X</code>, <code>X-Map-Origin-Y</code>
+- <code>X-Map-Rotated</code></p>
+<hr />
+<h2 id="getting-the-actual-map-over-ros">Getting the actual map over ROS<a class="headerlink" href="#getting-the-actual-map-over-ros" title="Link to this section">&para;</a></h2>
+<p>Alongside the HTTP image endpoints above, the live map is also published as a standard ROS topic, <code>/map</code> (<code>nav_msgs/OccupancyGrid</code>, latched QoS). High-frequency clients and RViz can subscribe to <code>/map</code> directly over rosbridge (<code>:9090</code>).</p>
 <h2 id="where-maps-live">Where maps live<a class="headerlink" href="#where-maps-live" title="Link to this section">&para;</a></h2>
-<p>Maps are stored inside the robot's ROS install tree rather than in a separate data
-directory.</p>
-<div class="admonition danger">
-<p class="admonition-title">A clean rebuild of the robot workspace can remove saved maps</p>
-<p>This is a property of the robot's workspace layout, not of the API, and the API does not
-paper over it — the fix belongs where the problem is. If maps matter, copy them off the
-robot: they are plain <code>.yaml</code> + <code>.pgm</code> pairs.</p>
-</div>
+<p>Maps are stored inside the robot's ROS workspace (<code>navpromini_mapping/maps</code>): they are plain <code>.yaml</code> + <code>.pgm</code> pairs alongside serialized pose graphs.</p>
 
 
 

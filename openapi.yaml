@@ -53,6 +53,10 @@ tags:
     description: Autonomous AprilTag docking and undocking.
   - name: Motion
     description: Direct velocity and relative moves (teleop-equivalent).
+  - name: Missions
+    description: Saved, named step sequences that run on the robot as a unit.
+  - name: Schedules
+    description: Alarm-style timers that start a mission automatically.
   - name: Events
     description: WebSocket stream of state changes.
 
@@ -193,7 +197,7 @@ paths:
                   camera: true
                   virtual_walls: false
                   fixed_routes: false
-                  missions: false
+                  missions: true
 
   /system/health:
     get:
@@ -379,6 +383,71 @@ paths:
       responses:
         "200": { description: Current map name and mode. }
 
+  /maps/current/info:
+    get:
+      tags: [Maps]
+      summary: Active map metadata
+      description: Returns dimensions, resolution, and origin of the currently loaded occupancy grid map.
+      responses:
+        "200":
+          description: Map metadata.
+          content:
+            application/json:
+              example:
+                loaded: true
+                current: workRoom
+                width: 800
+                height: 600
+                resolution: 0.05
+                origin: { x: -20.0, y: -15.0 }
+
+  /maps/current/image:
+    get:
+      tags: [Maps]
+      summary: Rendered map image
+      description: Returns a rendered PNG image of the current occupancy grid map.
+      parameters:
+        - name: rotate
+          in: query
+          required: false
+          schema:
+            type: integer
+            enum: [0, 90, 180, 270]
+            default: 90
+          description: Clockwise rotation in degrees.
+      responses:
+        "200":
+          description: PNG image of the active map.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /maps/current/raw:
+    get:
+      tags: [Maps]
+      summary: Raw binary RGB565 map buffer
+      description: Returns raw RGB565 binary bytes with dimensions in custom HTTP headers.
+      parameters:
+        - name: rotate
+          in: query
+          required: false
+          schema:
+            type: integer
+            enum: [0, 90, 180, 270]
+            default: 90
+      responses:
+        "200":
+          description: Binary octet-stream.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "404": { $ref: '#/components/responses/NotFound' }
+
   /maps/{name}:
     delete:
       tags: [Maps]
@@ -547,6 +616,20 @@ paths:
       responses:
         "200": { description: Pose published. }
 
+  /navigation/relocalize/global:
+    post:
+      tags: [Navigation]
+      summary: Global relocalization (AMCL disperse)
+      description: Disperses AMCL particles uniformly across the map to recover when lost or kidnapped.
+      responses:
+        "200":
+          description: Particles dispersed.
+          content:
+            application/json:
+              example:
+                status: ok
+                message: AMCL particles dispersed across map
+
   /navigation/path:
     get:
       tags: [Navigation]
@@ -705,3 +788,198 @@ paths:
       responses:
         "200": { description: Accepted. }
         "503": { $ref: '#/components/responses/Unavailable' }
+
+  /missions:
+    get:
+      tags: [Missions]
+      summary: List saved missions
+      responses:
+        "200": { description: Missions. }
+    post:
+      tags: [Missions]
+      summary: Create or replace a mission
+      description: |
+        Create, or replace by `id`. Does not start the mission — see `/missions/{id}/start`.
+
+        Step types: `navigate` (`target` or `x`/`y`), `wait` (`duration`), `dock`, `undock`,
+        `call_service` (`service`, `service_type`), `call_action` (`action`, `action_type`).
+        `service_type`/`action_type` are resolved to a real ROS message class at save time,
+        so an unknown type fails the save rather than the run.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, steps]
+              properties:
+                id: { type: string }
+                name: { type: string, description: Defaults to `id`. }
+                steps:
+                  type: array
+                  minItems: 1
+                  items: { type: object }
+                loop_count: { type: integer, default: 1, minimum: 1 }
+                loop_forever: { type: boolean, default: false }
+            example:
+              id: morning-patrol
+              name: Morning patrol
+              loop_count: 2
+              steps:
+                - { type: navigate, target: kitchen }
+                - { type: wait, duration: 10 }
+                - { type: navigate, x: 2.1, y: -0.4, theta: 1.57 }
+                - { type: dock }
+      responses:
+        "201": { description: Saved. }
+        "400": { $ref: '#/components/responses/BadRequest' }
+
+  /missions/{id}:
+    get:
+      tags: [Missions]
+      summary: Read one mission
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: The mission. }
+        "404": { $ref: '#/components/responses/NotFound' }
+    delete:
+      tags: [Missions]
+      summary: Delete a mission
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Deleted. }
+        "404": { $ref: '#/components/responses/NotFound' }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /missions/{id}/start:
+    post:
+      tags: [Missions]
+      summary: Run a mission
+      description: |
+        Only one mission may run at a time, robot-wide. Returns as soon as the mission
+        *starts* — watch `/missions/status` or the event stream for progress.
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "202": { description: Accepted. }
+        "404": { $ref: '#/components/responses/NotFound' }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /missions/{id}/pause:
+    post:
+      tags: [Missions]
+      summary: Pause the running mission
+      description: Pauses after the current step finishes, not mid-step.
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Paused. }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /missions/{id}/resume:
+    post:
+      tags: [Missions]
+      summary: Resume a paused mission
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Resumed. }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /missions/{id}/cancel:
+    post:
+      tags: [Missions]
+      summary: Cancel the running mission
+      description: Ends the whole run, including any remaining loop laps. Cannot be resumed.
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Canceled. }
+        "409": { $ref: '#/components/responses/Conflict' }
+
+  /missions/status:
+    get:
+      tags: [Missions]
+      summary: The active mission's progress
+      description: The one mission that may be running right now, robot-wide.
+      responses:
+        "200":
+          description: Runner status.
+          content:
+            application/json:
+              example:
+                mission_id: morning-patrol
+                state: running
+                step_index: 2
+                loop_index: 0
+                loop_total: 2
+                message: ""
+                elapsed_sec: 47.3
+
+  /schedules:
+    get:
+      tags: [Schedules]
+      summary: List schedules
+      responses:
+        "200": { description: Schedules. }
+    post:
+      tags: [Schedules]
+      summary: Create or replace a schedule
+      description: |
+        Create, or replace by `id`. Polled on the robot itself — fires even with no client
+        connected. A due schedule is **skipped, not queued**, if another mission is already
+        running, or if the SDK process was not running when the minute passed (no catch-up
+        on restart, the same way a phone alarm silenced by a dead battery does not ring
+        late). A `once` schedule disables itself the moment it fires.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, mission_id, hour, minute, repeat]
+              properties:
+                id: { type: string }
+                mission_id: { type: string, description: Must already exist. }
+                name: { type: string }
+                hour: { type: integer, minimum: 0, maximum: 23 }
+                minute: { type: integer, minimum: 0, maximum: 59 }
+                repeat: { type: string, enum: [once, daily, weekly] }
+                date: { type: string, description: "YYYY-MM-DD. Required if repeat is once." }
+                weekdays:
+                  type: array
+                  items: { type: integer, minimum: 0, maximum: 6 }
+                  description: "0=Monday .. 6=Sunday. Required if repeat is weekly."
+                enabled: { type: boolean, default: true }
+            example:
+              id: morning-run
+              mission_id: morning-patrol
+              name: Morning patrol
+              hour: 7
+              minute: 30
+              repeat: weekly
+              weekdays: [0, 1, 2, 3, 4]
+      responses:
+        "201": { description: Saved. }
+        "400": { $ref: '#/components/responses/BadRequest' }
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /schedules/{id}:
+    get:
+      tags: [Schedules]
+      summary: Read one schedule
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: The schedule. }
+        "404": { $ref: '#/components/responses/NotFound' }
+    delete:
+      tags: [Schedules]
+      summary: Delete a schedule
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Deleted. }
+        "404": { $ref: '#/components/responses/NotFound' }
