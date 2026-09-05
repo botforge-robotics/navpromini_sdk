@@ -49,6 +49,19 @@ JSON in, JSON out. `Content-Type: application/json` on any request with a body.
 | <span class="verb post">POST</span> | `/motion/move` | Drive a fixed distance |
 | <span class="verb post">POST</span> | `/motion/rotate` | Rotate in place |
 | <span class="verb post">POST</span> | `/motion/stop` | Stop now |
+| <span class="verb get">GET</span> | `/missions` | List saved missions |
+| <span class="verb post">POST</span> | `/missions` | Create or replace a mission |
+| <span class="verb get">GET</span> | `/missions/{id}` | Read one mission |
+| <span class="verb delete">DELETE</span> | `/missions/{id}` | Delete a mission |
+| <span class="verb post">POST</span> | `/missions/{id}/start` | Run a mission |
+| <span class="verb post">POST</span> | `/missions/{id}/pause` | Pause the running mission |
+| <span class="verb post">POST</span> | `/missions/{id}/resume` | Resume a paused mission |
+| <span class="verb post">POST</span> | `/missions/{id}/cancel` | Cancel the running mission |
+| <span class="verb get">GET</span> | `/missions/status` | The active mission's progress |
+| <span class="verb get">GET</span> | `/schedules` | List schedules |
+| <span class="verb post">POST</span> | `/schedules` | Create or replace a schedule |
+| <span class="verb get">GET</span> | `/schedules/{id}` | Read one schedule |
+| <span class="verb delete">DELETE</span> | `/schedules/{id}` | Delete a schedule |
 | <span class="verb ws">WS</span> | `/events` | Subscribe to live streams |
 
 </div>
