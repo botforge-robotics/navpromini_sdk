@@ -64,6 +64,7 @@ def main():
         default="stdio",
         help="MCP transport protocol: 'stdio' for CLI/desktop agents, 'sse' for HTTP network agents (default: stdio)",
     )
+    parser.add_argument("--sse-host", default="0.0.0.0", help="Bind address for SSE transport server (default: 0.0.0.0)")
     parser.add_argument("--sse-port", type=int, default=8091, help="Port for SSE transport server (default: 8091)")
 
     args = parser.parse_args()
@@ -77,7 +78,7 @@ def main():
     if args.transport == "stdio":
         server.run(transport="stdio")
     elif args.transport == "sse":
-        server.run(transport="sse", port=args.sse_port)
+        server.run(transport="sse", host=args.sse_host, port=args.sse_port)
 
 
 if __name__ == "__main__":
