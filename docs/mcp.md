@@ -34,9 +34,78 @@ navpromini-mcp --host 192.168.1.50 --transport sse --sse-port 8091
 
 ## AI Agent Setup
 
-### Antigravity Integration
+Because the NavPro Mini AMR runs `navpro-mcp.service` natively on port **8091**, you have two ways to connect an AI agent:
+1. **Remote SSE Connection (Recommended — Zero Install on PC)**: Connects directly across the LAN to the robot over HTTP Server-Sent Events.
+2. **Local Stdio Process**: Spawns `navpromini-mcp` locally on your PC and tunnels commands over standard I/O.
 
-Add the server to your project's `.agents/mcp_config.json` or global `~/.gemini/config/mcp_config.json`:
+---
+
+### Method 1: Remote SSE Connection (Recommended)
+
+No Python packages or dependencies needed on your development computer!
+
+#### A. Google Antigravity Setup
+
+Add this to your project configuration at `.agents/mcp_config.json` (or globally in `~/.gemini/config/mcp_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "navpromini": {
+      "serverUrl": "http://192.168.0.129:8091/sse"
+    }
+  }
+}
+```
+*(Replace `192.168.0.129` with your robot's IP address).*
+
+#### B. Claude Desktop / Cursor Setup
+
+Add this to your `claude_desktop_config.json`:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "navpromini": {
+      "serverUrl": "http://192.168.0.129:8091/sse"
+    }
+  }
+}
+```
+
+#### C. Python Agent Code (e.g. LangChain / LlamaIndex / Raw MCP Client)
+
+```python
+from mcp.client.sse import sse_client
+from mcp import ClientSession
+
+async with sse_client("http://192.168.0.129:8091/sse") as (read, write):
+    async with ClientSession(read, write) as session:
+        await session.initialize()
+        
+        # Discover tools
+        tools = await session.list_tools()
+        print([t.name for t in tools.tools])
+        
+        # Execute tool
+        result = await session.call_tool("get_power_status", {})
+        print(result)
+```
+
+---
+
+### Method 2: Local Stdio Connection
+
+If your agent requires a local subprocess or you are developing custom MCP tools offline:
+
+```bash
+pip install -e clients/mcp
+```
+
+Then configure your agent host to launch the binary:
 
 ```json
 {
@@ -45,7 +114,7 @@ Add the server to your project's `.agents/mcp_config.json` or global `~/.gemini/
       "command": "navpromini-mcp",
       "args": ["--transport", "stdio"],
       "env": {
-        "NAVPRO_ROBOT_HOST": "192.168.1.50",
+        "NAVPRO_ROBOT_HOST": "192.168.0.129",
         "NAVPRO_ROBOT_PORT": "8090",
         "NAVPRO_ROBOT_TOKEN": ""
       }
@@ -54,23 +123,22 @@ Add the server to your project's `.agents/mcp_config.json` or global `~/.gemini/
 }
 ```
 
-### Claude Desktop Integration
+---
 
-Add to `claude_desktop_config.json`:
+## On-Robot Service Management
 
-```json
-{
-  "mcpServers": {
-    "navpromini": {
-      "command": "python3",
-      "args": ["-m", "navpromini_mcp", "--transport", "stdio"],
-      "env": {
-        "NAVPRO_ROBOT_HOST": "192.168.1.50"
-      }
-    }
-  }
-}
+The MCP server runs as a systemd service (`navpro-mcp.service`) managed by the robot OS:
+
+```bash
+# Check service status on the robot
+ssh navpromini@192.168.0.129
+systemctl status navpro-mcp.service
+
+# View live MCP server logs
+journalctl -u navpro-mcp.service -f
 ```
+
+The service is configured to restart automatically on failure and starts automatically whenever the robot is booted or rebooted.
 
 ---
 
