@@ -129,4 +129,5 @@ nav:
   - Clients:
       - clients.md
       - recipes.md
+      - mcp.md
   - Roadmap: roadmap.md
