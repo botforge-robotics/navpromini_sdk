@@ -23,6 +23,7 @@ API_PREFIX = '/api/v1'
 # Terminal states, so callers and the wait helpers agree on what "done" means.
 NAV_DONE = ('succeeded', 'failed', 'canceled')
 DOCK_DONE = ('docked', 'undocked', 'failed', 'idle')
+MISSION_DONE = ('completed', 'failed', 'canceled')
 
 
 class RobotError(Exception):
@@ -118,10 +119,20 @@ class NavProMini:
     def capabilities(self) -> dict:
         return self.info().get('capabilities', {})
 
+    def lifecycle(self) -> dict:
+        """System lifecycle state, current phase, and subsystem readiness."""
+        return self._get('/system/lifecycle')
+
     # -- state -------------------------------------------------------------
     #
     # These unwrap `data` and drop `age_sec`, because the common case is
     # "give me the reading". Anything that needs the age uses state_raw().
+
+    def robot_state(self) -> dict:
+        """The canonical full Robot State (§18): {robot, lifecycle, mode,
+        connection, hardware, battery, map, localization, navigation, mission, dock, error}.
+        """
+        return self._get('/state')
 
     def state_raw(self, what: str) -> dict:
         """The full envelope for a state endpoint, including `age_sec`."""
@@ -164,6 +175,10 @@ class NavProMini:
     def mode(self) -> dict:
         return self._get('/mode')
 
+    def finish_mapping(self, name: str) -> dict:
+        """Save the SLAM map under `name` and transition back to idle mode."""
+        return self._post('/mapping/finish', {'name': name})
+
     def set_mode(self, mode: str, map_name: Optional[str] = None,
                  wait: bool = False, timeout: float = 60.0) -> dict:
         """Switch mode. With wait=True, block until it has settled.
@@ -197,6 +212,37 @@ class NavProMini:
 
     def current_map(self) -> Optional[str]:
         return self._get('/maps/current').get('current')
+
+    def current_map_info(self) -> dict:
+        """Dimensions, resolution, and origin metadata of the active map."""
+        return self._get('/maps/current/info')
+
+    def current_map_image(self, rotate: int = 0) -> bytes:
+        """Fetch the active map rendered directly as a PNG image.
+
+        Args:
+            rotate: Rotation angle in degrees (0, 90, 180, 270).
+
+        Returns:
+            Raw PNG image bytes.
+        """
+        params = {'rotate': rotate} if rotate else None
+        response = self._session.get(f'{self.base}/maps/current/image',
+                                     params=params, timeout=self.timeout)
+        if not response.ok:
+            raise RobotError('image_fetch_failed',
+                             response.text[:200] or response.reason,
+                             {}, response.status_code)
+        return response.content
+
+    def current_map_raw(self) -> bytes:
+        """Raw binary RGB565 buffer of the active map with header."""
+        response = self._session.get(f'{self.base}/maps/current/raw', timeout=self.timeout)
+        if not response.ok:
+            raise RobotError('raw_map_failed',
+                             response.text[:200] or response.reason,
+                             {}, response.status_code)
+        return response.content
 
     def save_map(self, name: str, overwrite: bool = False) -> dict:
         return self._post('/maps', {'name': name, 'overwrite': overwrite})
@@ -272,6 +318,10 @@ class NavProMini:
         return self._post('/navigation/localize',
                           {'x': x, 'y': y, 'theta': theta})
 
+    def global_relocalize(self) -> dict:
+        """Disperse AMCL particles across the map for global relocalization."""
+        return self._post('/navigation/relocalize/global')
+
     def path(self) -> list:
         return self._get('/navigation/path')['data']
 
@@ -323,6 +373,10 @@ class NavProMini:
                        timeout, 'undock did not finish')
             return self.dock_status()
         return result
+
+    def cancel_dock(self) -> dict:
+        """Cancel an in-progress docking or undocking operation."""
+        return self._delete('/dock/goal')
 
     def dock_status(self) -> dict:
         return self._get('/dock/status')
@@ -384,6 +438,133 @@ class NavProMini:
     def rotate(self, angle: float, speed: float = 0.3) -> dict:
         """Rotate in place by an angle in radians. Positive is counter-clockwise."""
         return self._post('/motion/rotate', {'angle': angle, 'speed': speed})
+
+    # -- missions ----------------------------------------------------------
+
+    def missions(self) -> list:
+        """List all saved missions."""
+        return self._get('/missions')['missions']
+
+    def mission(self, id: str) -> dict:
+        """Fetch a single mission by id."""
+        return self._get(f'/missions/{id}')['mission']
+
+    def save_mission(self, id: str, steps: list[dict],
+                     name: Optional[str] = None, loop_count: int = 1,
+                     loop_forever: bool = False) -> dict:
+        """Create or replace a mission by id.
+
+        Args:
+            id: Unique identifier for the mission.
+            steps: List of step dicts (navigate, wait, dock, undock, call_service, call_action).
+            name: Optional human-readable name (defaults to id).
+            loop_count: Repeat count for the entire sequence (default 1).
+            loop_forever: Repeat indefinitely until canceled (default False).
+        """
+        body: dict[str, Any] = {
+            'id': id,
+            'steps': steps,
+            'loop_count': loop_count,
+            'loop_forever': loop_forever,
+        }
+        if name:
+            body['name'] = name
+        return self._post('/missions', body)['mission']
+
+    def delete_mission(self, id: str) -> dict:
+        """Delete a saved mission by id."""
+        return self._delete(f'/missions/{id}')
+
+    def start_mission(self, id: str, wait: bool = False,
+                      timeout: float = 600.0) -> dict:
+        """Start running a saved mission. Returns 202 accepted immediately.
+
+        With wait=True, blocks until the mission completes, fails, or is canceled.
+        """
+        result = self._post(f'/missions/{id}/start')
+        if wait:
+            return self.wait_for_mission(id=id, timeout=timeout)
+        return result
+
+    def pause_mission(self, id: str) -> dict:
+        """Pause a running mission after the currently executing step."""
+        return self._post(f'/missions/{id}/pause')
+
+    def resume_mission(self, id: str) -> dict:
+        """Resume a paused mission. Also overrides low-battery auto-dock."""
+        return self._post(f'/missions/{id}/resume')
+
+    def cancel_mission(self, id: str) -> dict:
+        """Stop and cancel a running or paused mission permanently."""
+        return self._post(f'/missions/{id}/cancel')
+
+    def mission_status(self) -> dict:
+        """Current status of the active mission runner robot-wide."""
+        return self._get('/missions/status')
+
+    def wait_for_mission(self, id: Optional[str] = None,
+                         timeout: float = 600.0,
+                         poll: float = 1.0) -> dict:
+        """Block until the mission reaches a terminal state (completed, failed, canceled).
+
+        Raises RobotError if the mission fails, or TimeoutError on timeout.
+        """
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            status = self.mission_status()
+            if status['state'] in MISSION_DONE:
+                if status['state'] == 'failed':
+                    raise RobotError('mission_failed',
+                                     status.get('message') or 'mission failed',
+                                     status, 0)
+                return status
+            time.sleep(poll)
+        raise TimeoutError(f'mission did not finish within {timeout}s')
+
+    # -- schedules ---------------------------------------------------------
+
+    def schedules(self) -> list:
+        """List all configured schedules."""
+        return self._get('/schedules')['schedules']
+
+    def schedule(self, id: str) -> dict:
+        """Fetch a single schedule by id."""
+        return self._get(f'/schedules/{id}')['schedule']
+
+    def save_schedule(self, id: str, mission_id: str,
+                      hour: int, minute: int, repeat: str = 'daily',
+                      name: Optional[str] = None,
+                      date: Optional[str] = None,
+                      enabled: bool = True) -> dict:
+        """Create or replace a scheduled mission trigger.
+
+        Args:
+            id: Unique identifier for the schedule.
+            mission_id: The ID of the saved mission to execute.
+            hour: Hour of the day in 24h format (0-23).
+            minute: Minute of the hour (0-59).
+            repeat: Recurrence rule ('daily', 'weekly', or 'once').
+            name: Optional human-readable name.
+            date: 'YYYY-MM-DD' (required when repeat is 'once').
+            enabled: Whether the schedule is active (default True).
+        """
+        body: dict[str, Any] = {
+            'id': id,
+            'mission_id': mission_id,
+            'hour': hour,
+            'minute': minute,
+            'repeat': repeat,
+            'enabled': enabled,
+        }
+        if name:
+            body['name'] = name
+        if date:
+            body['date'] = date
+        return self._post('/schedules', body)['schedule']
+
+    def delete_schedule(self, id: str) -> dict:
+        """Delete a schedule by id."""
+        return self._delete(f'/schedules/{id}')
 
     # -- events ------------------------------------------------------------
 
