@@ -73,14 +73,16 @@ robot.dock(wait=True)
 
 | Group | Endpoints |
 |---|---|
-| **System** | `GET /system/info`, `/system/health` |
-| **State** | `GET /state/pose`, `/velocity`, `/battery`, `/imu`, `/scan`, `/temperature` |
+| **System** | `GET /system/info`, `/system/health`, `/system/lifecycle` |
+| **State** | `GET /state/robot`, `/state/pose`, `/velocity`, `/battery`, `/imu`, `/scan`, `/temperature` |
 | **Mode** | `GET /mode`, `POST /mode` — idle / mapping / navigation |
-| **Maps** | `GET /maps`, `POST /maps`, `GET /maps/current`, `DELETE /maps/{name}`, `POST /maps/{name}/activate` |
+| **Maps** | `GET /maps`, `POST /maps`, `GET /maps/current`, `/maps/current/image`, `/maps/current/raw`, `DELETE /maps/{name}`, `POST /maps/{name}/activate` |
 | **Waypoints** | `GET`/`POST /waypoints`, `GET`/`DELETE /waypoints/{name}` |
-| **Navigation** | `POST /navigation/goto`, `GET /navigation/status`, `DELETE /navigation/goal`, `POST /navigation/localize`, `GET /navigation/path` |
-| **Docking** | `POST /dock`, `POST /undock`, `GET /dock/status`, `GET`/`PUT /dock/pose` |
+| **Navigation** | `POST /navigation/goto`, `GET /navigation/status`, `DELETE /navigation/goal`, `POST /navigation/localize`, `POST /navigation/global_relocalize`, `GET /navigation/path` |
+| **Docking** | `POST /dock`, `DELETE /dock`, `POST /undock`, `GET /dock/status`, `GET`/`PUT /dock/pose` |
 | **Motion** | `POST /motion/velocity`, `/move`, `/rotate`, `/stop` |
+| **Missions** | `GET`/`POST /missions`, `GET`/`DELETE /missions/{name}`, `POST /missions/{name}/start`, `POST /missions/pause`, `POST /missions/resume`, `DELETE /missions/active`, `GET /missions/status` |
+| **Schedules** | `GET`/`POST /schedules`, `GET`/`DELETE /schedules/{id}` |
 | **Events** | `WS /events` — subscribe to pose, battery, scan, dock status and more |
 
 ## Design
