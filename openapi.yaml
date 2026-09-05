@@ -383,6 +383,71 @@ paths:
       responses:
         "200": { description: Current map name and mode. }
 
+  /maps/current/info:
+    get:
+      tags: [Maps]
+      summary: Active map metadata
+      description: Returns dimensions, resolution, and origin of the currently loaded occupancy grid map.
+      responses:
+        "200":
+          description: Map metadata.
+          content:
+            application/json:
+              example:
+                loaded: true
+                current: workRoom
+                width: 800
+                height: 600
+                resolution: 0.05
+                origin: { x: -20.0, y: -15.0 }
+
+  /maps/current/image:
+    get:
+      tags: [Maps]
+      summary: Rendered map image
+      description: Returns a rendered PNG image of the current occupancy grid map.
+      parameters:
+        - name: rotate
+          in: query
+          required: false
+          schema:
+            type: integer
+            enum: [0, 90, 180, 270]
+            default: 90
+          description: Clockwise rotation in degrees.
+      responses:
+        "200":
+          description: PNG image of the active map.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /maps/current/raw:
+    get:
+      tags: [Maps]
+      summary: Raw binary RGB565 map buffer
+      description: Returns raw RGB565 binary bytes with dimensions in custom HTTP headers.
+      parameters:
+        - name: rotate
+          in: query
+          required: false
+          schema:
+            type: integer
+            enum: [0, 90, 180, 270]
+            default: 90
+      responses:
+        "200":
+          description: Binary octet-stream.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "404": { $ref: '#/components/responses/NotFound' }
+
   /maps/{name}:
     delete:
       tags: [Maps]
@@ -550,6 +615,20 @@ paths:
                 theta: { type: number, default: 0 }
       responses:
         "200": { description: Pose published. }
+
+  /navigation/relocalize/global:
+    post:
+      tags: [Navigation]
+      summary: Global relocalization (AMCL disperse)
+      description: Disperses AMCL particles uniformly across the map to recover when lost or kidnapped.
+      responses:
+        "200":
+          description: Particles dispersed.
+          content:
+            application/json:
+              example:
+                status: ok
+                message: AMCL particles dispersed across map
 
   /navigation/path:
     get:

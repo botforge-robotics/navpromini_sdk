@@ -124,23 +124,66 @@ This **restarts the navigation stack** — it is exactly `POST /mode {"mode": "n
     [`POST /navigation/localize`](navigation.md) with an approximate pose and wait for
     `localized: true` before sending goals.
 
+### <span class="verb get">GET</span> `/maps/current/info`
+
+Active map dimensions, resolution, and origin metadata from the current occupancy grid.
+
+```bash
+curl -s $ROBOT/maps/current/info
+```
+
+```json
+{
+  "loaded": true,
+  "current": "workRoom",
+  "width": 800,
+  "height": 600,
+  "resolution": 0.05,
+  "origin": { "x": -20.0, "y": -15.0 }
+}
+```
+
+Returns `"loaded": false` if no occupancy grid is currently published.
+
 ---
 
-## Getting the actual map image
+### <span class="verb get">GET</span> `/maps/current/image`
 
-There is deliberately no `GET /maps/{name}` that returns image bytes or an occupancy grid.
-The live map is a standard ROS topic, `/map` (`nav_msgs/OccupancyGrid`, latched), and every
-consumer this SDK has seen so far — RViz, the NavPro Mini app's own map view — already
-speaks ROS directly over rosbridge (`:9090`) rather than polling an HTTP endpoint for
-pixels. This API's own `/maps/*` routes are metadata only: which named maps exist, which one
-is active, and switching between them. Subscribe to `/map` for the actual grid.
+Renders the active occupancy grid into a PNG image.
+
+```bash
+curl -s "$ROBOT/maps/current/image?rotate=90" -o map.png
+```
+
+| Query Parameter | Type | Default | Notes |
+|---|---|---|---|
+| `rotate` | integer | `90` | Clockwise rotation angle (`0`, `90`, `180`, `270`) |
+
+Returns `image/png` binary content:
+- **Unknown space (-1)**: `#0B0F19` (Dark blue-gray)
+- **Free space (0)**: `#1E293B` (Slate)
+- **Obstacles / walls (>50)**: `#38BDF8` (Sky blue highlight)
+
+<span class="status err">404 `no_map`</span> if no active map is loaded.
+
+---
+
+### <span class="verb get">GET</span> `/maps/current/raw`
+
+Returns the raw RGB565 binary pixel buffer of the active occupancy grid. Includes map dimensions and origin as HTTP headers:
+- `X-Map-Width`
+- `X-Map-Height`
+- `X-Map-Resolution`
+- `X-Map-Origin-X`, `X-Map-Origin-Y`
+- `X-Map-Rotated`
+
+---
+
+## Getting the actual map over ROS
+
+Alongside the HTTP image endpoints above, the live map is also published as a standard ROS topic, `/map` (`nav_msgs/OccupancyGrid`, latched QoS). High-frequency clients and RViz can subscribe to `/map` directly over rosbridge (`:9090`).
 
 ## Where maps live
 
-Maps are stored inside the robot's ROS install tree rather than in a separate data
-directory.
+Maps are stored inside the robot's ROS workspace (`navpromini_mapping/maps`): they are plain `.yaml` + `.pgm` pairs alongside serialized pose graphs.
 
-!!! danger "A clean rebuild of the robot workspace can remove saved maps"
-    This is a property of the robot's workspace layout, not of the API, and the API does not
-    paper over it — the fix belongs where the problem is. If maps matter, copy them off the
-    robot: they are plain `.yaml` + `.pgm` pairs.

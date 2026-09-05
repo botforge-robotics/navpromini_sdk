@@ -150,6 +150,20 @@ Verify with `GET /state/pose` until `localized` is `true` and the pose stops jum
 
 ---
 
+### <span class="verb post">POST</span> `/navigation/relocalize/global`
+
+Triggers AMCL's global localization service (`/reinitialize_global_localization`) to disperse particles uniformly across the entire active map. Use when the robot is completely lost or kidnapped, and allow the robot to rotate or drive so particles converge on its true pose.
+
+```bash
+curl -s -X POST $ROBOT/navigation/relocalize/global
+```
+
+```json
+{ "status": "ok", "message": "AMCL particles dispersed across map" }
+```
+
+---
+
 ### <span class="verb get">GET</span> `/navigation/path`
 
 The planned route for the current goal.
