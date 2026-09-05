@@ -158,7 +158,7 @@ The one mission that may be running right now, robot-wide — not scoped to a pa
 ```json
 { "mission_id": "morning-patrol", "state": "running",
   "step_index": 2, "loop_index": 0, "loop_total": 2,
-  "message": "", "elapsed_sec": 47.3 }
+  "message": "", "pause_reason": null, "elapsed_sec": 47.3 }
 ```
 
 | Field | Meaning |
@@ -167,10 +167,36 @@ The one mission that may be running right now, robot-wide — not scoped to a pa
 | `step_index` | Index into `steps`, within the current lap |
 | `loop_index` | Which lap this is (`0`-based) |
 | `loop_total` | Total laps, or `null` for a `loop_forever` mission — lets a client tell "not looping" from "looping forever" from "lap 2 of 5" without a separate flag |
-| `message` | The failing step's error, once `state` is `failed` |
+| `pause_reason` | `null`, `"user"` (paused by API request), or `"low_battery"` (auto-docked for recharge) |
+| `message` | Explanatory text or failing step's error once `state` is `failed` |
 
 A failure ends the whole mission, including any remaining loops — a broken step does not
 retry itself into the next lap.
+
+---
+
+## Low Battery Auto-Dock and Auto-Resume
+
+During mission execution, the robot continuously monitors battery state of charge (SoC). To ensure mission reliability and protect battery health, automated low-battery safeguarding is built directly into the runner:
+
+- **Trigger Threshold**: When battery SoC drops to $\le 5.0\%$ (configurable via environment variable `NAVPRO_LOW_BATT_DOCK_PCT`), the runner intercepts execution:
+  1. Active navigation goals are smoothly canceled.
+  2. Mission state transitions to `paused` with `pause_reason: "low_battery"`.
+  3. The robot commands an auto-dock sequence to return to the charging station.
+  4. Emits a WebSocket event `mission.paused` with `{"reason": "low_battery"}`.
+- **Charging and Auto-Resume**:
+  - The robot stays parked on the dock while recharging.
+  - When battery SoC reaches $\ge 95.0\%$ (configurable via `NAVPRO_RESUME_BATT_PCT`), the robot automatically executes an undock maneuver and resumes the mission from the exact step and lap where it was paused.
+  - Emits a WebSocket event `mission.resumed` with `{"reason": "battery_charged"}`.
+
+### Edge Case Handling
+
+| Scenario | Behavior |
+|---|---|
+| **User cancels while charging** | If `POST /missions/{id}/cancel` or `DELETE /missions/{id}` is called while parked on the charger, the mission is safely canceled, and the runner terminates cleanly. **The robot stays safely docked and continues charging.** |
+| **Manual resume override** | If `POST /missions/{id}/resume` is invoked while parked on the dock before 95% charge is reached, the robot immediately undocks and resumes the mission with current charge. |
+| **Docking failure on low battery** | If auto-docking fails or gets obstructed, the robot stops immediately, preserves mission pause state, and reports `pause_reason: "low_battery"` with an informative message rather than endlessly looping. |
+| **Normal user pause** | Manual pauses set `pause_reason: "user"` and do not initiate automatic docking or automatic resume. |
 
 ---
 

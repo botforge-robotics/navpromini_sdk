@@ -916,6 +916,7 @@ paths:
                 loop_index: 0
                 loop_total: 2
                 message: ""
+                pause_reason: null
                 elapsed_sec: 47.3
 
   /schedules:
