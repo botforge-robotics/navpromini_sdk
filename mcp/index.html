@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://botforge-robotics.github.io/navpromini_sdk/api/schedules/">
+        <link rel="canonical" href="https://botforge-robotics.github.io/navpromini_sdk/mcp/">
       
       
-        <link rel="prev" href="../missions/">
+        <link rel="prev" href="../recipes/">
       
       
-        <link rel="next" href="../events/">
+        <link rel="next" href="../roadmap/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/favicon.svg">
+      <link rel="icon" href="../assets/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Schedules - NavProMini SDK</title>
+        <title>Model Context Protocol (MCP) Server - NavProMini SDK</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/extra.css">
+      <link rel="stylesheet" href="../assets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#schedules" class="md-skip">
+        <a href="#model-context-protocol-mcp-server" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="NavProMini SDK" class="md-header__button md-logo" aria-label="NavProMini SDK" data-md-component="logo">
+    <a href=".." title="NavProMini SDK" class="md-header__button md-logo" aria-label="NavProMini SDK" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Schedules
+              Model Context Protocol (MCP) Server
             
           </span>
         </div>
@@ -240,7 +240,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../.." class="md-tabs__link">
+        <a href=".." class="md-tabs__link">
           
   
   
@@ -258,13 +258,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../api/" class="md-tabs__link">
           
   
   
@@ -284,7 +282,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../reference.html" class="md-tabs__link">
+      <a href="../reference.html" class="md-tabs__link">
         
   
   
@@ -301,11 +299,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../clients/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clients/" class="md-tabs__link">
           
   
   
@@ -325,7 +325,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../roadmap/" class="md-tabs__link">
+      <a href="../roadmap/" class="md-tabs__link">
         
   
   
@@ -366,7 +366,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="NavProMini SDK" class="md-nav__button md-logo" aria-label="NavProMini SDK" data-md-component="logo">
+    <a href=".." title="NavProMini SDK" class="md-nav__button md-logo" aria-label="NavProMini SDK" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41 4 16 6.41v.18L18.41 9H22v2h-4.41L16 9.41V12h-1a2 2 0 0 1-2-2V7.5H9.86c-.09.37-.24.72-.44 1.05L15.18 19H20a2 2 0 0 1 2 2v1H2v-1a2 2 0 0 1 2-2h6.61l-4.69-8.5a4.006 4.006 0 0 1-3.81-3A4 4 0 0 1 5 2.63c2.13-.55 4.31.73 4.86 2.87H13V3a2 2 0 0 1 2-2h1v2.59L17.59 2H22v2zM6 4.5a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
@@ -425,7 +425,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href=".." class="md-nav__link ">
               
   
   
@@ -469,7 +469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../robot-setup/" class="md-nav__link">
+      <a href="../robot-setup/" class="md-nav__link">
         
   
   
@@ -497,7 +497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/" class="md-nav__link">
+      <a href="../getting-started/" class="md-nav__link">
         
   
   
@@ -525,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/" class="md-nav__link">
+      <a href="../concepts/" class="md-nav__link">
         
   
   
@@ -557,8 +557,6 @@
       
   
   
-    
-  
   
   
     
@@ -596,23 +594,20 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../api/" class="md-nav__link ">
               
   
   
@@ -630,13 +625,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -656,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../system/" class="md-nav__link">
+      <a href="../api/system/" class="md-nav__link">
         
   
   
@@ -684,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../state/" class="md-nav__link">
+      <a href="../api/state/" class="md-nav__link">
         
   
   
@@ -712,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mode/" class="md-nav__link">
+      <a href="../api/mode/" class="md-nav__link">
         
   
   
@@ -740,7 +735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../maps/" class="md-nav__link">
+      <a href="../api/maps/" class="md-nav__link">
         
   
   
@@ -768,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../waypoints/" class="md-nav__link">
+      <a href="../api/waypoints/" class="md-nav__link">
         
   
   
@@ -796,7 +791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../navigation/" class="md-nav__link">
+      <a href="../api/navigation/" class="md-nav__link">
         
   
   
@@ -824,7 +819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docking/" class="md-nav__link">
+      <a href="../api/docking/" class="md-nav__link">
         
   
   
@@ -852,7 +847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../motion/" class="md-nav__link">
+      <a href="../api/motion/" class="md-nav__link">
         
   
   
@@ -880,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../missions/" class="md-nav__link">
+      <a href="../api/missions/" class="md-nav__link">
         
   
   
@@ -888,6 +883,245 @@
     
   
     Missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/schedules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Events
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Errors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clients
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clients
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recipes
   
 
     
@@ -924,7 +1158,7 @@
   <span class="md-ellipsis">
     
   
-    Schedules
+    Model Context Protocol (MCP) Server
   
 
     
@@ -942,7 +1176,7 @@
   <span class="md-ellipsis">
     
   
-    Schedules
+    Model Context Protocol (MCP) Server
   
 
     
@@ -968,10 +1202,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-schedules" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GET /schedules
+        Installation
       
     </span>
   </a>
@@ -979,10 +1213,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#post-schedules" class="md-nav__link">
+  <a href="#quickstart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        POST /schedules
+        Quickstart
       
     </span>
   </a>
@@ -990,10 +1224,99 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-schedulesid" class="md-nav__link">
+  <a href="#ai-agent-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GET /schedules/{id}
+        AI Agent Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI Agent Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#antigravity-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Antigravity Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-desktop-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Desktop Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Capabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mission-synthesis-feasibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mission Synthesis &amp; Feasibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-runtime-mission-control-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Runtime Mission Control &amp; Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-safety-interlocks-emergency-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Safety Interlocks &amp; Emergency Stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context Resources
       
     </span>
   </a>
@@ -1001,21 +1324,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#delete-schedulesid" class="md-nav__link">
+  <a href="#agent-prompts-runbooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DELETE /schedules/{id}
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-firing-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How firing works
+        Agent Prompts (Runbooks)
       
     </span>
   </a>
@@ -1031,62 +1343,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../events/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Events
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../errors/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Errors
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1101,185 +1357,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reference
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Clients
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Clients
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../clients/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Clients
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../recipes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Recipes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../mcp/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Model Context Protocol (MCP) Server
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../roadmap/" class="md-nav__link">
+      <a href="../roadmap/" class="md-nav__link">
         
   
   
@@ -1326,10 +1404,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-schedules" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GET /schedules
+        Installation
       
     </span>
   </a>
@@ -1337,10 +1415,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#post-schedules" class="md-nav__link">
+  <a href="#quickstart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        POST /schedules
+        Quickstart
       
     </span>
   </a>
@@ -1348,10 +1426,99 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-schedulesid" class="md-nav__link">
+  <a href="#ai-agent-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GET /schedules/{id}
+        AI Agent Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI Agent Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#antigravity-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Antigravity Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-desktop-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Desktop Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Capabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mission-synthesis-feasibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mission Synthesis &amp; Feasibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-runtime-mission-control-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Runtime Mission Control &amp; Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-safety-interlocks-emergency-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Safety Interlocks &amp; Emergency Stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context Resources
       
     </span>
   </a>
@@ -1359,21 +1526,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#delete-schedulesid" class="md-nav__link">
+  <a href="#agent-prompts-runbooks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DELETE /schedules/{id}
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-firing-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How firing works
+        Agent Prompts (Runbooks)
       
     </span>
   </a>
@@ -1397,7 +1553,7 @@
 
 
   
-    <a href="https://github.com/botforge-robotics/navpromini_sdk/edit/main/docs/api/schedules.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/botforge-robotics/navpromini_sdk/edit/main/docs/mcp.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1405,147 +1561,124 @@
   
 
 
-<h1 id="schedules">Schedules<a class="headerlink" href="#schedules" title="Link to this section">&para;</a></h1>
-<p>An alarm for a <a href="../missions/">mission</a>: pick one, pick a time, pick how it repeats, and the
-robot fires it itself — polled on the robot's own SDK process, independent of any app or
-client being open or even connected at the moment it's due.</p>
+<h1 id="model-context-protocol-mcp-server">Model Context Protocol (MCP) Server<a class="headerlink" href="#model-context-protocol-mcp-server" title="Link to this section">&para;</a></h1>
+<p>The <strong>Model Context Protocol (MCP)</strong> server connects the NavPro Mini AMR to modern AI agents (Google Antigravity, Claude Desktop, Cursor, and custom Python agent frameworks). It allows Large Language Models (LLMs) to reason about the robot's physical environment, synthesize multi-stop missions, monitor live telemetry, and control physical movement.</p>
+<p>Operates purely over <strong>standard JSON-RPC via Stdio or SSE</strong> — no heavy Vision-Language-Action (VLA) neural policies or local GPU hardware required.</p>
 <hr />
-<h3 id="get-schedules"><span class="verb get">GET</span> <code>/schedules</code><a class="headerlink" href="#get-schedules" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"schedules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-run"</span><span class="p">,</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morning patrol"</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="nt">"repeat"</span><span class="p">:</span><span class="w"> </span><span class="s2">"weekly"</span><span class="p">,</span><span class="w"> </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">"weekdays"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Link to this section">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>clients/mcp
+</span></code></pre></div>
+<p>This installs the <code>navpromini-mcp</code> CLI executable and the <code>navpromini_mcp</code> Python module.</p>
+<hr />
+<h2 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Link to this section">&para;</a></h2>
+<p>Run the server directly using standard I/O (default):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>navpromini-mcp<span class="w"> </span>--host<span class="w"> </span><span class="m">192</span>.168.1.50<span class="w"> </span>--port<span class="w"> </span><span class="m">8090</span>
+</span></code></pre></div>
+<p>Or run it as a network-accessible Server-Sent Events (SSE) server on port 8091:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>navpromini-mcp<span class="w"> </span>--host<span class="w"> </span><span class="m">192</span>.168.1.50<span class="w"> </span>--transport<span class="w"> </span>sse<span class="w"> </span>--sse-port<span class="w"> </span><span class="m">8091</span>
 </span></code></pre></div>
 <hr />
-<h3 id="post-schedules"><span class="verb post">POST</span> <code>/schedules</code><a class="headerlink" href="#post-schedules" title="Link to this section">&para;</a></h3>
-<p>Create, or replace by <code>id</code> — same create-or-replace-by-id shape as
-<a href="../missions/"><code>POST /missions</code></a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/schedules<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="s1">  "id": "morning-run",</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="s1">  "mission_id": "morning-patrol",</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="s1">  "name": "Morning patrol",</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="s1">  "hour": 7, "minute": 30,</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="s1">  "repeat": "weekly",</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s1">  "weekdays": [0, 1, 2, 3, 4]</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s1">}'</span>
+<h2 id="ai-agent-setup">AI Agent Setup<a class="headerlink" href="#ai-agent-setup" title="Link to this section">&para;</a></h2>
+<h3 id="antigravity-integration">Antigravity Integration<a class="headerlink" href="#antigravity-integration" title="Link to this section">&para;</a></h3>
+<p>Add the server to your project's <code>.agents/mcp_config.json</code> or global <code>~/.gemini/config/mcp_config.json</code>:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">"navpromini"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini-mcp"</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"--transport"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stdio"</span><span class="p">],</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_HOST"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192.168.1.50"</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_PORT"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8090"</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_TOKEN"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
 </span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"schedule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-run"</span><span class="p">,</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">                </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morning patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">                </span><span class="nt">"repeat"</span><span class="p">:</span><span class="w"> </span><span class="s2">"weekly"</span><span class="p">,</span><span class="w"> </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">                </span><span class="nt">"weekdays"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<h3 id="claude-desktop-integration">Claude Desktop Integration<a class="headerlink" href="#claude-desktop-integration" title="Link to this section">&para;</a></h3>
+<p>Add to <code>claude_desktop_config.json</code>:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">"navpromini"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"python3"</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"-m"</span><span class="p">,</span><span class="w"> </span><span class="s2">"navpromini_mcp"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--transport"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stdio"</span><span class="p">],</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_HOST"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192.168.1.50"</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">}</span>
 </span></code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Required</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>yes</td>
-<td>Caller-chosen. Resending the same <code>id</code> replaces the schedule</td>
-</tr>
-<tr>
-<td><code>mission_id</code></td>
-<td>yes</td>
-<td>Must already exist — <a href="../missions/"><code>POST /missions</code></a> it first</td>
-</tr>
-<tr>
-<td><code>hour</code>, <code>minute</code></td>
-<td>yes</td>
-<td>Integers, 24-hour clock, robot's own local time</td>
-</tr>
-<tr>
-<td><code>repeat</code></td>
-<td>yes</td>
-<td><code>once</code>, <code>daily</code>, or <code>weekly</code></td>
-</tr>
-<tr>
-<td><code>date</code></td>
-<td>if <code>repeat: "once"</code></td>
-<td><code>YYYY-MM-DD</code></td>
-</tr>
-<tr>
-<td><code>weekdays</code></td>
-<td>if <code>repeat: "weekly"</code></td>
-<td>Non-empty list of integers, <code>0</code>=Monday .. <code>6</code>=Sunday</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>no</td>
-<td>Defaults to empty — display label only, not used to find the schedule</td>
-</tr>
-<tr>
-<td><code>enabled</code></td>
-<td>no</td>
-<td>Default <code>true</code>. Set <code>false</code> to keep a schedule without it firing</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Responses</strong></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>When</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="status ok">201</span></td>
-<td>Saved</td>
-</tr>
-<tr>
-<td><span class="status err">400 <code>invalid_field</code></span></td>
-<td>Missing/malformed field — see the table above</td>
-</tr>
-<tr>
-<td><span class="status err">404 <code>mission_not_found</code></span></td>
-<td><code>mission_id</code> doesn't exist</td>
-</tr>
-</tbody>
-</table>
 <hr />
-<h3 id="get-schedulesid"><span class="verb get">GET</span> <code>/schedules/{id}</code><a class="headerlink" href="#get-schedulesid" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"schedule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-run"</span><span class="p">,</span><span class="w"> </span><span class="nt">"…"</span><span class="p">:</span><span class="w"> </span><span class="s2">"…"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<h2 id="core-capabilities">Core Capabilities<a class="headerlink" href="#core-capabilities" title="Link to this section">&para;</a></h2>
+<h3 id="1-mission-synthesis-feasibility">1. Mission Synthesis &amp; Feasibility<a class="headerlink" href="#1-mission-synthesis-feasibility" title="Link to this section">&para;</a></h3>
+<p>AI agents can synthesize complex multi-stop missions from natural language instructions. The server automatically:
+- Checks that all waypoints exist in the active map.
+- Computes transit distances and estimated duration.
+- Evaluates <strong>battery consumption feasibility</strong> to ensure the AMR will not run out of power mid-patrol.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Example MCP Tool Invocation: synthesize_and_save_mission</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"warehouse_inspection"</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Inspect aisles 1 and 2, then return to dock"</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  <span class="s2">"loop"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  <span class="s2">"tasks"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"aisle_1"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"wait"</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"duration_sec"</span><span class="p">:</span> <span class="mi">10</span><span class="p">}},</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"aisle_2"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"wait"</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"duration_sec"</span><span class="p">:</span> <span class="mi">15</span><span class="p">}},</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"charging_dock"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"dock"</span><span class="p">}</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  <span class="p">]</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><span class="status err">404 <code>schedule_not_found</code></span> if no schedule has that <code>id</code>.</p>
-<hr />
-<h3 id="delete-schedulesid"><span class="verb delete">DELETE</span> <code>/schedules/{id}</code><a class="headerlink" href="#delete-schedulesid" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-run"</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-<p><span class="status err">404 <code>schedule_not_found</code></span> if no schedule has that <code>id</code>.</p>
-<hr />
-<h2 id="how-firing-works">How firing works<a class="headerlink" href="#how-firing-works" title="Link to this section">&para;</a></h2>
-<p>There is no separate "run a schedule" endpoint — a due schedule calls exactly the same
-internal start path <a href="../missions/#post-missionsidstart"><code>POST /missions/{id}/start</code></a> uses, so
-a scheduled run and a manually-started run are indistinguishable once underway: same
-<a href="../missions/#get-missionsstatus"><code>GET /missions/status</code></a>, same
-<a href="../events/">event stream</a> entries.</p>
-<div class="admonition warning">
-<p class="admonition-title">Skipped, not queued — like a phone alarm, not a job scheduler</p>
-<p>Two situations cause a due schedule to be silently skipped rather than deferred:</p>
+<h3 id="2-runtime-mission-control-scheduling">2. Runtime Mission Control &amp; Scheduling<a class="headerlink" href="#2-runtime-mission-control-scheduling" title="Link to this section">&para;</a></h3>
 <ul>
-<li><strong>Another mission is already running or paused.</strong> The scheduled one does not
-  interrupt it, and does not wait for it to finish — it is simply not started this
-  time. Watch for a <code>schedule.skipped</code> event with <code>"reason": "mission_active"</code> if this
-  matters to you.</li>
-<li><strong>The SDK process was not running when the minute passed</strong> — rebooting, or the
-  service was stopped. There is no catch-up on restart: a missed alarm stays missed,
-  exactly like a phone alarm silenced by a dead battery, rather than firing late the
-  moment the robot comes back.</li>
+<li><code>execute_mission(mission_name, wait_for_completion=True)</code>: Start mission execution.</li>
+<li><code>control_active_mission(action="pause" | "resume" | "cancel")</code>: Intervene in real-time.</li>
+<li><code>schedule_recurring_mission(schedule_id, mission_name, cron="0 8 * * *")</code>: Automate routines with standard 5-field cron syntax.</li>
 </ul>
-</div>
-<p>A <code>repeat: "once"</code> schedule disables itself (<code>enabled</code> flips to <code>false</code>) the moment it
-fires — the same self-terminating behaviour a phone's one-time alarm has, rather than
-sitting there permanently matching a date that has already passed. A schedule whose
-<code>mission_id</code> no longer resolves (the mission was deleted) disables itself the same way,
-with a <code>schedule.skipped</code> event carrying <code>"reason": "mission_not_found"</code>, instead of
-failing silently on every check forever.</p>
+<h3 id="3-safety-interlocks-emergency-stop">3. Safety Interlocks &amp; Emergency Stop<a class="headerlink" href="#3-safety-interlocks-emergency-stop" title="Link to this section">&para;</a></h3>
+<ul>
+<li><strong>Low-Battery Interlock</strong>: Inbound requests reject navigation tasks if battery $&lt;15\%$ unless the target is a charging dock. If battery $&lt;8\%$, a critical dock order is enforced.</li>
+<li><strong>Emergency Stop Reflex (<code>emergency_stop</code>)</strong>: Instantly zeroes wheel motor command velocities, cancels Nav2 goals, and halts active missions.</li>
+<li><strong>AMCL Global Relocalization (<code>trigger_global_relocalization</code>)</strong>: Disperses particles and performs a 360° LiDAR sweep to re-localize when tracking is lost.</li>
+</ul>
+<hr />
+<h2 id="context-resources">Context Resources<a class="headerlink" href="#context-resources" title="Link to this section">&para;</a></h2>
+<p>Passive read-only feeds that agents can inspect without mutating robot state:</p>
+<table>
+<thead>
+<tr>
+<th>Resource URI</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>robot://telemetry</code></td>
+<td>Real-time canonical state JSON (battery, pose, velocities, safety status).</td>
+</tr>
+<tr>
+<td><code>robot://waypoints</code></td>
+<td>Semantic waypoint catalog defined in the current map.</td>
+</tr>
+<tr>
+<td><code>robot://missions/library</code></td>
+<td>Catalog of all saved missions stored on the robot.</td>
+</tr>
+<tr>
+<td><code>robot://missions/active</code></td>
+<td>Current task index, progress percentage, and execution status.</td>
+</tr>
+<tr>
+<td><code>robot://system/health</code></td>
+<td>Nav2 lifecycle states and sensor topic freshness.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="agent-prompts-runbooks">Agent Prompts (Runbooks)<a class="headerlink" href="#agent-prompts-runbooks" title="Link to this section">&para;</a></h2>
+<p>The server exposes built-in prompt runbooks:
+- <code>facility_patrol_planner</code>: Guides the model to inspect waypoints, query operational constraints, compile a mission DAG, verify battery budget, and attach a cron schedule.
+- <code>robot_fault_recovery</code>: Step-by-step diagnostic and recovery runbook for navigation failures, obstacle traps, and lost localization.
+- <code>preflight_safety_audit</code>: Pre-shift hardware, sensor, and battery checklist.</p>
 
 
 
@@ -1583,7 +1716,7 @@ failing silently on every check forever.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../missions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Missions">
+          <a href="../recipes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Recipes">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1593,20 +1726,20 @@ failing silently on every check forever.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Missions
+                Recipes
               </div>
             </div>
           </a>
         
         
           
-          <a href="../events/" class="md-footer__link md-footer__link--next" aria-label="Next: Events">
+          <a href="../roadmap/" class="md-footer__link md-footer__link--next" aria-label="Next: Roadmap">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Events
+                Roadmap
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1657,10 +1790,10 @@ failing silently on every check forever.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
