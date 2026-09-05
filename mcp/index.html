@@ -1236,10 +1236,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#antigravity-integration" class="md-nav__link">
+  <a href="#method-1-remote-sse-connection-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Antigravity Integration
+        Method 1: Remote SSE Connection (Recommended)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 1: Remote SSE Connection (Recommended)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-google-antigravity-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Google Antigravity Setup
       
     </span>
   </a>
@@ -1247,10 +1259,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#claude-desktop-integration" class="md-nav__link">
+  <a href="#b-claude-desktop-cursor-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Claude Desktop Integration
+        B. Claude Desktop / Cursor Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-python-agent-code-eg-langchain-llamaindex-raw-mcp-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Python Agent Code (e.g. LangChain / LlamaIndex / Raw MCP Client)
       
     </span>
   </a>
@@ -1259,6 +1282,33 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-local-stdio-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Local Stdio Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-robot-service-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On-Robot Service Management
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1438,10 +1488,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#antigravity-integration" class="md-nav__link">
+  <a href="#method-1-remote-sse-connection-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Antigravity Integration
+        Method 1: Remote SSE Connection (Recommended)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 1: Remote SSE Connection (Recommended)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-google-antigravity-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Google Antigravity Setup
       
     </span>
   </a>
@@ -1449,10 +1511,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#claude-desktop-integration" class="md-nav__link">
+  <a href="#b-claude-desktop-cursor-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Claude Desktop Integration
+        B. Claude Desktop / Cursor Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-python-agent-code-eg-langchain-llamaindex-raw-mcp-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Python Agent Code (e.g. LangChain / LlamaIndex / Raw MCP Client)
       
     </span>
   </a>
@@ -1461,6 +1534,33 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-local-stdio-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Local Stdio Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-robot-service-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On-Robot Service Management
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1579,36 +1679,83 @@
 </span></code></pre></div>
 <hr />
 <h2 id="ai-agent-setup">AI Agent Setup<a class="headerlink" href="#ai-agent-setup" title="Link to this section">&para;</a></h2>
-<h3 id="antigravity-integration">Antigravity Integration<a class="headerlink" href="#antigravity-integration" title="Link to this section">&para;</a></h3>
-<p>Add the server to your project's <code>.agents/mcp_config.json</code> or global <code>~/.gemini/config/mcp_config.json</code>:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<p>Because the NavPro Mini AMR runs <code>navpro-mcp.service</code> natively on port <strong>8091</strong>, you have two ways to connect an AI agent:
+1. <strong>Remote SSE Connection (Recommended — Zero Install on PC)</strong>: Connects directly across the LAN to the robot over HTTP Server-Sent Events.
+2. <strong>Local Stdio Process</strong>: Spawns <code>navpromini-mcp</code> locally on your PC and tunnels commands over standard I/O.</p>
+<hr />
+<h3 id="method-1-remote-sse-connection-recommended">Method 1: Remote SSE Connection (Recommended)<a class="headerlink" href="#method-1-remote-sse-connection-recommended" title="Link to this section">&para;</a></h3>
+<p>No Python packages or dependencies needed on your development computer!</p>
+<h4 id="a-google-antigravity-setup">A. Google Antigravity Setup<a class="headerlink" href="#a-google-antigravity-setup" title="Link to this section">&para;</a></h4>
+<p>Add this to your project configuration at <code>.agents/mcp_config.json</code> (or globally in <code>~/.gemini/config/mcp_config.json</code>):</p>
+<p><div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">"navpromini"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini-mcp"</span><span class="p">,</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"--transport"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stdio"</span><span class="p">],</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_HOST"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192.168.1.50"</span><span class="p">,</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_PORT"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8090"</span><span class="p">,</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_TOKEN"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="p">}</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="nt">"serverUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://192.168.0.129:8091/sse"</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
 </span></code></pre></div>
-<h3 id="claude-desktop-integration">Claude Desktop Integration<a class="headerlink" href="#claude-desktop-integration" title="Link to this section">&para;</a></h3>
-<p>Add to <code>claude_desktop_config.json</code>:</p>
+<em>(Replace <code>192.168.0.129</code> with your robot's IP address).</em></p>
+<h4 id="b-claude-desktop-cursor-setup">B. Claude Desktop / Cursor Setup<a class="headerlink" href="#b-claude-desktop-cursor-setup" title="Link to this section">&para;</a></h4>
+<p>Add this to your <code>claude_desktop_config.json</code>:
+- <strong>macOS</strong>: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>
+- <strong>Linux</strong>: <code>~/.config/Claude/claude_desktop_config.json</code>
+- <strong>Windows</strong>: <code>%APPDATA%\Claude\claude_desktop_config.json</code></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">"navpromini"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"python3"</span><span class="p">,</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"-m"</span><span class="p">,</span><span class="w"> </span><span class="s2">"navpromini_mcp"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--transport"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stdio"</span><span class="p">],</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_HOST"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192.168.1.50"</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="p">}</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">}</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="nt">"serverUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://192.168.0.129:8091/sse"</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">}</span>
 </span></code></pre></div>
+<h4 id="c-python-agent-code-eg-langchain-llamaindex-raw-mcp-client">C. Python Agent Code (e.g. LangChain / LlamaIndex / Raw MCP Client)<a class="headerlink" href="#c-python-agent-code-eg-langchain-llamaindex-raw-mcp-client" title="Link to this section">&para;</a></h4>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcp.client.sse</span><span class="w"> </span><span class="kn">import</span> <span class="n">sse_client</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcp</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientSession</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">async</span> <span class="k">with</span> <span class="n">sse_client</span><span class="p">(</span><span class="s2">"http://192.168.0.129:8091/sse"</span><span class="p">)</span> <span class="k">as</span> <span class="p">(</span><span class="n">read</span><span class="p">,</span> <span class="n">write</span><span class="p">):</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">ClientSession</span><span class="p">(</span><span class="n">read</span><span class="p">,</span> <span class="n">write</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="c1"># Discover tools</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">tools</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">list_tools</span><span class="p">()</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="nb">print</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tools</span><span class="o">.</span><span class="n">tools</span><span class="p">])</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="c1"># Execute tool</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="s2">"get_power_status"</span><span class="p">,</span> <span class="p">{})</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="method-2-local-stdio-connection">Method 2: Local Stdio Connection<a class="headerlink" href="#method-2-local-stdio-connection" title="Link to this section">&para;</a></h3>
+<p>If your agent requires a local subprocess or you are developing custom MCP tools offline:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>clients/mcp
+</span></code></pre></div>
+<p>Then configure your agent host to launch the binary:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">"navpromini"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini-mcp"</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"--transport"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stdio"</span><span class="p">],</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_HOST"</span><span class="p">:</span><span class="w"> </span><span class="s2">"192.168.0.129"</span><span class="p">,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_PORT"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8090"</span><span class="p">,</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="nt">"NAVPRO_ROBOT_TOKEN"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="on-robot-service-management">On-Robot Service Management<a class="headerlink" href="#on-robot-service-management" title="Link to this section">&para;</a></h2>
+<p>The MCP server runs as a systemd service (<code>navpro-mcp.service</code>) managed by the robot OS:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Check service status on the robot</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>ssh<span class="w"> </span>navpromini@192.168.0.129
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>systemctl<span class="w"> </span>status<span class="w"> </span>navpro-mcp.service
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># View live MCP server logs</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>journalctl<span class="w"> </span>-u<span class="w"> </span>navpro-mcp.service<span class="w"> </span>-f
+</span></code></pre></div>
+<p>The service is configured to restart automatically on failure and starts automatically whenever the robot is booted or rebooted.</p>
 <hr />
 <h2 id="core-capabilities">Core Capabilities<a class="headerlink" href="#core-capabilities" title="Link to this section">&para;</a></h2>
 <h3 id="1-mission-synthesis-feasibility">1. Mission Synthesis &amp; Feasibility<a class="headerlink" href="#1-mission-synthesis-feasibility" title="Link to this section">&para;</a></h3>
@@ -1616,17 +1763,17 @@
 - Checks that all waypoints exist in the active map.
 - Computes transit distances and estimated duration.
 - Evaluates <strong>battery consumption feasibility</strong> to ensure the AMR will not run out of power mid-patrol.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Example MCP Tool Invocation: synthesize_and_save_mission</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"warehouse_inspection"</span><span class="p">,</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Inspect aisles 1 and 2, then return to dock"</span><span class="p">,</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  <span class="s2">"loop"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  <span class="s2">"tasks"</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"aisle_1"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"wait"</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"duration_sec"</span><span class="p">:</span> <span class="mi">10</span><span class="p">}},</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"aisle_2"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"wait"</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"duration_sec"</span><span class="p">:</span> <span class="mi">15</span><span class="p">}},</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"charging_dock"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"dock"</span><span class="p">}</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  <span class="p">]</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">}</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Example MCP Tool Invocation: synthesize_and_save_mission</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="p">{</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"warehouse_inspection"</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Inspect aisles 1 and 2, then return to dock"</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  <span class="s2">"loop"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  <span class="s2">"tasks"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"aisle_1"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"wait"</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"duration_sec"</span><span class="p">:</span> <span class="mi">10</span><span class="p">}},</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"aisle_2"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"wait"</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"duration_sec"</span><span class="p">:</span> <span class="mi">15</span><span class="p">}},</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="p">{</span><span class="s2">"waypoint"</span><span class="p">:</span> <span class="s2">"charging_dock"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"dock"</span><span class="p">}</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  <span class="p">]</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="2-runtime-mission-control-scheduling">2. Runtime Mission Control &amp; Scheduling<a class="headerlink" href="#2-runtime-mission-control-scheduling" title="Link to this section">&para;</a></h3>
 <ul>
