@@ -1039,6 +1039,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#low-battery-auto-dock-and-auto-resume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Battery Auto-Dock and Auto-Resume
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Low Battery Auto-Dock and Auto-Resume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edge-case-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Case Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#missions-and-the-app" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1450,6 +1478,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#low-battery-auto-dock-and-auto-resume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Battery Auto-Dock and Auto-Resume
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Low Battery Auto-Dock and Auto-Resume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#edge-case-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Case Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#missions-and-the-app" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1705,7 +1761,7 @@ the whole run, including every remaining loop lap, not just the current one.</p>
 <code>{id}</code>, because only one can ever be active.</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"running"</span><span class="p">,</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"step_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nt">"elapsed_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">47.3</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nt">"pause_reason"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">"elapsed_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">47.3</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -1732,13 +1788,58 @@ the whole run, including every remaining loop lap, not just the current one.</p>
 <td>Total laps, or <code>null</code> for a <code>loop_forever</code> mission — lets a client tell "not looping" from "looping forever" from "lap 2 of 5" without a separate flag</td>
 </tr>
 <tr>
+<td><code>pause_reason</code></td>
+<td><code>null</code>, <code>"user"</code> (paused by API request), or <code>"low_battery"</code> (auto-docked for recharge)</td>
+</tr>
+<tr>
 <td><code>message</code></td>
-<td>The failing step's error, once <code>state</code> is <code>failed</code></td>
+<td>Explanatory text or failing step's error once <code>state</code> is <code>failed</code></td>
 </tr>
 </tbody>
 </table>
 <p>A failure ends the whole mission, including any remaining loops — a broken step does not
 retry itself into the next lap.</p>
+<hr />
+<h2 id="low-battery-auto-dock-and-auto-resume">Low Battery Auto-Dock and Auto-Resume<a class="headerlink" href="#low-battery-auto-dock-and-auto-resume" title="Link to this section">&para;</a></h2>
+<p>During mission execution, the robot continuously monitors battery state of charge (SoC). To ensure mission reliability and protect battery health, automated low-battery safeguarding is built directly into the runner:</p>
+<ul>
+<li><strong>Trigger Threshold</strong>: When battery SoC drops to $\le 5.0\%$ (configurable via environment variable <code>NAVPRO_LOW_BATT_DOCK_PCT</code>), the runner intercepts execution:</li>
+<li>Active navigation goals are smoothly canceled.</li>
+<li>Mission state transitions to <code>paused</code> with <code>pause_reason: "low_battery"</code>.</li>
+<li>The robot commands an auto-dock sequence to return to the charging station.</li>
+<li>Emits a WebSocket event <code>mission.paused</code> with <code>{"reason": "low_battery"}</code>.</li>
+<li><strong>Charging and Auto-Resume</strong>:</li>
+<li>The robot stays parked on the dock while recharging.</li>
+<li>When battery SoC reaches $\ge 95.0\%$ (configurable via <code>NAVPRO_RESUME_BATT_PCT</code>), the robot automatically executes an undock maneuver and resumes the mission from the exact step and lap where it was paused.</li>
+<li>Emits a WebSocket event <code>mission.resumed</code> with <code>{"reason": "battery_charged"}</code>.</li>
+</ul>
+<h3 id="edge-case-handling">Edge Case Handling<a class="headerlink" href="#edge-case-handling" title="Link to this section">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User cancels while charging</strong></td>
+<td>If <code>POST /missions/{id}/cancel</code> or <code>DELETE /missions/{id}</code> is called while parked on the charger, the mission is safely canceled, and the runner terminates cleanly. <strong>The robot stays safely docked and continues charging.</strong></td>
+</tr>
+<tr>
+<td><strong>Manual resume override</strong></td>
+<td>If <code>POST /missions/{id}/resume</code> is invoked while parked on the dock before 95% charge is reached, the robot immediately undocks and resumes the mission with current charge.</td>
+</tr>
+<tr>
+<td><strong>Docking failure on low battery</strong></td>
+<td>If auto-docking fails or gets obstructed, the robot stops immediately, preserves mission pause state, and reports <code>pause_reason: "low_battery"</code> with an informative message rather than endlessly looping.</td>
+</tr>
+<tr>
+<td><strong>Normal user pause</strong></td>
+<td>Manual pauses set <code>pause_reason: "user"</code> and do not initiate automatic docking or automatic resume.</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="missions-and-the-app">Missions and the app<a class="headerlink" href="#missions-and-the-app" title="Link to this section">&para;</a></h2>
 <p>The NavPro Mini app's own Mission Planner is a client of this exact API, not a separate
