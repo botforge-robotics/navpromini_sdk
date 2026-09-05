@@ -34,32 +34,42 @@ navpromini-mcp --host 192.168.1.50 --transport sse --sse-port 8091
 
 ## AI Agent Setup
 
-Because the NavPro Mini AMR runs `navpro-mcp.service` natively on port **8091**, you have two ways to connect an AI agent:
-1. **Remote SSE Connection (Recommended — Zero Install on PC)**: Connects directly across the LAN to the robot over HTTP Server-Sent Events.
-2. **Local Stdio Process**: Spawns `navpromini-mcp` locally on your PC and tunnels commands over standard I/O.
+Depending on your agent platform, you can connect using either **Stdio** (recommended for Antigravity) or **Remote SSE**:
 
 ---
 
-### Method 1: Remote SSE Connection (Recommended)
+### Method 1: Google Antigravity Setup (Stdio — Recommended)
 
-No Python packages or dependencies needed on your development computer!
+Because Antigravity spawns local language server tools, using the `command` (stdio) configuration is the most robust integration:
 
-#### A. Google Antigravity Setup
+1. Install the MCP client on your PC (if not already installed):
+```bash
+pip install -e clients/mcp
+```
 
-Add this to your project configuration at `.agents/mcp_config.json` (or globally in `~/.gemini/config/mcp_config.json`):
+2. Add this to your project configuration at `.agents/mcp_config.json` (or globally in `~/.gemini/config/mcp_config.json`):
 
 ```json
 {
   "mcpServers": {
     "navpromini": {
-      "serverUrl": "http://192.168.0.129:8091/sse"
+      "command": "navpromini-mcp",
+      "args": ["--transport", "stdio"],
+      "env": {
+        "NAVPRO_ROBOT_HOST": "192.168.0.129",
+        "NAVPRO_ROBOT_PORT": "8090"
+      }
     }
   }
 }
 ```
 *(Replace `192.168.0.129` with your robot's IP address).*
 
-#### B. Claude Desktop / Cursor Setup
+---
+
+### Method 2: Remote SSE Connection (Claude Desktop / Cursor / Remote Agents)
+
+For clients that connect over HTTP Server-Sent Events (SSE) to the robot's built-in `navpro-mcp.service` on port **8091**:
 
 Add this to your `claude_desktop_config.json`:
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
