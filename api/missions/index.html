@@ -1679,6 +1679,11 @@ caller-supplied <code>id</code> instead of a server-generated one.</p>
 <td><code>action</code>, <code>action_type</code></td>
 <td>Sends any ROS action goal by name + type (e.g. <code>nav2_msgs/action/Spin</code>). Optional <code>goal</code> (object), <code>timeout</code> (seconds, default 300)</td>
 </tr>
+<tr>
+<td><code>call_api</code></td>
+<td><code>url</code></td>
+<td>Performs an HTTP/HTTPS request. Optional <code>method</code> (default <code>POST</code>), <code>headers</code> (dict), <code>payload</code> (JSON or string), <code>timeout</code> (seconds, default 15), <code>ignore_error</code> (boolean, default <code>false</code>)</td>
+</tr>
 </tbody>
 </table>
 <div class="admonition warning">
