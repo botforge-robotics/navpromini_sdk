@@ -119,7 +119,7 @@ def register_navigation_tools(mcp, robot: NavProMini):
     def get_navigation_status() -> Dict[str, Any]:
         """Get live Nav2 navigation goal status, progress, and remaining distance."""
         try:
-            status = robot.navigation_status()
+            status = robot.nav_status()
             return {"success": True, "status": status}
         except RobotError as e:
             return {"success": False, "error": f"{e.code}: {e.message}"}

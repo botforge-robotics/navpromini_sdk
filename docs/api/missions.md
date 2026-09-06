@@ -61,6 +61,7 @@ curl -s -X POST $ROBOT/missions -H 'Content-Type: application/json' -d '{
 | `undock` | — | Same as [`POST /undock`](docking.md) |
 | `call_service` | `service`, `service_type` | Calls any ROS service by name + type (e.g. `std_srvs/srv/Trigger`). Optional `request` (object), `timeout` (seconds, default 15) |
 | `call_action` | `action`, `action_type` | Sends any ROS action goal by name + type (e.g. `nav2_msgs/action/Spin`). Optional `goal` (object), `timeout` (seconds, default 300) |
+| `call_api` | `url` | Performs an HTTP/HTTPS request. Optional `method` (default `POST`), `headers` (dict), `payload` (JSON or string), `timeout` (seconds, default 15), `ignore_error` (boolean, default `false`) |
 
 !!! warning "`call_service`/`call_action` are as powerful as the robot's own ROS graph"
     These two step types can invoke *anything* reachable over ROS by name — the same trust

@@ -456,7 +456,7 @@ class NavProMini:
 
         Args:
             id: Unique identifier for the mission.
-            steps: List of step dicts (navigate, wait, dock, undock, call_service, call_action).
+            steps: List of step dicts (navigate, wait, dock, undock, call_service, call_action, call_api).
             name: Optional human-readable name (defaults to id).
             loop_count: Repeat count for the entire sequence (default 1).
             loop_forever: Repeat indefinitely until canceled (default False).

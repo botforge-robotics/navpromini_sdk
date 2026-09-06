@@ -109,3 +109,73 @@ def test_server_creation_and_registration():
     assert "facility_patrol_planner" in prompt_names
     assert "robot_fault_recovery" in prompt_names
     assert "preflight_safety_audit" in prompt_names
+
+
+def test_call_api_model_and_compilation():
+    """Verify call_api action in MissionTask and synthesize_and_save_mission tool."""
+    # 1. Model test with params
+    task = MissionTask(
+        waypoint="inspection_bay",
+        action="call_api",
+        params={
+            "url": "http://192.168.0.175:8080/capture-and-report",
+            "method": "POST",
+            "payload": {"test": True},
+            "timeout_sec": 10.0,
+            "ignore_error": True,
+        }
+    )
+    assert task.action == "call_api"
+    assert task.waypoint == "inspection_bay"
+
+    # 2. Tool compilation test
+    mock_robot = MagicMock()
+    mock_robot.waypoints.return_value = [{"name": "inspection_bay", "x": 1.0, "y": 2.0}]
+    mock_robot.pose.return_value = {"x": 0.0, "y": 0.0}
+    mock_robot.battery.return_value = {"percentage": 90.0}
+    mock_robot.save_mission.return_value = {"id": "test_api_mission", "saved": True}
+
+    from navpromini_mcp.tools.missions import register_mission_tools
+    try:
+        from mcp.server.mcpserver import MCPServer
+    except ImportError:
+        from mcp.server.fastmcp import FastMCP as MCPServer
+
+    test_mcp = MCPServer(name="test_mcp")
+    register_mission_tools(test_mcp, mock_robot)
+
+    synth_tool = test_mcp._tool_manager._tools["synthesize_and_save_mission"].fn
+    res = synth_tool(
+        name="test_api_mission",
+        tasks=[
+            {
+                "waypoint": "inspection_bay",
+                "action": "call_api",
+                "params": {
+                    "url": "http://192.168.0.175:8080/capture-and-report",
+                    "method": "POST",
+                    "payload": {"status": "arrived"},
+                }
+            },
+            {
+                "action": "call_api",
+                "url": "http://192.168.0.175:8080/done",
+                "method": "GET",
+            }
+        ]
+    )
+
+    assert res["success"] is True
+    steps = res["steps"]
+    assert len(steps) == 3
+    # Step 1: navigate to inspection_bay
+    assert steps[0] == {"type": "navigate", "target": "inspection_bay"}
+    # Step 2: call_api POST
+    assert steps[1]["type"] == "call_api"
+    assert steps[1]["url"] == "http://192.168.0.175:8080/capture-and-report"
+    assert steps[1]["method"] == "POST"
+    assert steps[1]["payload"] == {"status": "arrived"}
+    # Step 3: call_api GET (no waypoint, so no preceding navigate step)
+    assert steps[2]["type"] == "call_api"
+    assert steps[2]["url"] == "http://192.168.0.175:8080/done"
+    assert steps[2]["method"] == "GET"

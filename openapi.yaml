@@ -802,7 +802,8 @@ paths:
         Create, or replace by `id`. Does not start the mission — see `/missions/{id}/start`.
 
         Step types: `navigate` (`target` or `x`/`y`), `wait` (`duration`), `dock`, `undock`,
-        `call_service` (`service`, `service_type`), `call_action` (`action`, `action_type`).
+        `call_service` (`service`, `service_type`), `call_action` (`action`, `action_type`),
+        `call_api` (`url`, `method`, `headers`, `payload`, `timeout`, `ignore_error`).
         `service_type`/`action_type` are resolved to a real ROS message class at save time,
         so an unknown type fails the save rather than the run.
       requestBody:
@@ -828,6 +829,7 @@ paths:
               steps:
                 - { type: navigate, target: kitchen }
                 - { type: wait, duration: 10 }
+                - { type: call_api, url: "http://192.168.0.175:8080/report", method: POST, payload: { status: inspected } }
                 - { type: navigate, x: 2.1, y: -0.4, theta: 1.57 }
                 - { type: dock }
       responses:

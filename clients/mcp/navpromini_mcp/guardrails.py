@@ -61,6 +61,8 @@ def validate_waypoints_exist(
     """
     missing = []
     for task in tasks:
+        if not task.waypoint:
+            continue
         if task.waypoint not in known_waypoints:
             missing.append(task.waypoint)
     return (len(missing) == 0, missing)
@@ -93,16 +95,17 @@ def estimate_mission_battery_consumption(
         has_pos = True
 
     for task in tasks:
-        wp_data = known_waypoints.get(task.waypoint, {})
-        tx = wp_data.get("x")
-        ty = wp_data.get("y")
+        if task.waypoint:
+            wp_data = known_waypoints.get(task.waypoint, {})
+            tx = wp_data.get("x")
+            ty = wp_data.get("y")
 
-        if tx is not None and ty is not None:
-            if has_pos:
-                dist = math.hypot(tx - last_x, ty - last_y)
-                total_dist += dist
-            last_x, last_y = tx, ty
-            has_pos = True
+            if tx is not None and ty is not None:
+                if has_pos:
+                    dist = math.hypot(tx - last_x, ty - last_y)
+                    total_dist += dist
+                last_x, last_y = tx, ty
+                has_pos = True
 
         if task.action == "wait":
             duration = task.params.get("duration_sec", 5.0)

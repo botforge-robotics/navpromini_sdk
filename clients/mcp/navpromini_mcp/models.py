@@ -11,15 +11,24 @@ class Pose2D(BaseModel):
 
 
 class MissionTask(BaseModel):
-    waypoint: str = Field(..., description="Target waypoint name defined in the active map")
-    action: Literal["wait", "dock", "undock", "inspect", "call_service", "custom"] = Field(
+    waypoint: Optional[str] = Field(
+        default=None,
+        description="Target waypoint name defined in the active map (optional for actions like dock, undock, call_api)"
+    )
+    action: Literal["wait", "dock", "undock", "inspect", "call_service", "call_action", "call_api", "custom"] = Field(
         default="wait",
         description="Action to execute upon arrival at the waypoint"
     )
     params: Dict[str, Any] = Field(
         default_factory=dict,
-        description="Optional action parameters, e.g. {'duration_sec': 10}"
+        description="Optional action parameters, e.g. {'duration_sec': 10} or for call_api: {'url': '...', 'method': 'POST', 'payload': {...}, 'headers': {...}, 'timeout_sec': 10}"
     )
+    url: Optional[str] = Field(default=None, description="Target HTTP/HTTPS URL when action is 'call_api'")
+    method: Optional[str] = Field(default=None, description="HTTP method for 'call_api' (e.g. GET, POST, PUT, DELETE, PATCH)")
+    headers: Optional[Dict[str, str]] = Field(default=None, description="Optional HTTP request headers for 'call_api'")
+    payload: Optional[Any] = Field(default=None, description="Optional request payload/body for 'call_api'")
+    timeout_sec: Optional[float] = Field(default=None, description="HTTP request timeout in seconds for 'call_api'")
+    ignore_error: Optional[bool] = Field(default=None, description="If true, HTTP errors will not fail the mission")
 
 
 class MissionSpec(BaseModel):

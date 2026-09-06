@@ -169,7 +169,7 @@ AI agents can synthesize complex multi-stop missions from natural language instr
   "loop": false,
   "tasks": [
     {"waypoint": "aisle_1", "action": "wait", "params": {"duration_sec": 10}},
-    {"waypoint": "aisle_2", "action": "wait", "params": {"duration_sec": 15}},
+    {"waypoint": "aisle_2", "action": "call_api", "params": {"url": "http://192.168.0.175:8080/capture-and-report", "method": "POST"}},
     {"waypoint": "charging_dock", "action": "dock"}
   ]
 }

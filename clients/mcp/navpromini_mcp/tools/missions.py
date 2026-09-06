@@ -26,8 +26,9 @@ def register_mission_tools(mcp, robot: NavProMini):
         Args:
             name: Unique identifier for the mission (alphanumeric and underscores, e.g. 'patrol_warehouse_a').
             tasks: Ordered list of mission tasks. Each task is an object:
-                   {"waypoint": "station_1", "action": "wait", "params": {"duration_sec": 10}}.
-                   Supported actions: 'wait', 'dock', 'undock', 'inspect', 'call_service'.
+                   {"waypoint": "station_1", "action": "wait", "params": {"duration_sec": 10}}
+                   or {"waypoint": "station_1", "action": "call_api", "params": {"url": "http://...", "method": "POST", "payload": {...}}}.
+                   Supported actions: 'wait', 'dock', 'undock', 'inspect', 'call_service', 'call_action', 'call_api'.
             description: Human-readable note detailing the mission objective.
             loop: Set to True if the mission should continuously cycle through tasks indefinitely.
         
@@ -37,18 +38,47 @@ def register_mission_tools(mcp, robot: NavProMini):
         # Parse into typed tasks
         parsed_tasks: List[MissionTask] = []
         for i, t in enumerate(tasks):
-            if "waypoint" not in t:
+            if isinstance(t, MissionTask):
+                parsed_tasks.append(t)
+                continue
+            if not isinstance(t, dict):
                 return {
                     "success": False,
-                    "error": f"Task #{i} is missing required 'waypoint' field."
+                    "error": f"Task #{i} must be a dictionary or MissionTask object."
                 }
-            parsed_tasks.append(
-                MissionTask(
-                    waypoint=t["waypoint"],
-                    action=t.get("action", "wait"),
-                    params=t.get("params", {}),
+            action = t.get("action", "wait")
+            waypoint = t.get("waypoint")
+            # waypoint is required for navigate / inspect / wait if no other action
+            if not waypoint and action not in ("dock", "undock", "call_api", "call_service", "call_action"):
+                return {
+                    "success": False,
+                    "error": f"Task #{i} (action '{action}') is missing required 'waypoint' field."
+                }
+
+            params = dict(t.get("params", {}))
+            # Merge any top-level HTTP or service/action keys into params
+            for key in ("url", "method", "headers", "payload", "body", "json", "timeout", "timeout_sec", "ignore_error", "service", "service_type", "action_name", "action_type", "request", "goal"):
+                if key in t and key not in params:
+                    params[key] = t[key]
+
+            try:
+                task_obj = MissionTask(
+                    waypoint=waypoint,
+                    action=action,
+                    params=params,
+                    url=params.get("url"),
+                    method=params.get("method", "POST"),
+                    headers=params.get("headers"),
+                    payload=params.get("payload") if "payload" in params else (params.get("body") if "body" in params else params.get("json")),
+                    timeout_sec=float(params["timeout_sec"]) if "timeout_sec" in params else (float(params["timeout"]) if "timeout" in params else 15.0),
+                    ignore_error=bool(params.get("ignore_error", False)) if "ignore_error" in params else False,
                 )
-            )
+            except Exception as e:
+                return {
+                    "success": False,
+                    "error": f"Task #{i} validation error: {str(e)}"
+                }
+            parsed_tasks.append(task_obj)
 
         # 1. Fetch map waypoints to validate existence
         try:
@@ -86,20 +116,92 @@ def register_mission_tools(mcp, robot: NavProMini):
         else:
             warning = None
 
-        # 3. Save mission definition to robot
-        mission_payload = {
-            "name": name,
-            "description": description,
-            "loop": loop,
-            "tasks": [t.model_dump() for t in parsed_tasks],
-        }
+        # 3. Compile tasks to robot steps
+        compiled_steps: List[Dict[str, Any]] = []
+        for i, t in enumerate(parsed_tasks):
+            if t.action == "dock":
+                compiled_steps.append({
+                    "type": "dock",
+                    "navigate_to_staging": t.params.get("navigate_to_staging", True)
+                })
+            else:
+                if t.waypoint:
+                    compiled_steps.append({
+                        "type": "navigate",
+                        "target": t.waypoint
+                    })
+                if t.action == "wait":
+                    compiled_steps.append({
+                        "type": "wait",
+                        "duration": float(t.params.get("duration_sec", t.params.get("duration", 5.0)))
+                    })
+                elif t.action == "undock":
+                    compiled_steps.append({"type": "undock"})
+                elif t.action == "call_service":
+                    srv = {
+                        "type": "call_service",
+                        "service": t.params.get("service"),
+                        "service_type": t.params.get("service_type")
+                    }
+                    if "request" in t.params:
+                        srv["request"] = t.params["request"]
+                    if "timeout" in t.params:
+                        srv["timeout"] = t.params["timeout"]
+                    compiled_steps.append(srv)
+                elif t.action == "call_action":
+                    act = {
+                        "type": "call_action",
+                        "action": t.params.get("action") or t.params.get("action_name"),
+                        "action_type": t.params.get("action_type")
+                    }
+                    if "goal" in t.params:
+                        act["goal"] = t.params["goal"]
+                    if "timeout" in t.params:
+                        act["timeout"] = t.params["timeout"]
+                    compiled_steps.append(act)
+                elif t.action == "call_api":
+                    url = t.url or t.params.get("url")
+                    if not url:
+                        return {
+                            "success": False,
+                            "error": f"Task #{i} (action 'call_api') is missing required 'url'."
+                        }
+                    method = (t.method or t.params.get("method") or "POST").upper()
+                    step_api: Dict[str, Any] = {
+                        "type": "call_api",
+                        "url": url,
+                        "method": method,
+                    }
+                    headers = t.headers or t.params.get("headers")
+                    if headers:
+                        step_api["headers"] = headers
+                    payload = t.payload if t.payload is not None else (t.params.get("payload") if "payload" in t.params else (t.params.get("body") if "body" in t.params else t.params.get("json")))
+                    if payload is not None:
+                        step_api["payload"] = payload
+                    timeout = t.timeout_sec or t.params.get("timeout_sec") or t.params.get("timeout")
+                    if timeout is not None:
+                        step_api["timeout"] = float(timeout)
+                    if t.ignore_error or t.params.get("ignore_error"):
+                        step_api["ignore_error"] = True
+                    compiled_steps.append(step_api)
+                elif t.action == "inspect":
+                    compiled_steps.append({
+                        "type": "wait",
+                        "duration": float(t.params.get("duration_sec", 5.0))
+                    })
 
         try:
-            save_result = robot.save_mission(mission_payload)
+            save_result = robot.save_mission(
+                id=name,
+                steps=compiled_steps,
+                name=name,
+                loop_forever=loop
+            )
             return {
                 "success": True,
                 "mission_name": name,
                 "task_count": len(parsed_tasks),
+                "steps": compiled_steps,
                 "feasibility": feasibility,
                 "warning": warning,
                 "details": save_result,
@@ -143,7 +245,7 @@ def register_mission_tools(mcp, robot: NavProMini):
             }
 
         try:
-            final_status = robot.wait_for_mission(timeout_s=timeout_sec)
+            final_status = robot.wait_for_mission(id=mission_name, timeout=timeout_sec)
             return {
                 "success": True,
                 "state": final_status.get("state", "completed"),
