@@ -1,4 +1,22 @@
 # API overview
+{: #api-overview }
+
+!!! info "API &amp; SDK Version: v1.0.0 (REST API v1)"
+    This API documentation reflects **NavPro Mini SDK v1.0.0** and **REST API v1**.
+    
+    To check the version active on your robot, make a quick GET request:
+    ```bash
+    curl $ROBOT/system/info
+    ```
+    Expected output:
+    ```json
+    {
+      "robot": {"hostname": "navpromini", "model": "NavProMini"},
+      "sdk_version": "1.0.0",
+      "api_version": "v1",
+      "capabilities": {...}
+    }
+    ```
 
 Base URL:
 

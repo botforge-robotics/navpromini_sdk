@@ -10,7 +10,21 @@ hide:
 Drive, map, navigate and dock a NavProMini robot over plain HTTP.
 No ROS installation, no message definitions, no client library required.
 
+<div style="display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap;">
+  <span style="background: #1565c0; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">SDK v1.0.0</span>
+  <span style="background: #2e7d32; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">REST API v1</span>
+  <span style="background: #6a1b9a; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">WebSocket v1</span>
+  <span style="background: #37474f; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Companion v1.0.0</span>
+  <span style="background: #00838f; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">GUI App v1.0.0</span>
 </div>
+
+</div>
+
+!!! tip "Verify Your Robot &amp; SDK Version"
+    You can check the version running on your robot at any time:
+    - **In the GUI App**: Open **Settings &rarr; Help &amp; About** or **Settings &rarr; Software Updates**.
+    - **Via Terminal / API**: Run `curl http://<robot-ip>:8090/api/v1/system/info` to view `sdk_version` and `api_version`.
+    This documentation portal documents **Release v1.0.0 (API v1)**.
 
 ```bash
 curl http://192.168.1.50:8090/api/v1/state/battery
