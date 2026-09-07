@@ -1,7 +1,7 @@
 # Getting started
 
-!!! info "Prerequisite: Robot on Wi-Fi"
-    This guide assumes your robot is powered on and connected to your local network. If you have not configured Wi-Fi yet, see [Robot setup & lifecycle](robot-setup.md).
+!!! info "Prerequisite: Robot Setup & Commissioning"
+    This guide assumes your robot has been unboxed, connected to your Wi-Fi, and commissioned. If you are setting up a new robot, configuring Wi-Fi, or creating your first map using the desktop app, follow the complete guide in [Robot setup & lifecycle](robot-setup.md).
 
 ## 1. Find the robot
 
