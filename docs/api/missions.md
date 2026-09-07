@@ -9,6 +9,12 @@ prepared ahead of time or fired later by a [schedule](schedules.md).
 
 ### <span class="verb get">GET</span> `/missions`
 
+List all saved missions.
+
+```bash
+curl -s $ROBOT/missions
+```
+
 ```json
 { "missions": [
   { "id": "morning-patrol", "name": "Morning patrol", "steps": ["…"],
@@ -257,6 +263,12 @@ print("Mission complete!")
 
 ### <span class="verb get">GET</span> `/missions/{id}`
 
+Retrieve a single saved mission by id.
+
+```bash
+curl -s $ROBOT/missions/morning-patrol
+```
+
 ```json
 { "mission": { "id": "morning-patrol", "name": "Morning patrol", "steps": ["…"] } }
 ```
@@ -266,6 +278,12 @@ print("Mission complete!")
 ---
 
 ### <span class="verb delete">DELETE</span> `/missions/{id}`
+
+Delete a saved mission by id.
+
+```bash
+curl -s -X DELETE $ROBOT/missions/morning-patrol
+```
 
 ```json
 { "deleted": true, "id": "morning-patrol" }
@@ -308,6 +326,14 @@ Pauses after the **current step** finishes — not mid-step. A `navigate` step a
 underway completes or fails on its own terms; the mission simply does not advance to the
 next step until resumed.
 
+```bash
+curl -s -X POST $ROBOT/missions/morning-patrol/pause
+```
+
+```json
+{ "mission_id": "morning-patrol", "state": "paused", "step_index": 2, "message": "" }
+```
+
 <span class="status err">409 `mission_not_active`</span> if this mission is not the one
 currently running.
 
@@ -315,7 +341,17 @@ currently running.
 
 ### <span class="verb post">POST</span> `/missions/{id}/resume`
 
-Clears the pause. Same `mission_not_active` error if this mission is not current.
+Clears the pause and resumes execution.
+
+```bash
+curl -s -X POST $ROBOT/missions/morning-patrol/resume
+```
+
+```json
+{ "mission_id": "morning-patrol", "state": "running", "step_index": 2, "message": "" }
+```
+
+Same `mission_not_active` error if this mission is not current.
 
 ---
 
@@ -324,12 +360,24 @@ Clears the pause. Same `mission_not_active` error if this mission is not current
 Stops the mission for good — unlike pause, there is no resuming a cancelled mission. Ends
 the whole run, including every remaining loop lap, not just the current one.
 
+```bash
+curl -s -X POST $ROBOT/missions/morning-patrol/cancel
+```
+
+```json
+{ "mission_id": "morning-patrol", "state": "canceled", "step_index": 2, "message": "" }
+```
+
 ---
 
 ### <span class="verb get">GET</span> `/missions/status`
 
 The one mission that may be running right now, robot-wide — not scoped to a particular
 `{id}`, because only one can ever be active.
+
+```bash
+curl -s $ROBOT/missions/status
+```
 
 ```json
 { "mission_id": "morning-patrol", "state": "running",

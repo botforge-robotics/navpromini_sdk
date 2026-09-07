@@ -24,8 +24,18 @@ router's client list, or on the robot itself with `hostname -I`.
 
     If the IP moves between reboots, give the robot a DHCP reservation on your router.
 
+Set the base URL environment variable once in your terminal so all commands across the documentation are directly copy-pasteable:
+
 ```bash
-curl http://192.168.1.50:8090/api/v1/system/info
+export ROBOT="http://<robot-ip>:8090/api/v1"
+# Example for a robot on your Wi-Fi:
+# export ROBOT="http://192.168.1.50:8090/api/v1"
+```
+
+Verify reachability and read device metadata:
+
+```bash
+curl -s $ROBOT/system/info
 ```
 
 ```json
@@ -48,12 +58,6 @@ curl http://192.168.1.50:8090/api/v1/system/info
     It states what this particular unit can do. Adapt to it rather than probing endpoints
     and inferring capability from failures — a `501` and a temporarily broken subsystem
     look very similar from the outside, and only one of them is worth retrying.
-
-Set a base URL once so the rest of this page is copy-pasteable:
-
-```bash
-export ROBOT=http://192.168.1.50:8090/api/v1
-```
 
 ## 2. Check it is well
 

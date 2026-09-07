@@ -2,6 +2,13 @@
 
 One WebSocket, push updates, no polling interval to tune.
 
+```bash
+# Connect via wscat or websocat using your $ROBOT environment variable:
+wscat -c "ws://${ROBOT#http://}/events"
+```
+
+Address directly:
+
 ```
 ws://<robot-ip>:8090/api/v1/events
 ```
@@ -9,8 +16,8 @@ ws://<robot-ip>:8090/api/v1/events
 With authentication enabled, pass the token as a query parameter — browsers cannot set
 headers on a WebSocket handshake:
 
-```
-ws://<robot-ip>:8090/api/v1/events?token=s3cret
+```bash
+wscat -c "ws://${ROBOT#http://}/events?token=s3cret"
 ```
 
 ## Protocol

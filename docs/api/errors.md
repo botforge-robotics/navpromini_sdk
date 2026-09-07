@@ -92,7 +92,7 @@ handling deliberately.
 
 ### 501 — `not_implemented`
 
-A reserved namespace: `/zones`, `/routes`, `/missions`. Planned, not built.
+A reserved namespace: `/zones`, `/routes`. Planned, not built.
 
 ```json
 { "error": { "code": "not_implemented",

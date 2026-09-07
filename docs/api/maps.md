@@ -74,6 +74,10 @@ Saving takes a few seconds on a large map.
 
 ### <span class="verb get">GET</span> `/maps/current`
 
+```bash
+curl -s $ROBOT/maps/current
+```
+
 ```json
 { "current": "workRoom", "mode": "navigation" }
 ```
@@ -176,6 +180,10 @@ Returns the raw RGB565 binary pixel buffer of the active occupancy grid. Include
 - `X-Map-Resolution`
 - `X-Map-Origin-X`, `X-Map-Origin-Y`
 - `X-Map-Rotated`
+
+```bash
+curl -s $ROBOT/maps/current/raw -o map.rgb565
+```
 
 ---
 

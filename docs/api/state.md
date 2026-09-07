@@ -30,6 +30,10 @@ instead of inventing zeros:
 
 Where the robot is.
 
+```bash
+curl -s $ROBOT/state/pose
+```
+
 ```json
 { "data": { "x": 0.99, "y": -0.364, "theta": 2.553, "frame": "odom" },
   "age_sec": 0.09,
@@ -58,6 +62,10 @@ The endpoint prefers the `map` frame and falls back to `odom` when AMCL is not r
 
 Measured — not commanded — motion, from wheel odometry.
 
+```bash
+curl -s $ROBOT/state/velocity
+```
+
 ```json
 { "data": { "linear": 0.0, "angular": 0.0 }, "age_sec": 0.07 }
 ```
@@ -67,6 +75,10 @@ Measured — not commanded — motion, from wheel odometry.
 ---
 
 ### <span class="verb get">GET</span> `/state/battery`
+
+```bash
+curl -s $ROBOT/state/battery
+```
 
 ```json
 { "data": { "percentage": 100.0, "voltage": 14.0, "current": 0.1,
@@ -97,6 +109,10 @@ A `detail` object appears when the battery controller publishes extended diagnos
 
 ### <span class="verb get">GET</span> `/state/imu`
 
+```bash
+curl -s $ROBOT/state/imu
+```
+
 ```json
 { "data": {
     "orientation":         { "x": 0.0, "y": 0.0, "z": 0.958, "w": 0.287 },
@@ -116,6 +132,10 @@ Angular velocity is rad/s; linear acceleration is m/s² and **includes gravity**
 ### <span class="verb get">GET</span> `/state/scan`
 
 The latest 360° laser scan.
+
+```bash
+curl -s $ROBOT/state/scan
+```
 
 ```json
 { "data": {
@@ -141,6 +161,10 @@ The payload is around 720 numbers. For anything continuous, use the `scan` strea
 ### <span class="verb get">GET</span> `/state/temperature`
 
 Both temperatures a thermal check needs, in one call.
+
+```bash
+curl -s $ROBOT/state/temperature
+```
 
 ```json
 { "cpu_c": 55.1, "battery_c": 35.0 }

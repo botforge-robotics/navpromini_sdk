@@ -8,7 +8,7 @@ the first two questions any integration needs settled.
 Identity, versions, and capabilities.
 
 ```bash
-curl -s http://192.168.1.50:8090/api/v1/system/info
+curl -s $ROBOT/system/info
 ```
 
 ```json
@@ -27,7 +27,7 @@ curl -s http://192.168.1.50:8090/api/v1/system/info
     "camera": true,
     "virtual_walls": false,
     "fixed_routes": false,
-    "missions": false
+    "missions": true
   }
 }
 ```
@@ -59,7 +59,7 @@ not installed or not running.
 Per-subsystem freshness.
 
 ```bash
-curl -s http://192.168.1.50:8090/api/v1/system/health
+curl -s $ROBOT/system/health
 ```
 
 ```json

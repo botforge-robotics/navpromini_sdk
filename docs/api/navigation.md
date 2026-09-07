@@ -74,6 +74,10 @@ something may be running, cancel it".
 
 ### <span class="verb get">GET</span> `/navigation/status`
 
+```bash
+curl -s $ROBOT/navigation/status
+```
+
 ```json
 { "state": "active",
   "target": { "waypoint": "kitchen", "x": 1.5, "y": -0.4, "theta": 0.2 },
@@ -167,6 +171,10 @@ curl -s -X POST $ROBOT/navigation/relocalize/global
 ### <span class="verb get">GET</span> `/navigation/path`
 
 The planned route for the current goal.
+
+```bash
+curl -s $ROBOT/navigation/path
+```
 
 ```json
 { "data": [ { "x": 0.99, "y": -0.36 }, { "x": 1.04, "y": -0.33 }, "…" ],

@@ -90,6 +90,10 @@ destination now means exactly what it says.
 
 ### <span class="verb get">GET</span> `/dock/status`
 
+```bash
+curl -s $ROBOT/dock/status
+```
+
 ```json
 { "state": "charging",
   "operation": "docked",
@@ -126,6 +130,10 @@ cannot see its dock at all, which is the usual cause of a dock that never begins
 ### <span class="verb get">GET</span> `/dock/pose`
 
 Where the robot believes its dock is.
+
+```bash
+curl -s $ROBOT/dock/pose
+```
 
 ```json
 { "data": { "x": 0.0, "y": 0.0, "theta": 0.0, "frame": "map" }, "age_sec": 120.5 }

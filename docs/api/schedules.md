@@ -8,6 +8,12 @@ client being open or even connected at the moment it's due.
 
 ### <span class="verb get">GET</span> `/schedules`
 
+List all active and configured schedules.
+
+```bash
+curl -s $ROBOT/schedules
+```
+
 ```json
 { "schedules": [
   { "id": "morning-run", "mission_id": "morning-patrol", "name": "Morning patrol",
@@ -64,8 +70,14 @@ curl -s -X POST $ROBOT/schedules -H 'Content-Type: application/json' -d '{
 
 ### <span class="verb get">GET</span> `/schedules/{id}`
 
+Retrieve a single schedule configuration by id.
+
+```bash
+curl -s $ROBOT/schedules/morning-run
+```
+
 ```json
-{ "schedule": { "id": "morning-run", "…": "…" } }
+{ "schedule": { "id": "morning-run", "mission_id": "morning-patrol", "hour": 7, "minute": 30 } }
 ```
 
 <span class="status err">404 `schedule_not_found`</span> if no schedule has that `id`.
@@ -73,6 +85,12 @@ curl -s -X POST $ROBOT/schedules -H 'Content-Type: application/json' -d '{
 ---
 
 ### <span class="verb delete">DELETE</span> `/schedules/{id}`
+
+Delete a schedule by id.
+
+```bash
+curl -s -X DELETE $ROBOT/schedules/morning-run
+```
 
 ```json
 { "deleted": true, "id": "morning-run" }

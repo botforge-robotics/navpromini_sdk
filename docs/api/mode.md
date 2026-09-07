@@ -19,6 +19,10 @@ anything useful.
 
 ### <span class="verb get">GET</span> `/mode`
 
+```bash
+curl -s $ROBOT/mode
+```
+
 ```json
 { "mode": "navigation",
   "map": "workRoom",

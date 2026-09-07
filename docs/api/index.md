@@ -2,11 +2,12 @@
 
 Base URL:
 
-```
-http://<robot-ip>:8090/api/v1
+```bash
+# Set your robot address once to run any copyable curl command directly:
+export ROBOT="http://<robot-ip>:8090/api/v1"
 ```
 
-Examples on these pages use `192.168.1.50` as the robot's address — substitute your own.
+All curl commands across the API reference use the `$ROBOT` environment variable. Substitute your robot's IP address (e.g. `export ROBOT="http://192.168.0.129:8090/api/v1"`).
 
 JSON in, JSON out. `Content-Type: application/json` on any request with a body.
 

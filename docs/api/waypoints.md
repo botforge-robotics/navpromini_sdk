@@ -105,6 +105,10 @@ of what each name means.
 
 ### <span class="verb get">GET</span> `/waypoints/{name}`
 
+```bash
+curl -s $ROBOT/waypoints/kitchen
+```
+
 ```json
 { "waypoint": { "name": "kitchen", "type": "waypoint",
                 "x": 1.5, "y": -0.4, "theta": 0.2 } }
@@ -117,6 +121,10 @@ map** — worth remembering when a waypoint you are sure exists comes back missi
 ---
 
 ### <span class="verb delete">DELETE</span> `/waypoints/{name}`
+
+```bash
+curl -s -X DELETE $ROBOT/waypoints/kitchen
+```
 
 ```json
 { "deleted": true, "name": "kitchen" }
