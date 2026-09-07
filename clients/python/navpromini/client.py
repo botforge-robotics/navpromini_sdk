@@ -441,9 +441,9 @@ class NavProMini:
 
     # -- missions ----------------------------------------------------------
 
-    def missions(self) -> list:
-        """List all saved missions."""
-        return self._get('/missions')['missions']
+    def missions(self, map: Optional[str] = None) -> list:
+        """List all saved missions, optionally filtered by map."""
+        return self._get('/missions', map=map)['missions']
 
     def mission(self, id: str) -> dict:
         """Fetch a single mission by id."""
@@ -451,7 +451,7 @@ class NavProMini:
 
     def save_mission(self, id: Union[str, dict], steps: Optional[list[dict]] = None,
                      name: Optional[str] = None, loop_count: int = 1,
-                     loop_forever: bool = False) -> dict:
+                     loop_forever: bool = False, map: Optional[str] = None) -> dict:
         """Create or replace a mission by id or config dict.
 
         Args:
@@ -467,6 +467,7 @@ class NavProMini:
             name: Optional human-readable name (defaults to id).
             loop_count: Repeat count for the entire sequence (default 1).
             loop_forever: Repeat indefinitely until canceled (default False).
+            map: Optional map name to bind the mission to (defaults to active map on robot).
         """
         if isinstance(id, dict):
             data = id
@@ -494,6 +495,7 @@ class NavProMini:
             m_name = data.get('name', mission_id)
             l_count = data.get('loop_count', loop_count)
             l_forever = data.get('loop_forever', data.get('loop', loop_forever))
+            map_val = data.get('map', map)
             body: dict[str, Any] = {
                 'id': mission_id,
                 'steps': mission_steps,
@@ -502,6 +504,8 @@ class NavProMini:
             }
             if m_name:
                 body['name'] = m_name
+            if map_val:
+                body['map'] = map_val
             return self._post('/missions', body)['mission']
 
         if steps is None:
@@ -515,6 +519,8 @@ class NavProMini:
         }
         if name:
             body['name'] = name
+        if map:
+            body['map'] = map
         return self._post('/missions', body)['mission']
 
     def delete_mission(self, id: str) -> dict:
