@@ -962,6 +962,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#in-depth-step-type-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-Depth Step Type Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="In-Depth Step Type Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-call_service-ros-2-service-invocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. call_service — ROS 2 Service Invocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-call_action-ros-2-action-invocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. call_action — ROS 2 Action Invocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-call_api-outbound-webhooks-cloud-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. call_api — Outbound Webhooks &amp; Cloud Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-multi-step-mission-example-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Multi-Step Mission Example (JSON)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-sdk-usage-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python SDK Usage Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#get-missionsid" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1431,6 +1503,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#in-depth-step-type-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-Depth Step Type Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="In-Depth Step Type Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-call_service-ros-2-service-invocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. call_service — ROS 2 Service Invocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-call_action-ros-2-action-invocations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. call_action — ROS 2 Action Invocations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-call_api-outbound-webhooks-cloud-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. call_api — Outbound Webhooks &amp; Cloud Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-multi-step-mission-example-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Multi-Step Mission Example (JSON)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-sdk-usage-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python SDK Usage Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#get-missionsid" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1651,12 +1795,12 @@ caller-supplied <code>id</code> instead of a server-generated one.</p>
 <tbody>
 <tr>
 <td><code>navigate</code></td>
-<td><code>target</code> (a waypoint name) <strong>or</strong> <code>x</code>/<code>y</code> (+ optional <code>theta</code>)</td>
+<td><code>waypoint</code> or <code>target</code> (a waypoint name) <strong>or</strong> <code>x</code>/<code>y</code> (+ optional <code>theta</code>)</td>
 <td>Same goal as <a href="../navigation/"><code>POST /navigation/goto</code></a></td>
 </tr>
 <tr>
 <td><code>wait</code></td>
-<td><code>duration</code> (seconds)</td>
+<td><code>duration</code> or <code>duration_sec</code> (seconds)</td>
 <td>Pauses the mission, nothing else</td>
 </tr>
 <tr>
@@ -1672,12 +1816,12 @@ caller-supplied <code>id</code> instead of a server-generated one.</p>
 <tr>
 <td><code>call_service</code></td>
 <td><code>service</code>, <code>service_type</code></td>
-<td>Calls any ROS service by name + type (e.g. <code>std_srvs/srv/Trigger</code>). Optional <code>request</code> (object), <code>timeout</code> (seconds, default 15)</td>
+<td>Calls any ROS service by name + type (e.g. <code>std_srvs/srv/Trigger</code>). Optional <code>request</code> (object), <code>timeout</code> (seconds, default 15), <code>ignore_error</code> (boolean, default <code>false</code>)</td>
 </tr>
 <tr>
 <td><code>call_action</code></td>
-<td><code>action</code>, <code>action_type</code></td>
-<td>Sends any ROS action goal by name + type (e.g. <code>nav2_msgs/action/Spin</code>). Optional <code>goal</code> (object), <code>timeout</code> (seconds, default 300)</td>
+<td><code>action</code> (or <code>action_name</code>), <code>action_type</code></td>
+<td>Sends any ROS action goal by name + type (e.g. <code>nav2_msgs/action/Spin</code>). Optional <code>goal</code> (object), <code>timeout</code> (seconds, default 300), <code>ignore_error</code> (boolean, default <code>false</code>)</td>
 </tr>
 <tr>
 <td><code>call_api</code></td>
@@ -1694,6 +1838,162 @@ resolved to a real message class <strong>at save time</strong>, so a typo'd type
 immediately with <span class="status err">400 <code>invalid_step</code></span> instead of days
 later when the mission actually runs unattended.</p>
 </div>
+<hr />
+<h3 id="in-depth-step-type-reference">In-Depth Step Type Reference<a class="headerlink" href="#in-depth-step-type-reference" title="Link to this section">&para;</a></h3>
+<h4 id="1-call_service-ros-2-service-invocations">1. <code>call_service</code> — ROS 2 Service Invocations<a class="headerlink" href="#1-call_service-ros-2-service-invocations" title="Link to this section">&para;</a></h4>
+<p>Executes a synchronous request/response call to any ROS 2 service advertised in the robot's local graph.
+Useful for triggering sensors, cameras, clearing costmaps, or resetting microcontroller state.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"call_service"</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/camera/capture_snapshot"</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"service_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"std_srvs/srv/Trigger"</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><strong><code>service</code></strong> <em>(string, required)</em>: The fully qualified ROS 2 service topic name.</li>
+<li><strong><code>service_type</code></strong> <em>(string, required)</em>: Package and interface name (e.g., <code>std_srvs/srv/Trigger</code>, <code>std_srvs/srv/SetBool</code>, <code>sensor_msgs/srv/SetCameraInfo</code>).</li>
+<li><strong><code>request</code></strong> <em>(object, optional)</em>: Key-value dictionary matching the fields of the service's Request message. For parameterless services like <code>Trigger</code> or <code>Empty</code>, pass <code>{}</code> or omit.</li>
+<li><strong><code>timeout</code></strong> <em>(number, optional)</em>: Seconds to wait for service availability and response. Defaults to <code>15.0</code>.</li>
+<li><strong><code>ignore_error</code></strong> <em>(boolean, optional)</em>: If <code>true</code>, a failure or timeout when calling this service logs a warning but does not fail the mission. Defaults to <code>false</code>.</li>
+<li><strong>Failure behavior</strong>: If the service is not advertised, returns an error response, or exceeds <code>timeout</code>, the step fails, aborting the mission immediately (unless <code>ignore_error: true</code>).</li>
+</ul>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// Example: Enable conveyor bridge via SetBool service</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"call_service"</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/conveyor_bridge/enable"</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">"service_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"std_srvs/srv/SetBool"</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nt">"ignore_error"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h4 id="2-call_action-ros-2-action-invocations">2. <code>call_action</code> — ROS 2 Action Invocations<a class="headerlink" href="#2-call_action-ros-2-action-invocations" title="Link to this section">&para;</a></h4>
+<p>Dispatches a long-running goal to any ROS 2 Action Server in the robot's graph.
+Useful for triggering Nav2 recovery behaviors (e.g., spinning 360°, backing up) or third-party actuators (e.g. robotic arms, lift mechanisms).</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"call_action"</span><span class="p">,</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/spin"</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"action_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nav2_msgs/action/Spin"</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">"goal"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">"target_yaw"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.14159</span><span class="p">,</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">"time_allowance"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"sec"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="nt">"nanosec"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span><span class="nt">"ignore_error"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><strong><code>action</code></strong> <em>(string, required)</em>: Action server topic name (or alias <code>action_name</code>).</li>
+<li><strong><code>action_type</code></strong> <em>(string, required)</em>: Package and action interface name (e.g. <code>nav2_msgs/action/Spin</code>, <code>nav2_msgs/action/BackUp</code>).</li>
+<li><strong><code>goal</code></strong> <em>(object, optional)</em>: Goal fields passed to the Action Server.</li>
+<li><strong><code>timeout</code></strong> <em>(number, optional)</em>: Maximum duration in seconds to allow for goal execution. Defaults to <code>300.0</code>.</li>
+<li><strong><code>ignore_error</code></strong> <em>(boolean, optional)</em>: If <code>true</code>, an action goal rejection or abort logs a warning but does not fail the mission. Defaults to <code>false</code>.</li>
+<li><strong>Failure behavior</strong>: If the action server rejects the goal, aborts mid-execution, or times out, the mission halts with state <code>failed</code> (unless <code>ignore_error: true</code>).</li>
+</ul>
+<hr />
+<h4 id="3-call_api-outbound-webhooks-cloud-integration">3. <code>call_api</code> — Outbound Webhooks &amp; Cloud Integration<a class="headerlink" href="#3-call_api-outbound-webhooks-cloud-integration" title="Link to this section">&para;</a></h4>
+<p>Performs an outbound HTTP or HTTPS request from the robot to external systems (Manufacturing Execution Systems [MES], Warehouse Management Systems [WMS], ERPs, Slack/Discord webhooks, or cloud REST APIs).</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"call_api"</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://mes.factory.local/api/v1/workstation/arrival"</span><span class="p">,</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer f4c8e791b..."</span><span class="p">,</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">"Content-Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/json"</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="nt">"robot_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini-01"</span><span class="p">,</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="nt">"station"</span><span class="p">:</span><span class="w"> </span><span class="s2">"assembly_bay_4"</span><span class="p">,</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arrived_for_pickup"</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">  </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">  </span><span class="nt">"ignore_error"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><strong><code>url</code></strong> <em>(string, required)</em>: Destination HTTP/HTTPS URL reachable from the robot's network.</li>
+<li><strong><code>method</code></strong> <em>(string, optional)</em>: HTTP verb (<code>POST</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>). Defaults to <code>POST</code>.</li>
+<li><strong><code>headers</code></strong> <em>(object, optional)</em>: Custom headers dictionary (e.g. auth tokens, API keys).</li>
+<li><strong><code>payload</code></strong> <em>(any, optional)</em>: Request body. Can be a JSON object, list, or string. Automatically serialized.</li>
+<li><strong><code>timeout</code></strong> <em>(number, optional)</em>: Request timeout in seconds. Defaults to <code>15.0</code>.</li>
+<li><strong><code>ignore_error</code></strong> <em>(boolean, optional)</em>:</li>
+<li>If <code>false</code> (default): A response HTTP status $\ge 400$ or a network timeout terminates the mission with state <code>failed</code>.</li>
+<li>If <code>true</code>: The HTTP call is considered a non-fatal fire-and-forget or alert. The mission continues to the next step even if the endpoint is offline.</li>
+</ul>
+<hr />
+<h3 id="complete-multi-step-mission-example-json">Complete Multi-Step Mission Example (JSON)<a class="headerlink" href="#complete-multi-step-mission-example-json" title="Link to this section">&para;</a></h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full-cycle-inspection"</span><span class="p">,</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Warehouse Inspection with MES Webhook and Arm Trigger"</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">"loop_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigate"</span><span class="p">,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">      </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inspection_bay"</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"call_service"</span><span class="p">,</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">      </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/camera/capture_highres"</span><span class="p">,</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">      </span><span class="nt">"service_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"std_srvs/srv/Trigger"</span><span class="p">,</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">      </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"call_api"</span><span class="p">,</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://mes.internal/inspections"</span><span class="p">,</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">      </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">      </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"X-API-Key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret-mes-key"</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">      </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"station"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inspection_bay"</span><span class="p">,</span><span class="w"> </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ready"</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">      </span><span class="nt">"ignore_error"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wait"</span><span class="p">,</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"call_action"</span><span class="p">,</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">      </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/spin"</span><span class="p">,</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">      </span><span class="nt">"action_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nav2_msgs/action/Spin"</span><span class="p">,</span>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">      </span><span class="nt">"goal"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"target_yaw"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.14159</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">      </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dock"</span><span class="p">,</span>
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="w">      </span><span class="nt">"navigate_to_staging"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="python-sdk-usage-example">Python SDK Usage Example<a class="headerlink" href="#python-sdk-usage-example" title="Link to this section">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">navpromini</span><span class="w"> </span><span class="kn">import</span> <span class="n">NavProMini</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">robot</span> <span class="o">=</span> <span class="n">NavProMini</span><span class="p">(</span><span class="s2">"192.168.1.50"</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Define mission with navigate, call_service, call_api, and dock</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">steps</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"navigate"</span><span class="p">,</span> <span class="s2">"target"</span><span class="p">:</span> <span class="s2">"station_a"</span><span class="p">},</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="p">{</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"call_service"</span><span class="p">,</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="s2">"service"</span><span class="p">:</span> <span class="s2">"/sensor_relay/trigger"</span><span class="p">,</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="s2">"service_type"</span><span class="p">:</span> <span class="s2">"std_srvs/srv/Trigger"</span><span class="p">,</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>        <span class="s2">"timeout"</span><span class="p">:</span> <span class="mf">5.0</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="p">},</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="p">{</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"call_api"</span><span class="p">,</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>        <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"http://192.168.1.100:8080/events/arrival"</span><span class="p">,</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"POST"</span><span class="p">,</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>        <span class="s2">"payload"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"arrived"</span><span class="p">},</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>        <span class="s2">"ignore_error"</span><span class="p">:</span> <span class="kc">False</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>    <span class="p">},</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>    <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"dock"</span><span class="p">}</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="p">]</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="n">robot</span><span class="o">.</span><span class="n">save_mission</span><span class="p">(</span><span class="s2">"station_a_patrol"</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span> <span class="n">loop_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="n">robot</span><span class="o">.</span><span class="n">start_mission</span><span class="p">(</span><span class="s2">"station_a_patrol"</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Mission complete!"</span><span class="p">)</span>
+</span></code></pre></div>
 <p><strong>Responses</strong></p>
 <table>
 <thead>
@@ -1719,12 +2019,12 @@ later when the mission actually runs unattended.</p>
 </table>
 <hr />
 <h3 id="get-missionsid"><span class="verb get">GET</span> <code>/missions/{id}</code><a class="headerlink" href="#get-missionsid" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morning patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"…"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morning patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"…"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 <p><span class="status err">404 <code>mission_not_found</code></span> if no mission has that <code>id</code>.</p>
 <hr />
 <h3 id="delete-missionsid"><span class="verb delete">DELETE</span> <code>/missions/{id}</code><a class="headerlink" href="#delete-missionsid" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -1750,9 +2050,9 @@ later when the mission actually runs unattended.</p>
 </table>
 <hr />
 <h3 id="post-missionsidstart"><span class="verb post">POST</span> <code>/missions/{id}/start</code><a class="headerlink" href="#post-missionsidstart" title="Link to this section">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/missions/morning-patrol/start
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/missions/morning-patrol/start
 </span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"accepted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"accepted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 <p>Returns <span class="status warn">202</span> immediately, the same "accepted, not finished"
 shape as <a href="../navigation/"><code>POST /navigation/goto</code></a> — a mission can run for minutes. Watch
@@ -1794,9 +2094,9 @@ the whole run, including every remaining loop lap, not just the current one.</p>
 <h3 id="get-missionsstatus"><span class="verb get">GET</span> <code>/missions/status</code><a class="headerlink" href="#get-missionsstatus" title="Link to this section">&para;</a></h3>
 <p>The one mission that may be running right now, robot-wide — not scoped to a particular
 <code>{id}</code>, because only one can ever be active.</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"running"</span><span class="p">,</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"step_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nt">"pause_reason"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">"elapsed_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">47.3</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mission_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"morning-patrol"</span><span class="p">,</span><span class="w"> </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"running"</span><span class="p">,</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">"step_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">"loop_total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nt">"pause_reason"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">"elapsed_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">47.3</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 <table>
 <thead>
