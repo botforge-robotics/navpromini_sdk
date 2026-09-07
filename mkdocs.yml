@@ -108,8 +108,8 @@ hooks:
 nav:
   - Home: index.md
   - Getting Started:
-      - getting-started.md
       - robot-setup.md
+      - getting-started.md
       - concepts.md
   - API:
       - api/index.md

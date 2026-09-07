@@ -71,3 +71,8 @@ all.
 charging robot can still be told to undock and switch modes; the diagram above shows that
 as a single conceptual step, but they are two separate calls
 ([`POST /undock`](api/docking.md), then [`POST /mode`](api/mode.md)).
+
+---
+
+**Next step**: Once your robot is connected to your Wi-Fi, proceed to [Getting started](getting-started.md) to discover its IP address, set up your `$ROBOT` environment variable, and send your first API calls.
+

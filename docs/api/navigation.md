@@ -7,178 +7,290 @@ Send the robot somewhere and follow what happens. Requires
 
 ### <span class="verb post">POST</span> `/navigation/goto`
 
+Command the AMR to drive autonomously to a named waypoint or map coordinates.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/navigation/goto`
+- **Headers**: `Content-Type: application/json`
+
+**Payload:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `waypoint` | `string` | Either this... | Saved waypoint name from [`/waypoints`](waypoints.md) |
+| `x`, `y` | `number` | ...or these | Target position in metres (map frame) |
+| `theta` | `number` | Optional | Target heading on arrival in radians (default: `0.0`) |
+| `replace` | `boolean` | Optional | If `true`, cancels any in-flight navigation goal and takes over (default: `false`) |
+
+```json
+{
+  "waypoint": "kitchen",
+  "replace": true
+}
+```
+
+#### Response
+- **Status**: <span class="status warn">202 Accepted</span>
+
+```json
+{
+  "accepted": true,
+  "target": { "waypoint": "kitchen", "x": 1.5, "y": -0.4, "theta": 0.2 }
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `accepted` | `boolean` | `true` when the navigation goal has been accepted by Nav2 |
+| `target` | `object` | Resolved destination coordinates and optional waypoint name |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">400</span> | `missing_field` | Neither a `waypoint` nor both `x` and `y` were provided |
+| <span class="status err">404</span> | `waypoint_not_found` | No such waypoint exists in the active map |
+| <span class="status err">409</span> | `goal_active` | A navigation goal is already running; cancel it first or pass `"replace": true` |
+| <span class="status err">503</span> | `action_unavailable` | Navigation stack is not running |
+
+#### Example (cURL)
+
 === "By waypoint name"
 
     ```bash
-    curl -s -X POST $ROBOT/navigation/goto -H 'Content-Type: application/json' \
+    curl -s -X POST $ROBOT/navigation/goto \
+         -H 'Content-Type: application/json' \
          -d '{"waypoint": "kitchen"}'
     ```
 
 === "By coordinates"
 
     ```bash
-    curl -s -X POST $ROBOT/navigation/goto -H 'Content-Type: application/json' \
+    curl -s -X POST $ROBOT/navigation/goto \
+         -H 'Content-Type: application/json' \
          -d '{"x": 2.4, "y": 1.1, "theta": 1.57}'
     ```
-
-```json
-{ "accepted": true,
-  "target": { "waypoint": "kitchen", "x": 1.5, "y": -0.4, "theta": 0.2 } }
-```
-
-| Field | Required | Notes |
-|---|---|---|
-| `waypoint` | either this… | Name from [`/waypoints`](waypoints.md) |
-| `x`, `y` | …or these | Map-frame metres |
-| `theta` | no | Heading on arrival, radians. Default `0` |
-| `replace` | no | Cancel any running goal and take over |
-
-**Responses**
-
-| | When |
-|---|---|
-| <span class="status warn">202</span> | Goal accepted — the robot is moving |
-| <span class="status err">400 `missing_field`</span> | Neither a `waypoint` nor both `x` and `y` |
-| <span class="status err">404 `waypoint_not_found`</span> | No such waypoint in the current map |
-| <span class="status err">409 `goal_active`</span> | A goal is already running |
-| <span class="status err">503 `action_unavailable`</span> | Navigation is not running |
-
-!!! info "202 means accepted, not arrived"
-    Crossing a room takes minutes — longer than any sane HTTP timeout and longer than most
-    proxies allow. The call returns the moment the robot *accepts* the goal. A goal can be
-    accepted and then fail because the path is blocked; only `/navigation/status` or the
-    [event stream](events.md) tells you which happened.
-
-!!! tip "A docked robot undocks itself first"
-    Goals are routed through the robot's dock-aware entry point, so sending a goal to a
-    docked robot makes it leave the charger cleanly and then drive. You never need to
-    undock manually before navigating — and a docked robot can never be told to drive off
-    while still on the contacts.
-
-**One goal at a time.** A second goal returns <span class="status err">409</span> carrying
-the running one in `detail.current`, so you can decide what to do:
-
-```json
-{ "error": { "code": "goal_active",
-             "message": "A navigation goal is already running. Cancel it, or resend with {\"replace\": true}.",
-             "detail": { "current": { "state": "active",
-                                      "target": { "waypoint": "kitchen" },
-                                      "elapsed_sec": 12.4 } } } }
-```
-
-That friction is deliberate. Two subsystems both sending goals is a real failure mode, and
-letting the last writer win silently makes it invisible. `"replace": true` says "I know
-something may be running, cancel it".
 
 ---
 
 ### <span class="verb get">GET</span> `/navigation/status`
 
-```bash
-curl -s $ROBOT/navigation/status
-```
+Current execution state, progress, and remaining distance of the active goal.
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/navigation/status`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
 
 ```json
-{ "state": "active",
+{
+  "state": "active",
   "target": { "waypoint": "kitchen", "x": 1.5, "y": -0.4, "theta": 0.2 },
   "message": "",
   "elapsed_sec": 12.4,
-  "distance_remaining": 3.271 }
+  "distance_remaining": 3.271
+}
 ```
 
-| `state` | Meaning |
-|---|---|
-| `idle` | No goal has been sent this session |
-| `active` | Driving |
-| `succeeded` | Arrived |
-| `canceled` | Cancelled, by you or by another client |
-| `failed` | Gave up — `message` says why |
+| Field | Type | Description |
+|---|---|---|
+| `state` | `string` | Goal state: `idle`, `active`, `succeeded`, `canceled`, or `failed` |
+| `target` | `object` | Goal coordinates and waypoint name |
+| `message` | `string` | Failure cause or abort reason (empty during active driving) |
+| `elapsed_sec` | `number` | Seconds since the goal was dispatched |
+| `distance_remaining` | `number` | Straight-line Euclidean distance in metres to the target pose |
 
-`distance_remaining` is **straight-line** distance to the target, present only while the
-robot is localized. The path around furniture is longer; use it as progress, not as an ETA.
+#### Error Codes
 
-After a goal finishes the terminal state persists until the next goal, so a client that
-polls slowly still sees the outcome rather than a bare `idle`.
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled and Bearer token missing/invalid |
+
+#### Example (cURL)
+
+```bash
+curl -s $ROBOT/navigation/status
+```
 
 ---
 
 ### <span class="verb delete">DELETE</span> `/navigation/goal`
 
+Cancel the currently executing navigation goal.
+
+#### Request
+- **Method**: `DELETE`
+- **Path**: `/navigation/goal`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "canceled": true
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `canceled` | `boolean` | `true` if an active goal was aborted, `false` if the robot was already idle |
+| `reason` | `string` | Optional context if no goal was running (e.g. `"no active goal"`) |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled and Bearer token missing/invalid |
+
+#### Example (cURL)
+
 ```bash
 curl -s -X DELETE $ROBOT/navigation/goal
 ```
-
-```json
-{ "canceled": true }
-```
-
-Cancelling when nothing is running is <span class="status ok">200</span>, not an error:
-
-```json
-{ "canceled": false, "reason": "no active goal" }
-```
-
-Cancel is idempotent because it is what a client calls when it is *unsure* of the state,
-and an error there would just be noise.
-
-Cancel decelerates the robot through the navigation stack. For an immediate halt, use
-[`POST /motion/stop`](motion.md).
 
 ---
 
 ### <span class="verb post">POST</span> `/navigation/localize`
 
-Tell the robot roughly where it is — the equivalent of "2D Pose Estimate" in a robot UI.
+Seed AMCL localization with an initial approximate pose estimate.
 
-```bash
-curl -s -X POST $ROBOT/navigation/localize -H 'Content-Type: application/json' \
-     -d '{"x": 0.0, "y": 0.0, "theta": 0.0}'
-```
+#### Request
+- **Method**: `POST`
+- **Path**: `/navigation/localize`
+- **Headers**: `Content-Type: application/json`
+
+**Payload:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `x`, `y` | `number` | Yes | Map-frame coordinates in metres |
+| `theta` | `number` | Optional | Map heading in radians (default: `0.0`) |
 
 ```json
-{ "x": 0.0, "y": 0.0, "theta": 0.0 }
+{
+  "x": 0.0,
+  "y": 0.0,
+  "theta": 0.0
+}
 ```
 
-| Field | Required |
-|---|---|
-| `x`, `y` | yes |
-| `theta` | no, default `0` |
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
 
-Needed after starting navigation, after switching maps, and any time localization is lost.
+```json
+{
+  "x": 0.0,
+  "y": 0.0,
+  "theta": 0.0
+}
+```
 
-**Accuracy of a few tens of centimetres is enough** — the particle filter converges from
-there once the robot moves. Heading matters more than position: a pose 180° out will not
-converge at all, because the lidar sees a mirror image of what it expects.
+| Field | Type | Description |
+|---|---|---|
+| `x`, `y` | `number` | Seed coordinates published to `/initialpose` |
+| `theta` | `number` | Heading angle set |
 
-Verify with `GET /state/pose` until `localized` is `true` and the pose stops jumping.
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">400</span> | `missing_field` | `x` or `y` is missing |
+| <span class="status err">503</span> | `action_unavailable` | Navigation mode is not active |
+
+#### Example (cURL)
+
+```bash
+curl -s -X POST $ROBOT/navigation/localize \
+     -H 'Content-Type: application/json' \
+     -d '{"x": 0.0, "y": 0.0, "theta": 0.0}'
+```
 
 ---
 
 ### <span class="verb post">POST</span> `/navigation/relocalize/global`
 
-Triggers AMCL's global localization service (`/reinitialize_global_localization`) to disperse particles uniformly across the entire active map. Use when the robot is completely lost or kidnapped, and allow the robot to rotate or drive so particles converge on its true pose.
+Disperse AMCL particle cloud uniformly across the entire map to recover from lost/kidnapped state.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/navigation/relocalize/global`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "status": "ok",
+  "message": "AMCL particles dispersed across map"
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `status` | `string` | Execution verdict (`ok`) |
+| `message` | `string` | Service outcome summary |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">503</span> | `action_unavailable` | Navigation mode is not active |
+
+#### Example (cURL)
 
 ```bash
 curl -s -X POST $ROBOT/navigation/relocalize/global
-```
-
-```json
-{ "status": "ok", "message": "AMCL particles dispersed across map" }
 ```
 
 ---
 
 ### <span class="verb get">GET</span> `/navigation/path`
 
-The planned route for the current goal.
+Current planned global trajectory points from robot to goal.
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/navigation/path`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "data": [
+    { "x": 0.99, "y": -0.36 },
+    { "x": 1.04, "y": -0.33 }
+  ],
+  "age_sec": 0.4
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `data` | `array` | List of waypoints `{x, y}` along the planned path in map frame |
+| `age_sec` | `number` | Seconds since the planner recalculated the path |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">503</span> | `no_data` | No path planned yet or robot is not currently navigating |
+
+#### Example (cURL)
 
 ```bash
 curl -s $ROBOT/navigation/path
-```
-
-```json
-{ "data": [ { "x": 0.99, "y": -0.36 }, { "x": 1.04, "y": -0.33 }, "…" ],
-  "age_sec": 0.4 }
 ```
 
 Map-frame points from the robot to the target, for drawing on a UI. The planner

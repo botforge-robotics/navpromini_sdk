@@ -9,50 +9,130 @@ prepared ahead of time or fired later by a [schedule](schedules.md).
 
 ### <span class="verb get">GET</span> `/missions`
 
-List all saved missions.
+List all saved autonomous missions.
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/missions`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "missions": [
+    {
+      "id": "morning-patrol",
+      "name": "Morning patrol",
+      "steps": ["…"],
+      "loop_forever": false,
+      "loop_count": 1
+    }
+  ]
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `missions` | `array` | List of saved mission definitions |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled and Bearer token missing/invalid |
+
+#### Example (cURL)
 
 ```bash
 curl -s $ROBOT/missions
-```
-
-```json
-{ "missions": [
-  { "id": "morning-patrol", "name": "Morning patrol", "steps": ["…"],
-    "loop_forever": false, "loop_count": 1 }
-] }
 ```
 
 ---
 
 ### <span class="verb post">POST</span> `/missions`
 
-Create, or replace by `id` — the same create-or-replace shape as
-[`PUT /dock/pose`](docking.md) and [`POST /waypoints`](waypoints.md), just keyed by a
-caller-supplied `id` instead of a server-generated one.
+Create or replace a multi-step autonomous mission.
 
-```bash
-curl -s -X POST $ROBOT/missions -H 'Content-Type: application/json' -d '{
+#### Request
+- **Method**: `POST`
+- **Path**: `/missions`
+- **Headers**: `Content-Type: application/json`
+
+**Payload:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `id` | `string` | Yes | Unique mission identifier (slug format, e.g. `patrol-a`) |
+| `name` | `string` | Optional | Display name (defaults to `id`) |
+| `steps` | `array` | Yes | Non-empty list of mission step objects |
+| `loop_count` | `integer` | Optional | Repetition count (default: `1`) |
+| `loop_forever` | `boolean` | Optional | If `true`, repeats indefinitely until canceled (default: `false`) |
+
+```json
+{
   "id": "morning-patrol",
   "name": "Morning patrol",
   "loop_count": 2,
   "steps": [
     { "type": "navigate", "target": "kitchen" },
-    { "type": "wait", "duration": 10 },
+    { "type": "wait", "duration": 10.0 },
     { "type": "navigate", "x": 2.1, "y": -0.4, "theta": 1.57 },
     { "type": "dock" }
   ]
-}'
+}
 ```
+
+#### Response
+- **Status**: <span class="status ok">201 Created</span> (new) or <span class="status ok">200 OK</span> (overwritten)
 
 ```json
-{ "mission": { "id": "morning-patrol", "name": "Morning patrol", "steps": ["…"],
-               "loop_forever": false, "loop_count": 2 } }
+{
+  "mission": {
+    "id": "morning-patrol",
+    "name": "Morning patrol",
+    "steps": [
+      { "type": "navigate", "target": "kitchen" },
+      { "type": "wait", "duration": 10.0 },
+      { "type": "navigate", "x": 2.1, "y": -0.4, "theta": 1.57 },
+      { "type": "dock" }
+    ],
+    "loop_forever": false,
+    "loop_count": 2
+  }
+}
 ```
 
-| Field | Required | Notes |
+| Field | Type | Description |
 |---|---|---|
-| `id` | yes | Caller-chosen. Resending the same `id` replaces the mission |
-| `steps` | yes | Non-empty list — see **Step types** below |
+| `mission` | `object` | Stored mission configuration |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">400</span> | `invalid_field` | Missing `id` or `steps` |
+| <span class="status err">400</span> | `invalid_step` | A step is malformed, missing required arguments, or refers to unknown ROS service/action type |
+
+#### Example (cURL)
+
+```bash
+curl -s -X POST $ROBOT/missions \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "id": "morning-patrol",
+       "name": "Morning patrol",
+       "loop_count": 2,
+       "steps": [
+         { "type": "navigate", "target": "kitchen" },
+         { "type": "wait", "duration": 10 },
+         { "type": "navigate", "x": 2.1, "y": -0.4, "theta": 1.57 },
+         { "type": "dock" }
+       ]
+     }'
+```
 | `name` | no | Defaults to `id` |
 | `loop_count` | no | Repeat the whole step list this many times. Default `1` |
 | `loop_forever` | no | Repeat until cancelled, ignoring `loop_count`. Default `false` |
@@ -263,126 +343,310 @@ print("Mission complete!")
 
 ### <span class="verb get">GET</span> `/missions/{id}`
 
-Retrieve a single saved mission by id.
+Retrieve a single saved mission definition by its unique identifier.
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/missions/{id}`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "mission": {
+    "id": "morning-patrol",
+    "name": "Morning patrol",
+    "steps": [
+      { "type": "navigate", "target": "kitchen" },
+      { "type": "wait", "duration": 10.0 }
+    ],
+    "loop_forever": false,
+    "loop_count": 2
+  }
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `mission.id` | `string` | Unique mission identifier |
+| `mission.name` | `string` | Human-readable title |
+| `mission.steps` | `array` | List of step dicts |
+| `mission.loop_count` | `integer` | Lap repeat limit |
+| `mission.loop_forever` | `boolean` | Indefinite repeat flag |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">404</span> | `mission_not_found` | No mission exists with the specified `id` |
+
+#### Example (cURL)
 
 ```bash
 curl -s $ROBOT/missions/morning-patrol
 ```
 
-```json
-{ "mission": { "id": "morning-patrol", "name": "Morning patrol", "steps": ["…"] } }
-```
-
-<span class="status err">404 `mission_not_found`</span> if no mission has that `id`.
-
 ---
 
 ### <span class="verb delete">DELETE</span> `/missions/{id}`
 
-Delete a saved mission by id.
+Delete a saved mission configuration from the robot.
+
+#### Request
+- **Method**: `DELETE`
+- **Path**: `/missions/{id}`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "deleted": true,
+  "id": "morning-patrol"
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `deleted` | `boolean` | `true` when deleted successfully |
+| `id` | `string` | Identifier of the removed mission |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">404</span> | `mission_not_found` | Mission does not exist |
+| <span class="status err">409</span> | `mission_active` | This mission is currently running or paused; cancel it first |
+
+#### Example (cURL)
 
 ```bash
 curl -s -X DELETE $ROBOT/missions/morning-patrol
 ```
 
-```json
-{ "deleted": true, "id": "morning-patrol" }
-```
-
-| | When |
-|---|---|
-| <span class="status ok">200</span> | Deleted |
-| <span class="status err">404 `mission_not_found`</span> | No such mission |
-| <span class="status err">409 `mission_active`</span> | This mission is currently running — cancel it first |
-
 ---
 
 ### <span class="verb post">POST</span> `/missions/{id}/start`
+
+Start running a saved autonomous mission.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/missions/{id}/start`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status warn">202 Accepted</span>
+
+```json
+{
+  "accepted": true,
+  "mission_id": "morning-patrol"
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `accepted` | `boolean` | `true` when mission execution thread has spawned |
+| `mission_id` | `string` | Active mission identifier |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">404</span> | `mission_not_found` | No such mission exists |
+| <span class="status err">409</span> | `mission_active` | Another mission is already running or paused |
+
+#### Example (cURL)
 
 ```bash
 curl -s -X POST $ROBOT/missions/morning-patrol/start
 ```
 
-```json
-{ "accepted": true, "mission_id": "morning-patrol" }
-```
-
-Returns <span class="status warn">202</span> immediately, the same "accepted, not finished"
-shape as [`POST /navigation/goto`](navigation.md) — a mission can run for minutes. Watch
-[`GET /missions/status`](#get-missionsstatus) or the [event stream](events.md).
-
-Only **one** mission may run at a time, robot-wide:
-
-| | When |
-|---|---|
-| <span class="status err">409 `mission_active`</span> | Another mission is already running or paused |
-| <span class="status err">404 `mission_not_found`</span> | No such mission |
-
 ---
 
 ### <span class="verb post">POST</span> `/missions/{id}/pause`
 
-Pauses after the **current step** finishes — not mid-step. A `navigate` step already
-underway completes or fails on its own terms; the mission simply does not advance to the
-next step until resumed.
+Pause an active mission runner after the currently executing step completes.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/missions/{id}/pause`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "mission_id": "morning-patrol",
+  "state": "paused",
+  "step_index": 2,
+  "loop_index": 0,
+  "message": "",
+  "pause_reason": "user"
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `mission_id` | `string` | Target mission identifier |
+| `state` | `string` | Runner state (`paused`) |
+| `step_index` | `integer` | Index of completed step |
+| `pause_reason` | `string` | Reason set to `"user"` |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">409</span> | `mission_not_active` | This mission is not the one currently active |
+
+#### Example (cURL)
 
 ```bash
 curl -s -X POST $ROBOT/missions/morning-patrol/pause
 ```
 
-```json
-{ "mission_id": "morning-patrol", "state": "paused", "step_index": 2, "message": "" }
-```
-
-<span class="status err">409 `mission_not_active`</span> if this mission is not the one
-currently running.
-
 ---
 
 ### <span class="verb post">POST</span> `/missions/{id}/resume`
 
-Clears the pause and resumes execution.
+Resume execution of a paused mission runner.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/missions/{id}/resume`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "mission_id": "morning-patrol",
+  "state": "running",
+  "step_index": 2,
+  "loop_index": 0,
+  "message": ""
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `mission_id` | `string` | Target mission identifier |
+| `state` | `string` | Runner state resumed to `running` |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">409</span> | `mission_not_active` | This mission is not the one currently active |
+
+#### Example (cURL)
 
 ```bash
 curl -s -X POST $ROBOT/missions/morning-patrol/resume
 ```
 
-```json
-{ "mission_id": "morning-patrol", "state": "running", "step_index": 2, "message": "" }
-```
-
-Same `mission_not_active` error if this mission is not current.
-
 ---
 
 ### <span class="verb post">POST</span> `/missions/{id}/cancel`
 
-Stops the mission for good — unlike pause, there is no resuming a cancelled mission. Ends
-the whole run, including every remaining loop lap, not just the current one.
+Permanently terminate an in-flight or paused mission run.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/missions/{id}/cancel`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "mission_id": "morning-patrol",
+  "state": "canceled",
+  "step_index": 2,
+  "message": ""
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `mission_id` | `string` | Target mission identifier |
+| `state` | `string` | Final state set to `canceled` |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">409</span> | `mission_not_active` | This mission is not the one currently active |
+
+#### Example (cURL)
 
 ```bash
 curl -s -X POST $ROBOT/missions/morning-patrol/cancel
-```
-
-```json
-{ "mission_id": "morning-patrol", "state": "canceled", "step_index": 2, "message": "" }
 ```
 
 ---
 
 ### <span class="verb get">GET</span> `/missions/status`
 
-The one mission that may be running right now, robot-wide — not scoped to a particular
-`{id}`, because only one can ever be active.
+Current telemetry and step-level execution status of the robot-wide mission runner.
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/missions/status`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "mission_id": "morning-patrol",
+  "state": "running",
+  "status": "running",
+  "step_index": 2,
+  "loop_index": 0,
+  "loop_total": 2,
+  "message": "",
+  "pause_reason": null,
+  "elapsed_sec": 47.3
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `mission_id` | `string` | Active mission identifier (or `null` when idle) |
+| `state` | `string` | Runner state: `idle`, `running`, `paused`, `completed`, `failed`, or `canceled` |
+| `status` | `string` | Compatibility alias of `state` |
+| `step_index` | `integer` | 0-based index of the currently executing step |
+| `loop_index` | `integer` | 0-based lap counter |
+| `loop_total` | `integer` | Total planned laps (`null` for `loop_forever`) |
+| `pause_reason` | `string` | Reason for pause (`user`, `low_battery`, or `null`) |
+| `elapsed_sec` | `number` | Seconds since the mission started |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled and Bearer token missing/invalid |
+
+#### Example (cURL)
 
 ```bash
 curl -s $ROBOT/missions/status
-```
-
-```json
-{ "mission_id": "morning-patrol", "state": "running",
-  "step_index": 2, "loop_index": 0, "loop_total": 2,
-  "message": "", "pause_reason": null, "elapsed_sec": 47.3 }
 ```
 
 | Field | Meaning |

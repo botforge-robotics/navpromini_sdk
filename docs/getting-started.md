@@ -1,9 +1,7 @@
 # Getting started
 
-!!! tip "Robot not on your network yet?"
-    This page assumes a robot that's already powered on and joined to your Wi-Fi. If
-    you're setting one up for the first time, start at
-    [Robot setup & lifecycle](robot-setup.md) instead.
+!!! info "Prerequisite: Robot on Wi-Fi"
+    This guide assumes your robot is powered on and connected to your local network. If you have not configured Wi-Fi yet, see [Robot setup & lifecycle](robot-setup.md).
 
 ## 1. Find the robot
 
@@ -234,3 +232,8 @@ ws://192.168.1.50:8090/api/v1/events?token=s3cret
 
 The SDK is purely additive. rosbridge on `:9090` and the NavProMini app keep working
 exactly as before, and both can be used at the same time as the SDK.
+
+---
+
+**Next step**: Explore [Core concepts](concepts.md) to understand operating modes, coordinate frames, and mission execution architectures.
+

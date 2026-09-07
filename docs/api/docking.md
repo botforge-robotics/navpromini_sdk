@@ -33,131 +33,234 @@ flowchart LR
 
 ### <span class="verb post">POST</span> `/dock`
 
-```bash
-curl -s -X POST $ROBOT/dock
-```
+Initiate autonomous docking onto the charging station using AprilTag visual servoing.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/dock`
+- **Headers**: `Content-Type: application/json`
+
+**Payload:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `navigate_to_staging` | `boolean` | Optional | If `true` (default), navigates to staging pose before visual servoing. Set `false` only if already facing dock. |
 
 ```json
-{ "accepted": true, "navigate_to_staging": true }
+{
+  "navigate_to_staging": true
+}
 ```
 
-| Field | Default | Notes |
+#### Response
+- **Status**: <span class="status warn">202 Accepted</span>
+
+```json
+{
+  "accepted": true,
+  "navigate_to_staging": true
+}
+```
+
+| Field | Type | Description |
 |---|---|---|
-| `navigate_to_staging` | `true` | Set `false` only when the robot is already parked in front of the dock |
+| `accepted` | `boolean` | `true` when docking sequence has been scheduled |
+| `navigate_to_staging` | `boolean` | Echo of staging flag used |
 
-**Responses**
+#### Error Codes
 
-| | When |
-|---|---|
-| <span class="status warn">202</span> | Docking started |
-| <span class="status err">409 `dock_busy`</span> | A dock or undock is already running |
-| <span class="status err">503 `action_unavailable`</span> | The docking controller is not running |
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">409</span> | `dock_busy` | A dock or undock operation is already in progress |
+| <span class="status err">503</span> | `action_unavailable` | The docking controller node is not running |
 
-A full dock from across a room takes tens of seconds to a couple of minutes. Watch
-`GET /dock/status` — or subscribe to the `dock_status` [stream](events.md) — until
-`charging` is `true`.
+#### Example (cURL)
 
-`navigate_to_staging: false` skips straight to the visual servo. Use it only when the robot
-is genuinely in front of the dock and can see the tag; from anywhere else it will search,
-fail, and leave the robot somewhere unhelpful.
+```bash
+curl -s -X POST $ROBOT/dock \
+     -H 'Content-Type: application/json' \
+     -d '{"navigate_to_staging": true}'
+```
 
 ---
 
 ### <span class="verb post">POST</span> `/undock`
 
+Back clear off the charging contacts and stop stationary.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/undock`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status warn">202 Accepted</span>
+
+```json
+{
+  "accepted": true
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `accepted` | `boolean` | `true` when undock movement begins |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">409</span> | `dock_busy` | A dock or undock is already running |
+| <span class="status err">503</span> | `action_unavailable` | Docking controller node is not running |
+
+#### Example (cURL)
+
 ```bash
 curl -s -X POST $ROBOT/undock
 ```
-
-```json
-{ "accepted": true }
-```
-
-Drives clear of the charging contacts and **stops**. It does not navigate anywhere
-afterwards.
-
-!!! tip "You rarely need this"
-    [`POST /navigation/goto`](navigation.md) undocks first, automatically. Call `/undock`
-    only when you want the robot off the charger and stationary — before manual teleop, or
-    to stop charging.
-
-That "and stops" is deliberate. An earlier design read an empty undock request as "undock,
-then navigate to the origin". On a map built while docked, the origin *is* the dock — so
-the robot would leave the charger and immediately circle back to it. An undock with no
-destination now means exactly what it says.
 
 ---
 
 ### <span class="verb get">GET</span> `/dock/status`
 
-```bash
-curl -s $ROBOT/dock/status
-```
+Dock controller state, AprilTag visibility, and physical battery charging status.
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/dock/status`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
 
 ```json
-{ "state": "charging",
+{
+  "state": "charging",
   "operation": "docked",
   "message": "",
   "charging": true,
   "battery_status": "full",
-  "tag_visible": false }
+  "tag_visible": false
+}
 ```
 
-| Field | Meaning |
-|---|---|
-| `state` | What the docking controller reports |
-| `operation` | What the SDK last started: `idle`, `docking`, `undocking`, `docked`, `undocked`, `failed` |
-| `message` | Failure reason when `operation` is `failed` |
-| `charging` | **Battery current is flowing.** Ground truth |
-| `battery_status` | `charging`, `full`, `discharging`, `not_charging`, `unknown` |
-| `tag_visible` | The rear camera can currently see the dock's tag |
+| Field | Type | Description |
+|---|---|---|
+| `state` | `string` | State reported by docking controller |
+| `operation` | `string` | High-level status: `idle`, `docking`, `undocking`, `docked`, `undocked`, `failed` |
+| `message` | `string` | Failure cause if operation is `failed` |
+| `charging` | `boolean` | **Ground truth**: `true` when electrical charging current flows through contacts |
+| `battery_status` | `string` | BMS state (`charging`, `full`, `discharging`, `not_charging`, `unknown`) |
+| `tag_visible` | `boolean` | `true` if dock AprilTag is visible in camera frame |
 
-!!! info "The fields can disagree, legitimately"
-    A robot pushed onto its dock by hand reports `charging: true` while `operation` is
-    still `undocked` — nobody ran a docking operation, but it is charging. Conversely a
-    dock that ended in `failed` may still be `charging` if it made contact on the way to
-    giving up.
+#### Error Codes
 
-    For "is it physically on the charger?", read `charging`. For "did my dock command
-    work?", read `operation`. They answer different questions.
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled and Bearer token missing/invalid |
 
-`tag_visible: false` during the final approach is expected — the tag goes out of frame in
-the last few centimetres. `tag_visible: false` at the *start* of a dock means the robot
-cannot see its dock at all, which is the usual cause of a dock that never begins.
+#### Example (cURL)
+
+```bash
+curl -s $ROBOT/dock/status
+```
 
 ---
 
 ### <span class="verb get">GET</span> `/dock/pose`
 
-Where the robot believes its dock is.
+Get map coordinates of the dock's staging and entry point.
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/dock/pose`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "data": { "x": 0.0, "y": 0.0, "theta": 0.0, "frame": "map" },
+  "age_sec": 120.5
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `data.x`, `data.y` | `number` | Dock map coordinates in metres |
+| `data.theta` | `number` | Heading pointing outward from dock face |
+| `data.frame` | `string` | Target frame (`map`) |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">404</span> | `no_dock_pose` | No dock pose has been configured or recorded yet |
+
+#### Example (cURL)
 
 ```bash
 curl -s $ROBOT/dock/pose
 ```
 
-```json
-{ "data": { "x": 0.0, "y": 0.0, "theta": 0.0, "frame": "map" }, "age_sec": 120.5 }
-```
-
-<span class="status err">404 `no_dock_pose`</span> when no dock pose is known.
-
 ---
 
 ### <span class="verb put">PUT</span> `/dock/pose`
 
-```bash
-curl -s -X PUT $ROBOT/dock/pose -H 'Content-Type: application/json' \
-     -d '{"x": 0.0, "y": 0.0, "theta": 0.0}'
-```
+Configure or calibrate the map coordinates of the charging dock.
+
+#### Request
+- **Method**: `PUT`
+- **Path**: `/dock/pose`
+- **Headers**: `Content-Type: application/json`
+
+**Payload:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `x`, `y` | `number` | Yes | Map-frame coordinates of the dock in metres |
+| `theta` | `number` | Optional | Heading pointing **out** from dock face (default: `0.0`) |
 
 ```json
-{ "x": 0.0, "y": 0.0, "theta": 0.0 }
+{
+  "x": 0.0,
+  "y": 0.0,
+  "theta": 0.0
+}
 ```
 
-| Field | Required | Notes |
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "x": 0.0,
+  "y": 0.0,
+  "theta": 0.0
+}
+```
+
+| Field | Type | Description |
 |---|---|---|
-| `x`, `y` | yes | Map-frame position of the dock |
-| `theta` | no | Heading pointing **out** of the dock face — the direction a docked robot faces |
+| `x`, `y`, `theta` | `number` | Saved dock coordinates and approach orientation |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">400</span> | `missing_field` | `x` or `y` is missing |
+
+#### Example (cURL)
+
+```bash
+curl -s -X PUT $ROBOT/dock/pose \
+     -H 'Content-Type: application/json' \
+     -d '{"x": 0.0, "y": 0.0, "theta": 0.0}'
+```
 
 !!! tip "The easy way to set this"
     Start mapping with the robot already docked. The map origin then *is* the dock, and no

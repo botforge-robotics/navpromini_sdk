@@ -19,79 +19,121 @@ anything useful.
 
 ### <span class="verb get">GET</span> `/mode`
 
+Check the active operational state of the AMR (idle, mapping, or navigation).
+
+#### Request
+- **Method**: `GET`
+- **Path**: `/mode`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+```json
+{
+  "mode": "navigation",
+  "map": "workRoom",
+  "launch_id": "3f2a9c1e-7b40-4d2a-9c33-8a1f6b0e5d77",
+  "since_sec": 42.1
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `mode` | `string` | Currently active mode: `idle`, `mapping`, or `navigation` |
+| `map` | `string` | Active map name (or `null` when not in navigation) |
+| `launch_id` | `string` | Process session identifier for the underlying ROS 2 stack |
+| `since_sec` | `number` | Seconds elapsed since entering the current mode |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled and Bearer token missing/invalid |
+
+#### Example (cURL)
+
 ```bash
 curl -s $ROBOT/mode
 ```
-
-```json
-{ "mode": "navigation",
-  "map": "workRoom",
-  "launch_id": "3f2a9c1e-7b40-4d2a-9c33-8a1f6b0e5d77",
-  "since_sec": 42.1 }
-```
-
-| Field | Meaning |
-|---|---|
-| `mode` | `idle`, `mapping` or `navigation` |
-| `map` | Map in use — `null` outside navigation |
-| `launch_id` | Handle for the underlying process group; useful in bug reports |
-| `since_sec` | Seconds in this mode |
 
 ---
 
 ### <span class="verb post">POST</span> `/mode`
 
+Switch the robot's operational mode to `idle`, `mapping`, or `navigation`.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/mode`
+- **Headers**: `Content-Type: application/json`
+
+**Payload:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `mode` | `string` | Yes | Target mode: `idle`, `mapping`, or `navigation` |
+| `map` | `string` | For `navigation` | Map name to navigate on (omit to reuse last activated map) |
+
 ```json
-{ "mode": "navigation", "map": "workRoom" }
+{
+  "mode": "navigation",
+  "map": "workRoom"
+}
 ```
 
-| Field | Required | Notes |
+#### Response
+- **Status**: <span class="status warn">202 Accepted</span> (starting stack) or <span class="status ok">200 OK</span> (switched to `idle`)
+
+```json
+{
+  "mode": "navigation",
+  "map": "workRoom",
+  "launch_id": "3f2a9c1e-7b40-4d2a-9c33-8a1f6b0e5d77"
+}
+```
+
+| Field | Type | Description |
 |---|---|---|
-| `mode` | yes | `idle`, `mapping` or `navigation` |
-| `map` | for `navigation` | Omit to reuse the last activated map |
+| `mode` | `string` | The newly requested mode |
+| `map` | `string` | Active map name |
+| `launch_id` | `string` | Unique process group handle |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">400</span> | `invalid_mode` | Mode is not one of `idle`, `mapping`, or `navigation` |
+| <span class="status err">400</span> | `map_required` | Navigation requested with no map specified and none previously activated |
+| <span class="status err">409</span> | `mode_busy` | Another mode transition is already in progress |
+| <span class="status err">500</span> | `launch_failed` | ROS 2 launch process failed to start nodes |
+
+#### Example (cURL)
 
 === "Start navigation"
 
     ```bash
-    curl -s -X POST $ROBOT/mode -H 'Content-Type: application/json' \
+    curl -s -X POST $ROBOT/mode \
+         -H 'Content-Type: application/json' \
          -d '{"mode": "navigation", "map": "workRoom"}'
-    ```
-
-    ```json
-    { "mode": "navigation", "map": "workRoom", "launch_id": "3f2a9c1e-…" }
     ```
 
 === "Start mapping"
 
     ```bash
-    curl -s -X POST $ROBOT/mode -H 'Content-Type: application/json' \
+    curl -s -X POST $ROBOT/mode \
+         -H 'Content-Type: application/json' \
          -d '{"mode": "mapping"}'
     ```
 
-    Mapping always begins from a blank map. Save what it builds with
-    [`POST /maps`](maps.md).
-
-=== "Stop everything"
+=== "Stop all stacks (idle)"
 
     ```bash
-    curl -s -X POST $ROBOT/mode -H 'Content-Type: application/json' \
+    curl -s -X POST $ROBOT/mode \
+         -H 'Content-Type: application/json' \
          -d '{"mode": "idle"}'
     ```
-
-    ```json
-    { "mode": "idle" }
-    ```
-
-**Responses**
-
-| | When |
-|---|---|
-| <span class="status ok">200</span> | Switched to `idle` — nothing left to start |
-| <span class="status warn">202</span> | Mode is starting; poll `GET /mode` |
-| <span class="status err">400 `invalid_mode`</span> | Not one of the three |
-| <span class="status err">400 `map_required`</span> | `navigation` with no map, and none previously activated |
-| <span class="status err">409 `mode_busy`</span> | Another mode change is already in progress |
-| <span class="status err">500 `launch_failed`</span> | The underlying stack refused to start |
 
 ## Timing
 

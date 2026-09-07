@@ -5,11 +5,16 @@ the first two questions any integration needs settled.
 
 ### <span class="verb get">GET</span> `/system/info`
 
-Identity, versions, and capabilities.
+Identity, software versions, and hardware capabilities.
 
-```bash
-curl -s $ROBOT/system/info
-```
+#### Request
+- **Method**: `GET`
+- **Path**: `/system/info`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
 
 ```json
 {
@@ -32,35 +37,47 @@ curl -s $ROBOT/system/info
 }
 ```
 
-| Field | Meaning |
-|---|---|
-| `robot.name` | Configured robot name, shown on the robot's own display |
-| `robot.serial` | CPU serial — unique per unit, stable across reinstalls |
-| `robot.hostname` | Network hostname. Informational — address the robot by IP |
-| `sdk_version` | Version of the SDK server |
-| `api_version` | URL namespace in use (`v1`) |
-| `uptime_sec` | How long the SDK server has been running — **not** robot uptime |
-| `capabilities` | What this unit can do |
+| Field | Type | Description |
+|---|---|---|
+| `robot.name` | `string` | Configured robot name, shown on the robot's own display |
+| `robot.serial` | `string` | CPU serial — unique per unit, stable across reinstalls |
+| `robot.hostname` | `string` | Network hostname. Informational — address the robot by IP |
+| `sdk_version` | `string` | Version of the SDK server |
+| `api_version` | `string` | URL namespace in use (`v1`) |
+| `uptime_sec` | `number` | How long the SDK server has been running — **not** robot uptime |
+| `capabilities` | `object` | Map of enabled subsystem features and behaviors |
 
 !!! tip "Branch on `capabilities`, not on failures"
     A `501` from a reserved endpoint and a temporarily broken subsystem look similar from
     the outside, and only one is worth retrying. Reading capabilities once at startup
     settles it.
 
-`serial` is `null` when the CPU serial cannot be read; `name` falls back to the hostname.
-This endpoint is deliberately the most defensive one in the SDK — it is the first thing
-anyone calls when debugging a robot, so it answers even when parts of the robot stack are
-not installed or not running.
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled on robot and header missing or incorrect |
+
+#### Example (cURL)
+
+```bash
+curl -s $ROBOT/system/info
+```
 
 ---
 
 ### <span class="verb get">GET</span> `/system/health`
 
-Per-subsystem freshness.
+Per-subsystem freshness and hardware monitoring.
 
-```bash
-curl -s $ROBOT/system/health
-```
+#### Request
+- **Method**: `GET`
+- **Path**: `/system/health`
+- **Headers**: None required
+- **Payload**: None
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
 
 ```json
 {
@@ -77,23 +94,30 @@ curl -s $ROBOT/system/health
 }
 ```
 
-`healthy` is simply every source being `ok`. Each source reports:
+| Field | Type | Description |
+|---|---|---|
+| `healthy` | `boolean` | `true` if every critical sensor and driver source is publishing within its stale limit |
+| `sources` | `object` | Per-sensor breakdown with `ok`, `age_sec`, and maximum allowed `limit_sec` |
+| `cpu_temperature_c` | `number` | Host processor temperature in degrees Celsius |
+| `disk` | `object` | Storage breakdown with `total_gb`, `free_gb`, and `used_percent` |
 
+Each source reports:
 - `age_sec` — seconds since that source last published, or `null` if it never has
 - `limit_sec` — how stale it is allowed to get before `ok` goes false
 - `ok` — `age_sec` is present and within `limit_sec`
 
-The limits are generous multiples of each source's nominal rate, so a momentarily busy CPU
-does not read as a dead sensor.
+A source with `"age_sec": null` has **never** published in this session — usually a driver that failed to start.
 
-!!! info "Why per-source instead of one boolean"
-    "The robot is unhealthy" gives an operator nothing to do. "Lidar last published 40
-    seconds ago" points straight at the problem. The overall verdict is included for
-    dashboards; the breakdown is for whoever has to fix it.
+The endpoint always returns <span class="status ok">200</span>, including when the robot is unhealthy: the response body is the report itself.
 
-A source with `"age_sec": null` has **never** published in this session — usually a driver
-that failed to start, which is a different problem from one that stopped.
+#### Error Codes
 
-The endpoint always returns <span class="status ok">200</span>, including when the robot
-is unhealthy: the response body is the report, and a non-200 would make a monitoring system
-unable to tell "unhealthy robot" from "unreachable robot".
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">401</span> | `unauthorized` | Token authentication enabled on robot and header missing or incorrect |
+
+#### Example (cURL)
+
+```bash
+curl -s $ROBOT/system/health
+```
