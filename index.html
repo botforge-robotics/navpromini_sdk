@@ -85,19 +85,6 @@
     </div>
     <div data-md-component="announce">
       
-        <aside class="md-banner">
-          <div class="md-banner__inner md-grid md-typeset">
-            
-            
-  <div class="npm-version-announcement" style="display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.84rem; padding: 2px 0;">
-    <span style="background: rgba(255, 255, 255, 0.22); color: inherit; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-family: var(--md-code-font-family); letter-spacing: 0.05em;">v1.0.0</span>
-    <span>NavPro Mini SDK &amp; API Documentation &bull; Release v1.0.0 (API v1) &bull; Check your robot version via <code>GET /api/v1/system/info</code></span>
-  </div>
-
-          </div>
-          
-        </aside>
-      
     </div>
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
@@ -137,84 +124,6 @@
         </div>
       </div>
     </div>
-
-    <!-- NavPro Mini Version Selector Dropdown in Header -->
-    <div class="npm-version-dropdown-wrapper">
-      <button class="npm-version-btn" id="npmVersionBtn" type="button" aria-haspopup="true" aria-expanded="false" title="Switch Documentation Version">
-        <span class="npm-version-badge-dot"></span>
-        <span class="npm-version-text">v1.0.0</span>
-        <svg class="npm-version-chevron" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-          <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-        </svg>
-      </button>
-      <div class="npm-version-menu" id="npmVersionMenu" role="menu">
-        <div class="npm-version-menu-header">DOCUMENTATION VERSIONS</div>
-        <a href="https://botforge-robotics.github.io/navpromini_sdk/" class="npm-version-option active" role="menuitem">
-          <div class="npm-version-opt-title">
-            <span class="npm-version-opt-ver">v1.0.0</span>
-            <span class="npm-tag-current">current</span>
-          </div>
-          <span class="npm-version-opt-meta">REST API v1 &bull; ROS 2 Jazzy</span>
-        </a>
-        <div class="npm-version-divider"></div>
-        <a href="https://github.com/botforge-robotics/navpromini_sdk/releases" target="_blank" rel="noopener noreferrer" class="npm-version-option" role="menuitem">
-          <div class="npm-version-opt-title">
-            <span>All Releases &amp; Changelogs</span>
-            <span class="npm-tag-ext">GitHub ↗</span>
-          </div>
-          <span class="npm-version-opt-meta">Release assets, tags &amp; history</span>
-        </a>
-        <a href="https://github.com/botforge-robotics/navpromini_sdk/tree/main" target="_blank" rel="noopener noreferrer" class="npm-version-option" role="menuitem">
-          <div class="npm-version-opt-title">
-            <span>Development (main)</span>
-            <span class="npm-tag-dev">dev</span>
-          </div>
-          <span class="npm-version-opt-meta">Bleeding edge repository branch</span>
-        </a>
-      </div>
-    </div>
-    <script>
-      (function() {
-        function initVersionDropdown() {
-          var btn = document.getElementById('npmVersionBtn');
-          var menu = document.getElementById('npmVersionMenu');
-          if (!btn || !menu) return;
-          
-          btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            var isOpen = menu.classList.contains('open');
-            if (isOpen) {
-              menu.classList.remove('open');
-              btn.setAttribute('aria-expanded', 'false');
-            } else {
-              menu.classList.add('open');
-              btn.setAttribute('aria-expanded', 'true');
-            }
-          });
-
-          document.addEventListener('click', function(e) {
-            if (!menu.contains(e.target) && e.target !== btn) {
-              menu.classList.remove('open');
-              btn.setAttribute('aria-expanded', 'false');
-            }
-          });
-
-          document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && menu.classList.contains('open')) {
-              menu.classList.remove('open');
-              btn.setAttribute('aria-expanded', 'false');
-            }
-          });
-        }
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initVersionDropdown);
-        } else {
-          initVersionDropdown();
-        }
-      })();
-    </script>
-    <!-- End Version Selector Dropdown -->
-
     
       
         <form class="md-header__option" data-md-component="palette">
@@ -568,17 +477,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#version-ecosystem-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Version &amp; Ecosystem Matrix
-      
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#try-it-in-10-seconds" class="md-nav__link">
@@ -1462,17 +1360,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#version-ecosystem-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Version &amp; Ecosystem Matrix
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#try-it-in-10-seconds" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1561,127 +1448,72 @@
   }
 </style>
 
-<div class="npm-hero">
-<div class="npm-hero-pill">NAVPRO MINI &bull; ROBOTICS DEVELOPER PLATFORM</div>
+<div class="npm-header-block">
+<p><span class="npm-hero-badge">NavPro Mini AMR &bull; Developer Platform</span></p>
 <h1 id="navpro-mini-sdk-api">NavPro Mini SDK &amp; API<a class="headerlink" href="#navpro-mini-sdk-api" title="Link to this section">&para;</a></h1>
-<p>Programmatic control, SLAM mapping, autonomous navigation, visual docking, and real-time telemetry over plain HTTP &amp; WebSockets. Zero ROS installation required on client devices.</p>
-<div class="npm-hero-actions">
+<p>{: .npm-main-title }</p>
+<p class="npm-lead">
+  The HTTP REST and WebSocket developer platform for the <strong>NavPro Mini Autonomous Mobile Robot</strong>. Drive, map, navigate, dock, and stream real-time telemetry from any programming language or framework — no ROS 2 installation required.
+</p>
+<div class="npm-actions-bar">
 <p><a class="md-button md-button--primary" href="getting-started/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m13.13 22.19-1.63-3.83c1.57-.58 3.04-1.36 4.4-2.27zM5.64 12.5l-3.83-1.63 6.1-2.77C7 9.46 6.22 10.93 5.64 12.5M21.61 2.39S16.66.269 11 5.93c-2.19 2.19-3.5 4.6-4.35 6.71-.28.75-.09 1.57.46 2.13l2.13 2.12c.55.56 1.37.74 2.12.46A19.1 19.1 0 0 0 18.07 13c5.66-5.66 3.54-10.61 3.54-10.61m-7.07 7.07c-.78-.78-.78-2.05 0-2.83s2.05-.78 2.83 0c.77.78.78 2.05 0 2.83s-2.05.78-2.83 0m-5.66 7.07-1.41-1.41zM6.24 22l3.64-3.64c-.34-.09-.67-.24-.97-.45L4.83 22zM2 22h1.41l4.77-4.76-1.42-1.41L2 20.59zm0-2.83 4.09-4.08c-.21-.3-.36-.62-.45-.97L2 17.76z"/></svg></span> Quick Start Guide</a>
 <a class="md-button" href="api/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg></span> REST API Reference</a>
 <a class="md-button" href="reference.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span> Interactive OpenAPI Spec</a>
-<a class="md-button" href="clients/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg></span> Python SDK &amp; MCP</a></p>
-</div>
-</div>
-<div class="npm-compat-card">
-<h3 id="version-ecosystem-matrix"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10 17-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9m-6-8L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z"/></svg></span> Version &amp; Ecosystem Matrix<a class="headerlink" href="#version-ecosystem-matrix" title="Link to this section">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Component</th>
-<th style="text-align: left;">Active Version</th>
-<th style="text-align: left;">Protocol / Stack</th>
-<th style="text-align: left;">Verification Endpoint</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>Documentation Portal</strong></td>
-<td style="text-align: left;"><strong><code>v1.0.0</code></strong></td>
-<td style="text-align: left;">Guides &amp; OpenAPI 3.1 Spec</td>
-<td style="text-align: left;"><a href="api/">API Overview</a></td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Robot REST API</strong></td>
-<td style="text-align: left;"><strong><code>v1</code></strong> (<code>:8090/api/v1</code>)</td>
-<td style="text-align: left;">HTTP JSON REST</td>
-<td style="text-align: left;"><code>GET /api/v1/system/info</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Telemetry Event Stream</strong></td>
-<td style="text-align: left;"><strong><code>v1</code></strong> (<code>:8090/ws/telemetry</code>)</td>
-<td style="text-align: left;">WebSocket 10 Hz Streams</td>
-<td style="text-align: left;"><a href="api/events/">Events Guide</a></td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Robot Companion OS</strong></td>
-<td style="text-align: left;"><strong><code>v1.0.0</code></strong></td>
-<td style="text-align: left;">Ubuntu 24.04 &bull; ROS 2 Jazzy</td>
-<td style="text-align: left;"><code>GET /api/v1/system/updates</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Mission Planner GUI</strong></td>
-<td style="text-align: left;"><strong><code>v1.0.0</code></strong></td>
-<td style="text-align: left;">Android, Linux, Windows, Web</td>
-<td style="text-align: left;">App <strong>Settings &rarr; Help &amp; About</strong></td>
-</tr>
-</tbody>
-</table>
-<div class="admonition tip">
-<p class="admonition-title">Verifying Version on Active Hardware</p>
-<p>Check the active SDK and API version on your robot at any time:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>http://&lt;robot-ip&gt;:8090/api/v1/system/info
-</span></code></pre></div>
-Expected response:
-<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"robot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="p">,</span><span class="w"> </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NavProMini"</span><span class="p">},</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"sdk_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">"capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"mapping"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"navigation"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"docking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"missions"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">}</span>
-</span></code></pre></div></p>
+<a class="md-button" href="clients/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg></span> Python SDK &amp; MCP</a>
+<span class="npm-version-chip">Release <strong>v1.0.0</strong> &bull; API <strong>v1</strong></span></p>
 </div>
 </div>
 <h2 id="try-it-in-10-seconds">Try It in 10 Seconds<a class="headerlink" href="#try-it-in-10-seconds" title="Link to this section">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">HTTP REST (curl)</label><label for="__tabbed_1_2">Python SDK</label><label for="__tabbed_1_3">WebSocket Stream</label><label for="__tabbed_1_4">AI Agent (MCP Tools)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 1. Read battery and charging status</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>http://192.168.0.129:8090/api/v1/state/battery
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. Read battery and charging status</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>http://192.168.0.129:8090/api/v1/state/battery
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 2. Dispatch robot to a saved waypoint</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.0.129:8090/api/v1/navigation/navigate<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"waypoint": "ChargingStation"}'</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># 3. Trigger autonomous AprilTag docking</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.0.129:8090/api/v1/docking/dock
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">navpromini</span><span class="w"> </span><span class="kn">import</span> <span class="n">RobotClient</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Connect to robot companion on local network</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">RobotClient</span><span class="p">(</span><span class="s2">"http://192.168.0.129:8090"</span><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Read live battery</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">battery</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_battery</span><span class="p">()</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Battery: </span><span class="si">{</span><span class="n">battery</span><span class="o">.</span><span class="n">percentage</span><span class="si">}</span><span class="s2">% (Charging: </span><span class="si">{</span><span class="n">battery</span><span class="o">.</span><span class="n">charging</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Navigate to named waypoint</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">client</span><span class="o">.</span><span class="n">navigate_to_waypoint</span><span class="p">(</span><span class="s2">"Lab_Desk_1"</span><span class="p">)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Return to charging dock</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">client</span><span class="o">.</span><span class="n">dock</span><span class="p">()</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Stream live robot pose and battery at 10 Hz</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"ws://192.168.0.129:8090/ws/telemetry"</span><span class="p">);</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># 2. Dispatch robot to a saved waypoint</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.0.129:8090/api/v1/navigation/navigate<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"waypoint": "ChargingStation"}'</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># 3. Trigger autonomous AprilTag docking</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.0.129:8090/api/v1/docking/dock
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Pose: x=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">pose</span><span class="p">.</span><span class="nx">x</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="si">}</span><span class="sb">, y=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">pose</span><span class="p">.</span><span class="nx">y</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="si">}</span><span class="sb">, battery=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">battery</span><span class="p">.</span><span class="nx">percentage</span><span class="si">}</span><span class="sb">%`</span><span class="p">);</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">};</span>
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">navpromini</span><span class="w"> </span><span class="kn">import</span> <span class="n">RobotClient</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Connect to robot companion on local network</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">RobotClient</span><span class="p">(</span><span class="s2">"http://192.168.0.129:8090"</span><span class="p">)</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Read live battery</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">battery</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_battery</span><span class="p">()</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Battery: </span><span class="si">{</span><span class="n">battery</span><span class="o">.</span><span class="n">percentage</span><span class="si">}</span><span class="s2">% (Charging: </span><span class="si">{</span><span class="n">battery</span><span class="o">.</span><span class="n">charging</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Navigate to named waypoint</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">client</span><span class="o">.</span><span class="n">navigate_to_waypoint</span><span class="p">(</span><span class="s2">"Lab_Desk_1"</span><span class="p">)</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Return to charging dock</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">client</span><span class="o">.</span><span class="n">dock</span><span class="p">()</span>
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-javascript highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// Stream live robot pose and battery at 10 Hz</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"ws://192.168.0.129:8090/ws/telemetry"</span><span class="p">);</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Pose: x=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">pose</span><span class="p">.</span><span class="nx">x</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="si">}</span><span class="sb">, y=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">pose</span><span class="p">.</span><span class="nx">y</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="si">}</span><span class="sb">, battery=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">battery</span><span class="p">.</span><span class="nx">percentage</span><span class="si">}</span><span class="sb">%`</span><span class="p">);</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">};</span>
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Model Context Protocol (MCP) tool invocation from Claude / Cursor / Antigravity</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"tool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigate_to_waypoint"</span><span class="p">,</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">"waypoint_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Assembly_Line_B"</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Model Context Protocol (MCP) tool invocation from Claude / Cursor / Antigravity</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"tool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigate_to_waypoint"</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">"waypoint_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Assembly_Line_B"</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
 </div>
