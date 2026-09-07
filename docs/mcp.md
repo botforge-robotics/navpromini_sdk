@@ -161,16 +161,17 @@ AI agents can synthesize complex multi-stop missions from natural language instr
 - Computes transit distances and estimated duration.
 - Evaluates **battery consumption feasibility** to ensure the AMR will not run out of power mid-patrol.
 
-```python
+```json
 # Example MCP Tool Invocation: synthesize_and_save_mission
 {
-  "name": "warehouse_inspection",
-  "description": "Inspect aisles 1 and 2, then return to dock",
+  "mission_id": "warehouse_inspection",
+  "name": "Warehouse Inspection",
   "loop": false,
   "tasks": [
-    {"waypoint": "aisle_1", "action": "wait", "params": {"duration_sec": 10}},
-    {"waypoint": "aisle_2", "action": "call_api", "params": {"url": "http://192.168.0.175:8080/capture-and-report", "method": "POST"}},
-    {"waypoint": "charging_dock", "action": "dock"}
+    {"waypoint": "aisle_1", "action": "call_service", "service": "/camera/capture", "service_type": "std_srvs/srv/Trigger"},
+    {"waypoint": "aisle_2", "action": "call_api", "url": "http://mes.internal/capture-and-report", "method": "POST", "payload": {"station": "aisle_2"}},
+    {"action": "call_action", "action_name": "/spin", "action_type": "nav2_msgs/action/Spin", "goal": {"target_yaw": 3.14}},
+    {"action": "dock"}
   ]
 }
 ```

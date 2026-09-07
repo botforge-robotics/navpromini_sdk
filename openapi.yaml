@@ -137,6 +137,219 @@ components:
             truth for "is the robot on the dock" — it is true whether the robot
             docked itself or was pushed on by hand.
 
+    NavigateStep:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [navigate]
+        target:
+          type: string
+          description: Saved waypoint name defined in the active map (alias of waypoint).
+        waypoint:
+          type: string
+          description: Saved waypoint name defined in the active map (alias of target).
+        x:
+          type: number
+          description: Metric X coordinate in map frame.
+        y:
+          type: number
+          description: Metric Y coordinate in map frame.
+        theta:
+          type: number
+          default: 0
+          description: Target heading in radians.
+
+    WaitStep:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [wait]
+        duration:
+          type: number
+          description: Wait or pause duration in seconds.
+        duration_sec:
+          type: number
+          description: Wait or pause duration in seconds (alias of duration).
+
+    DockStep:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [dock]
+        navigate_to_staging:
+          type: boolean
+          default: true
+          description: Drive to dock staging pose before optical alignment.
+
+    UndockStep:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [undock]
+
+    CallServiceStep:
+      type: object
+      required: [type, service, service_type]
+      properties:
+        type:
+          type: string
+          enum: [call_service]
+        service:
+          type: string
+          description: ROS 2 service name (e.g. '/camera/capture_snapshot', '/clear_costmaps').
+        service_type:
+          type: string
+          description: Resolved ROS 2 service interface type (e.g. 'std_srvs/srv/Trigger', 'std_srvs/srv/Empty').
+        request:
+          type: object
+          description: Optional service request payload matching the ROS service request structure.
+          additionalProperties: true
+        timeout:
+          type: number
+          default: 15
+          description: Maximum duration in seconds to wait for service execution before failing.
+        timeout_sec:
+          type: number
+          description: Timeout in seconds (alias of timeout).
+        ignore_error:
+          type: boolean
+          default: false
+          description: If true, failure to invoke the service does not abort the mission.
+
+    CallActionStep:
+      type: object
+      required: [type, action, action_type]
+      properties:
+        type:
+          type: string
+          enum: [call_action]
+        action:
+          type: string
+          description: ROS 2 action server name (e.g. '/spin', '/backup', '/dock_robot').
+        action_name:
+          type: string
+          description: ROS 2 action server name (alias of action).
+        action_type:
+          type: string
+          description: Resolved ROS 2 action interface type (e.g. 'nav2_msgs/action/Spin', 'nav2_msgs/action/BackUp').
+        goal:
+          type: object
+          description: Action goal fields matching the ROS action definition.
+          additionalProperties: true
+        timeout:
+          type: number
+          default: 300
+          description: Maximum duration in seconds to allow for action completion.
+        timeout_sec:
+          type: number
+          description: Timeout in seconds (alias of timeout).
+        ignore_error:
+          type: boolean
+          default: false
+          description: If true, action failure or abort does not fail the mission.
+
+    CallApiStep:
+      type: object
+      required: [type, url]
+      properties:
+        type:
+          type: string
+          enum: [call_api]
+        url:
+          type: string
+          description: Target HTTP or HTTPS webhook URL (e.g. factory MES, ERP, cloud notification).
+        method:
+          type: string
+          enum: [GET, POST, PUT, DELETE, PATCH]
+          default: POST
+          description: HTTP verb used for the outbound request.
+        headers:
+          type: object
+          description: Optional HTTP request headers (e.g. Authorization, Content-Type).
+          additionalProperties:
+            type: string
+        payload:
+          description: Request body payload (JSON object, array, or string).
+        timeout:
+          type: number
+          default: 15
+          description: Maximum seconds to wait for the HTTP response.
+        ignore_error:
+          type: boolean
+          default: false
+          description: If true, HTTP 4xx/5xx status or network errors will not abort the overall mission.
+
+    MissionStep:
+      oneOf:
+        - $ref: '#/components/schemas/NavigateStep'
+        - $ref: '#/components/schemas/WaitStep'
+        - $ref: '#/components/schemas/DockStep'
+        - $ref: '#/components/schemas/UndockStep'
+        - $ref: '#/components/schemas/CallServiceStep'
+        - $ref: '#/components/schemas/CallActionStep'
+        - $ref: '#/components/schemas/CallApiStep'
+      discriminator:
+        propertyName: type
+
+    Mission:
+      type: object
+      required: [id, steps]
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the mission.
+        name:
+          type: string
+          description: Human-readable display title. Defaults to id.
+        steps:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/MissionStep'
+        loop_count:
+          type: integer
+          default: 1
+          minimum: 1
+        loop_forever:
+          type: boolean
+          default: false
+
+    MissionStatus:
+      type: object
+      properties:
+        mission_id:
+          type: string
+          nullable: true
+        state:
+          type: string
+          enum: [idle, running, paused, completed, failed, canceled]
+        step_index:
+          type: integer
+          description: Index into steps of active lap.
+        loop_index:
+          type: integer
+          description: Current lap count (0-based).
+        loop_total:
+          type: integer
+          nullable: true
+          description: Total laps, or null for loop_forever.
+        message:
+          type: string
+        pause_reason:
+          type: string
+          nullable: true
+          enum: [user, low_battery]
+        elapsed_sec:
+          type: number
+
   responses:
     NotFound:
       description: No such resource.
@@ -811,29 +1024,48 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required: [id, steps]
-              properties:
-                id: { type: string }
-                name: { type: string, description: Defaults to `id`. }
-                steps:
-                  type: array
-                  minItems: 1
-                  items: { type: object }
-                loop_count: { type: integer, default: 1, minimum: 1 }
-                loop_forever: { type: boolean, default: false }
+              $ref: '#/components/schemas/Mission'
             example:
-              id: morning-patrol
-              name: Morning patrol
-              loop_count: 2
+              id: multi-facility-workflow
+              name: Multi-Facility Workflow with Services and Webhooks
+              loop_count: 1
               steps:
-                - { type: navigate, target: kitchen }
-                - { type: wait, duration: 10 }
-                - { type: call_api, url: "http://192.168.0.175:8080/report", method: POST, payload: { status: inspected } }
-                - { type: navigate, x: 2.1, y: -0.4, theta: 1.57 }
-                - { type: dock }
+                - type: navigate
+                  target: intake_bay
+                - type: wait
+                  duration: 5.0
+                - type: call_service
+                  service: /camera/capture_snapshot
+                  service_type: std_srvs/srv/Trigger
+                  timeout: 10
+                - type: call_api
+                  url: http://mes.factory.local/api/v1/inspected
+                  method: POST
+                  headers:
+                    Authorization: Bearer token123
+                  payload:
+                    station: intake_bay
+                    status: passed
+                  timeout: 15
+                  ignore_error: false
+                - type: call_action
+                  action: /spin
+                  action_type: nav2_msgs/action/Spin
+                  goal:
+                    target_yaw: 3.14
+                  timeout: 30
+                - type: dock
+                  navigate_to_staging: true
       responses:
-        "201": { description: Saved. }
+        "201":
+          description: Saved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mission:
+                    $ref: '#/components/schemas/Mission'
         "400": { $ref: '#/components/responses/BadRequest' }
 
   /missions/{id}:
@@ -911,6 +1143,8 @@ paths:
           description: Runner status.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/MissionStatus'
               example:
                 mission_id: morning-patrol
                 state: running

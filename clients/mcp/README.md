@@ -78,13 +78,20 @@ In `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or 
 ### Mission Orchestration
 | Tool | Description |
 |---|---|
-| `synthesize_and_save_mission` | Validates waypoint existence, checks battery budget, and saves a multi-task mission. |
+| `synthesize_and_save_mission` | Validates waypoints, verifies battery budget, and compiles multi-stop missions. Supports actions: `wait`, `dock`, `undock`, `call_api` (outbound HTTP webhooks), `call_service` (ROS 2 service triggers), and `call_action` (ROS 2 action servers). |
 | `execute_mission` | Starts a saved mission with optional synchronous completion waiting. |
 | `control_active_mission` | Runtime intervention: `pause`, `resume`, `cancel`. |
 | `get_mission_status` | Returns active mission task index, progress, and state. |
 | `list_missions` | Lists all saved missions stored on the robot. |
 | `schedule_recurring_mission` | Attaches a standard cron schedule to a mission (e.g. `0 8 * * *`). |
 | `list_schedules` | Lists all active recurring cron schedules. |
+
+#### Supported Mission Task Actions in MCP:
+- **`wait`**: `{"waypoint": "station_a", "action": "wait", "params": {"duration_sec": 5.0}}`
+- **`call_api`**: `{"action": "call_api", "url": "http://mes.factory.local/api/notify", "method": "POST", "payload": {"station": "station_a"}, "ignore_error": true}`
+- **`call_service`**: `{"action": "call_service", "service": "/camera/capture", "service_type": "std_srvs/srv/Trigger", "request": {}}`
+- **`call_action`**: `{"action": "call_action", "action_name": "/spin", "action_type": "nav2_msgs/action/Spin", "goal": {"target_yaw": 3.14}}`
+- **`dock` / `undock`**: `{"action": "dock"}` or `{"action": "undock"}`
 
 ### Navigation & Spatial
 | Tool | Description |

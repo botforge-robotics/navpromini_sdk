@@ -238,8 +238,9 @@ class NavProMini {
   dock()           { return this.call("POST", "/dock"); }
   cancelDock()     { return this.call("DELETE", "/dock"); }
   startMission(id) { return this.call("POST", `/missions/${id}/start`); }
-  pauseMission()   { return this.call("POST", "/missions/pause"); }
-  resumeMission()  { return this.call("POST", "/missions/resume"); }
+  pauseMission(id) { return this.call("POST", `/missions/${id}/pause`); }
+  resumeMission(id){ return this.call("POST", `/missions/${id}/resume`); }
+  cancelMission(id){ return this.call("POST", `/missions/${id}/cancel`); }
   stop()           { return this.call("POST", "/motion/stop"); }
 }
 ```
@@ -536,7 +537,7 @@ curl -s -X POST $ROBOT/navigation/goto \
      -d '{"waypoint": "kitchen"}'
 
 # Pause active mission
-curl -s -X POST $ROBOT/missions/pause
+curl -s -X POST $ROBOT/missions/morning_inspection/pause
 
 # Download map image
 curl -s $ROBOT/maps/current/image -o current_map.png

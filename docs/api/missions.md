@@ -55,12 +55,12 @@ curl -s -X POST $ROBOT/missions -H 'Content-Type: application/json' -d '{
 
 | `type` | Required fields | What it does |
 |---|---|---|
-| `navigate` | `target` (a waypoint name) **or** `x`/`y` (+ optional `theta`) | Same goal as [`POST /navigation/goto`](navigation.md) |
-| `wait` | `duration` (seconds) | Pauses the mission, nothing else |
+| `navigate` | `waypoint` or `target` (a waypoint name) **or** `x`/`y` (+ optional `theta`) | Same goal as [`POST /navigation/goto`](navigation.md) |
+| `wait` | `duration` or `duration_sec` (seconds) | Pauses the mission, nothing else |
 | `dock` | — | Same as [`POST /dock`](docking.md). Optional `navigate_to_staging` (default `true`) |
 | `undock` | — | Same as [`POST /undock`](docking.md) |
-| `call_service` | `service`, `service_type` | Calls any ROS service by name + type (e.g. `std_srvs/srv/Trigger`). Optional `request` (object), `timeout` (seconds, default 15) |
-| `call_action` | `action`, `action_type` | Sends any ROS action goal by name + type (e.g. `nav2_msgs/action/Spin`). Optional `goal` (object), `timeout` (seconds, default 300) |
+| `call_service` | `service`, `service_type` | Calls any ROS service by name + type (e.g. `std_srvs/srv/Trigger`). Optional `request` (object), `timeout` (seconds, default 15), `ignore_error` (boolean, default `false`) |
+| `call_action` | `action` (or `action_name`), `action_type` | Sends any ROS action goal by name + type (e.g. `nav2_msgs/action/Spin`). Optional `goal` (object), `timeout` (seconds, default 300), `ignore_error` (boolean, default `false`) |
 | `call_api` | `url` | Performs an HTTP/HTTPS request. Optional `method` (default `POST`), `headers` (dict), `payload` (JSON or string), `timeout` (seconds, default 15), `ignore_error` (boolean, default `false`) |
 
 !!! warning "`call_service`/`call_action` are as powerful as the robot's own ROS graph"
@@ -69,6 +69,181 @@ curl -s -X POST $ROBOT/missions -H 'Content-Type: application/json' -d '{
     resolved to a real message class **at save time**, so a typo'd type string fails
     immediately with <span class="status err">400 `invalid_step`</span> instead of days
     later when the mission actually runs unattended.
+
+---
+
+### In-Depth Step Type Reference
+
+#### 1. `call_service` — ROS 2 Service Invocations
+Executes a synchronous request/response call to any ROS 2 service advertised in the robot's local graph.
+Useful for triggering sensors, cameras, clearing costmaps, or resetting microcontroller state.
+
+```json
+{
+  "type": "call_service",
+  "service": "/camera/capture_snapshot",
+  "service_type": "std_srvs/srv/Trigger",
+  "request": {},
+  "timeout": 10.0
+}
+```
+
+- **`service`** *(string, required)*: The fully qualified ROS 2 service topic name.
+- **`service_type`** *(string, required)*: Package and interface name (e.g., `std_srvs/srv/Trigger`, `std_srvs/srv/SetBool`, `sensor_msgs/srv/SetCameraInfo`).
+- **`request`** *(object, optional)*: Key-value dictionary matching the fields of the service's Request message. For parameterless services like `Trigger` or `Empty`, pass `{}` or omit.
+- **`timeout`** *(number, optional)*: Seconds to wait for service availability and response. Defaults to `15.0`.
+- **`ignore_error`** *(boolean, optional)*: If `true`, a failure or timeout when calling this service logs a warning but does not fail the mission. Defaults to `false`.
+- **Failure behavior**: If the service is not advertised, returns an error response, or exceeds `timeout`, the step fails, aborting the mission immediately (unless `ignore_error: true`).
+
+```json
+// Example: Enable conveyor bridge via SetBool service
+{
+  "type": "call_service",
+  "service": "/conveyor_bridge/enable",
+  "service_type": "std_srvs/srv/SetBool",
+  "request": { "data": true },
+  "timeout": 5.0,
+  "ignore_error": false
+}
+```
+
+---
+
+#### 2. `call_action` — ROS 2 Action Invocations
+Dispatches a long-running goal to any ROS 2 Action Server in the robot's graph.
+Useful for triggering Nav2 recovery behaviors (e.g., spinning 360°, backing up) or third-party actuators (e.g. robotic arms, lift mechanisms).
+
+```json
+{
+  "type": "call_action",
+  "action": "/spin",
+  "action_type": "nav2_msgs/action/Spin",
+  "goal": {
+    "target_yaw": 3.14159,
+    "time_allowance": { "sec": 15, "nanosec": 0 }
+  },
+  "timeout": 20.0,
+  "ignore_error": false
+}
+```
+
+- **`action`** *(string, required)*: Action server topic name (or alias `action_name`).
+- **`action_type`** *(string, required)*: Package and action interface name (e.g. `nav2_msgs/action/Spin`, `nav2_msgs/action/BackUp`).
+- **`goal`** *(object, optional)*: Goal fields passed to the Action Server.
+- **`timeout`** *(number, optional)*: Maximum duration in seconds to allow for goal execution. Defaults to `300.0`.
+- **`ignore_error`** *(boolean, optional)*: If `true`, an action goal rejection or abort logs a warning but does not fail the mission. Defaults to `false`.
+- **Failure behavior**: If the action server rejects the goal, aborts mid-execution, or times out, the mission halts with state `failed` (unless `ignore_error: true`).
+
+---
+
+#### 3. `call_api` — Outbound Webhooks & Cloud Integration
+Performs an outbound HTTP or HTTPS request from the robot to external systems (Manufacturing Execution Systems [MES], Warehouse Management Systems [WMS], ERPs, Slack/Discord webhooks, or cloud REST APIs).
+
+```json
+{
+  "type": "call_api",
+  "url": "http://mes.factory.local/api/v1/workstation/arrival",
+  "method": "POST",
+  "headers": {
+    "Authorization": "Bearer f4c8e791b...",
+    "Content-Type": "application/json"
+  },
+  "payload": {
+    "robot_id": "navpromini-01",
+    "station": "assembly_bay_4",
+    "status": "arrived_for_pickup"
+  },
+  "timeout": 10.0,
+  "ignore_error": false
+}
+```
+
+- **`url`** *(string, required)*: Destination HTTP/HTTPS URL reachable from the robot's network.
+- **`method`** *(string, optional)*: HTTP verb (`POST`, `GET`, `PUT`, `DELETE`, `PATCH`). Defaults to `POST`.
+- **`headers`** *(object, optional)*: Custom headers dictionary (e.g. auth tokens, API keys).
+- **`payload`** *(any, optional)*: Request body. Can be a JSON object, list, or string. Automatically serialized.
+- **`timeout`** *(number, optional)*: Request timeout in seconds. Defaults to `15.0`.
+- **`ignore_error`** *(boolean, optional)*:
+  - If `false` (default): A response HTTP status $\ge 400$ or a network timeout terminates the mission with state `failed`.
+  - If `true`: The HTTP call is considered a non-fatal fire-and-forget or alert. The mission continues to the next step even if the endpoint is offline.
+
+---
+
+### Complete Multi-Step Mission Example (JSON)
+
+```json
+{
+  "id": "full-cycle-inspection",
+  "name": "Warehouse Inspection with MES Webhook and Arm Trigger",
+  "loop_count": 1,
+  "steps": [
+    {
+      "type": "navigate",
+      "target": "inspection_bay"
+    },
+    {
+      "type": "call_service",
+      "service": "/camera/capture_highres",
+      "service_type": "std_srvs/srv/Trigger",
+      "timeout": 10.0
+    },
+    {
+      "type": "call_api",
+      "url": "https://mes.internal/inspections",
+      "method": "POST",
+      "headers": { "X-API-Key": "secret-mes-key" },
+      "payload": { "station": "inspection_bay", "result": "ready" },
+      "ignore_error": true
+    },
+    {
+      "type": "wait",
+      "duration": 5.0
+    },
+    {
+      "type": "call_action",
+      "action": "/spin",
+      "action_type": "nav2_msgs/action/Spin",
+      "goal": { "target_yaw": 3.14159 },
+      "timeout": 20.0
+    },
+    {
+      "type": "dock",
+      "navigate_to_staging": true
+    }
+  ]
+}
+```
+
+### Python SDK Usage Example
+
+```python
+from navpromini import NavProMini
+
+robot = NavProMini("192.168.1.50")
+
+# Define mission with navigate, call_service, call_api, and dock
+steps = [
+    {"type": "navigate", "target": "station_a"},
+    {
+        "type": "call_service",
+        "service": "/sensor_relay/trigger",
+        "service_type": "std_srvs/srv/Trigger",
+        "timeout": 5.0
+    },
+    {
+        "type": "call_api",
+        "url": "http://192.168.1.100:8080/events/arrival",
+        "method": "POST",
+        "payload": {"status": "arrived"},
+        "ignore_error": False
+    },
+    {"type": "dock"}
+]
+
+robot.save_mission("station_a_patrol", steps=steps, loop_count=1)
+robot.start_mission("station_a_patrol", wait=True)
+print("Mission complete!")
+```
 
 **Responses**
 

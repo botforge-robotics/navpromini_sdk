@@ -449,19 +449,65 @@ class NavProMini:
         """Fetch a single mission by id."""
         return self._get(f'/missions/{id}')['mission']
 
-    def save_mission(self, id: str, steps: list[dict],
+    def save_mission(self, id: Union[str, dict], steps: Optional[list[dict]] = None,
                      name: Optional[str] = None, loop_count: int = 1,
                      loop_forever: bool = False) -> dict:
-        """Create or replace a mission by id.
+        """Create or replace a mission by id or config dict.
 
         Args:
-            id: Unique identifier for the mission.
-            steps: List of step dicts (navigate, wait, dock, undock, call_service, call_action, call_api).
+            id: Unique identifier for the mission (str), or a complete mission dict.
+            steps: List of step dicts (required if id is a string):
+                - navigate: {'type': 'navigate', 'waypoint': 'station_a'} (or {'target': 'station_a'} or {'x': 1.0, 'y': 2.0, 'theta': 0.0})
+                - wait: {'type': 'wait', 'duration': 5.0} (or duration_sec)
+                - dock: {'type': 'dock', 'navigate_to_staging': True}
+                - undock: {'type': 'undock'}
+                - call_service: {'type': 'call_service', 'service': '/camera/capture', 'service_type': 'std_srvs/srv/Trigger', 'request': {...}, 'timeout': 15.0, 'ignore_error': False}
+                - call_action: {'type': 'call_action', 'action': '/spin', 'action_type': 'nav2_msgs/action/Spin', 'goal': {...}, 'timeout': 300.0, 'ignore_error': False}
+                - call_api: {'type': 'call_api', 'url': 'https://mes.local/api', 'method': 'POST', 'payload': {...}, 'headers': {...}, 'timeout': 15.0, 'ignore_error': False}
             name: Optional human-readable name (defaults to id).
             loop_count: Repeat count for the entire sequence (default 1).
             loop_forever: Repeat indefinitely until canceled (default False).
         """
-        body: dict[str, Any] = {
+        if isinstance(id, dict):
+            data = id
+            mission_id = str(data.get('id') or data.get('name') or '')
+            mission_steps = data.get('steps') or steps or []
+            if not mission_steps and 'tasks' in data:
+                mission_steps = []
+                for t in data['tasks']:
+                    if t.get('waypoint'):
+                        mission_steps.append({'type': 'navigate', 'target': t['waypoint']})
+                    act = t.get('action')
+                    params = t.get('params') or {}
+                    if act == 'wait':
+                        mission_steps.append({'type': 'wait', 'duration': params.get('duration_sec', params.get('duration', 5.0))})
+                    elif act == 'dock':
+                        mission_steps.append({'type': 'dock', 'navigate_to_staging': params.get('navigate_to_staging', True)})
+                    elif act == 'undock':
+                        mission_steps.append({'type': 'undock'})
+                    elif act == 'call_service':
+                        mission_steps.append({'type': 'call_service', **params})
+                    elif act == 'call_action':
+                        mission_steps.append({'type': 'call_action', **params})
+                    elif act == 'call_api':
+                        mission_steps.append({'type': 'call_api', **params})
+            m_name = data.get('name', mission_id)
+            l_count = data.get('loop_count', loop_count)
+            l_forever = data.get('loop_forever', data.get('loop', loop_forever))
+            body: dict[str, Any] = {
+                'id': mission_id,
+                'steps': mission_steps,
+                'loop_count': l_count,
+                'loop_forever': l_forever,
+            }
+            if m_name:
+                body['name'] = m_name
+            return self._post('/missions', body)['mission']
+
+        if steps is None:
+            raise ValueError("steps list is required when id is a string")
+
+        body = {
             'id': id,
             'steps': steps,
             'loop_count': loop_count,
@@ -486,17 +532,26 @@ class NavProMini:
             return self.wait_for_mission(id=id, timeout=timeout)
         return result
 
-    def pause_mission(self, id: str) -> dict:
+    def pause_mission(self, id: Optional[str] = None) -> dict:
         """Pause a running mission after the currently executing step."""
-        return self._post(f'/missions/{id}/pause')
+        mid = id or self.mission_status().get('mission_id')
+        if not mid:
+            raise RobotError('no_active_mission', 'No active mission to pause')
+        return self._post(f'/missions/{mid}/pause')
 
-    def resume_mission(self, id: str) -> dict:
+    def resume_mission(self, id: Optional[str] = None) -> dict:
         """Resume a paused mission. Also overrides low-battery auto-dock."""
-        return self._post(f'/missions/{id}/resume')
+        mid = id or self.mission_status().get('mission_id')
+        if not mid:
+            raise RobotError('no_active_mission', 'No active mission to resume')
+        return self._post(f'/missions/{mid}/resume')
 
-    def cancel_mission(self, id: str) -> dict:
+    def cancel_mission(self, id: Optional[str] = None) -> dict:
         """Stop and cancel a running or paused mission permanently."""
-        return self._post(f'/missions/{id}/cancel')
+        mid = id or self.mission_status().get('mission_id')
+        if not mid:
+            raise RobotError('no_active_mission', 'No active mission to cancel')
+        return self._post(f'/missions/{mid}/cancel')
 
     def mission_status(self) -> dict:
         """Current status of the active mission runner robot-wide."""

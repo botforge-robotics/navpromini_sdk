@@ -26,8 +26,11 @@ def register_mission_tools(mcp, robot: NavProMini):
         Args:
             name: Unique identifier for the mission (alphanumeric and underscores, e.g. 'patrol_warehouse_a').
             tasks: Ordered list of mission tasks. Each task is an object:
-                   {"waypoint": "station_1", "action": "wait", "params": {"duration_sec": 10}}
-                   or {"waypoint": "station_1", "action": "call_api", "params": {"url": "http://...", "method": "POST", "payload": {...}}}.
+                   - Navigate/Wait: {"waypoint": "station_1", "action": "wait", "params": {"duration_sec": 10}}
+                   - Webhook: {"action": "call_api", "url": "http://mes/event", "method": "POST", "payload": {...}, "ignore_error": true}
+                   - ROS Service: {"action": "call_service", "service": "/camera/capture", "service_type": "std_srvs/srv/Trigger"}
+                   - ROS Action: {"action": "call_action", "action_name": "/spin", "action_type": "nav2_msgs/action/Spin", "goal": {"target_yaw": 3.14}}
+                   - Dock/Undock: {"action": "dock"} or {"action": "undock"}
                    Supported actions: 'wait', 'dock', 'undock', 'inspect', 'call_service', 'call_action', 'call_api'.
             description: Human-readable note detailing the mission objective.
             loop: Set to True if the mission should continuously cycle through tasks indefinitely.
@@ -57,7 +60,7 @@ def register_mission_tools(mcp, robot: NavProMini):
 
             params = dict(t.get("params", {}))
             # Merge any top-level HTTP or service/action keys into params
-            for key in ("url", "method", "headers", "payload", "body", "json", "timeout", "timeout_sec", "ignore_error", "service", "service_type", "action_name", "action_type", "request", "goal"):
+            for key in ("url", "method", "headers", "payload", "body", "json", "timeout", "timeout_sec", "ignore_error", "service", "service_type", "action_name", "action_type", "action", "request", "goal"):
                 if key in t and key not in params:
                     params[key] = t[key]
 
@@ -66,12 +69,18 @@ def register_mission_tools(mcp, robot: NavProMini):
                     waypoint=waypoint,
                     action=action,
                     params=params,
-                    url=params.get("url"),
-                    method=params.get("method", "POST"),
-                    headers=params.get("headers"),
-                    payload=params.get("payload") if "payload" in params else (params.get("body") if "body" in params else params.get("json")),
-                    timeout_sec=float(params["timeout_sec"]) if "timeout_sec" in params else (float(params["timeout"]) if "timeout" in params else 15.0),
-                    ignore_error=bool(params.get("ignore_error", False)) if "ignore_error" in params else False,
+                    url=t.get("url") or params.get("url"),
+                    method=t.get("method") or params.get("method", "POST"),
+                    headers=t.get("headers") or params.get("headers"),
+                    payload=t.get("payload") if "payload" in t else (params.get("payload") if "payload" in params else (params.get("body") if "body" in params else params.get("json"))),
+                    timeout_sec=float(t["timeout_sec"]) if "timeout_sec" in t else (float(params["timeout_sec"]) if "timeout_sec" in params else (float(params["timeout"]) if "timeout" in params else 15.0)),
+                    ignore_error=bool(t.get("ignore_error", params.get("ignore_error", False))),
+                    service=t.get("service") or params.get("service"),
+                    service_type=t.get("service_type") or params.get("service_type"),
+                    request=t.get("request") or params.get("request"),
+                    action_name=t.get("action_name") or params.get("action_name") or (params.get("action") if action != params.get("action") else None),
+                    action_type=t.get("action_type") or params.get("action_type"),
+                    goal=t.get("goal") or params.get("goal"),
                 )
             except Exception as e:
                 return {
@@ -140,24 +149,32 @@ def register_mission_tools(mcp, robot: NavProMini):
                 elif t.action == "call_service":
                     srv = {
                         "type": "call_service",
-                        "service": t.params.get("service"),
-                        "service_type": t.params.get("service_type")
+                        "service": t.service or t.params.get("service"),
+                        "service_type": t.service_type or t.params.get("service_type")
                     }
-                    if "request" in t.params:
-                        srv["request"] = t.params["request"]
-                    if "timeout" in t.params:
-                        srv["timeout"] = t.params["timeout"]
+                    req = t.request if t.request is not None else t.params.get("request")
+                    if req is not None:
+                        srv["request"] = req
+                    timeout = t.timeout_sec or t.params.get("timeout_sec") or t.params.get("timeout")
+                    if timeout is not None:
+                        srv["timeout"] = float(timeout)
+                    if t.ignore_error or t.params.get("ignore_error"):
+                        srv["ignore_error"] = True
                     compiled_steps.append(srv)
                 elif t.action == "call_action":
                     act = {
                         "type": "call_action",
-                        "action": t.params.get("action") or t.params.get("action_name"),
-                        "action_type": t.params.get("action_type")
+                        "action": t.action_name or t.params.get("action_name") or t.params.get("action"),
+                        "action_type": t.action_type or t.params.get("action_type")
                     }
-                    if "goal" in t.params:
-                        act["goal"] = t.params["goal"]
-                    if "timeout" in t.params:
-                        act["timeout"] = t.params["timeout"]
+                    goal = t.goal if t.goal is not None else t.params.get("goal")
+                    if goal is not None:
+                        act["goal"] = goal
+                    timeout = t.timeout_sec or t.params.get("timeout_sec") or t.params.get("timeout")
+                    if timeout is not None:
+                        act["timeout"] = float(timeout)
+                    if t.ignore_error or t.params.get("ignore_error"):
+                        act["ignore_error"] = True
                     compiled_steps.append(act)
                 elif t.action == "call_api":
                     url = t.url or t.params.get("url")

@@ -27,8 +27,14 @@ class MissionTask(BaseModel):
     method: Optional[str] = Field(default=None, description="HTTP method for 'call_api' (e.g. GET, POST, PUT, DELETE, PATCH)")
     headers: Optional[Dict[str, str]] = Field(default=None, description="Optional HTTP request headers for 'call_api'")
     payload: Optional[Any] = Field(default=None, description="Optional request payload/body for 'call_api'")
-    timeout_sec: Optional[float] = Field(default=None, description="HTTP request timeout in seconds for 'call_api'")
+    timeout_sec: Optional[float] = Field(default=None, description="Timeout in seconds for 'call_api', 'call_service', or 'call_action'")
     ignore_error: Optional[bool] = Field(default=None, description="If true, HTTP errors will not fail the mission")
+    service: Optional[str] = Field(default=None, description="ROS 2 service name when action is 'call_service' (e.g. '/camera/capture', '/clear_costmaps')")
+    service_type: Optional[str] = Field(default=None, description="ROS 2 service type when action is 'call_service' (e.g. 'std_srvs/srv/Trigger')")
+    request: Optional[Dict[str, Any]] = Field(default=None, description="Optional service request dictionary for 'call_service'")
+    action_name: Optional[str] = Field(default=None, description="ROS 2 action name when action is 'call_action' (e.g. '/spin', '/backup')")
+    action_type: Optional[str] = Field(default=None, description="ROS 2 action type when action is 'call_action' (e.g. 'nav2_msgs/action/Spin')")
+    goal: Optional[Dict[str, Any]] = Field(default=None, description="Optional action goal dictionary for 'call_action'")
 
 
 class MissionSpec(BaseModel):

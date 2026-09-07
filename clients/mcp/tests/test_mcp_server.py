@@ -179,3 +179,62 @@ def test_call_api_model_and_compilation():
     assert steps[2]["type"] == "call_api"
     assert steps[2]["url"] == "http://192.168.0.175:8080/done"
     assert steps[2]["method"] == "GET"
+
+
+def test_call_service_and_action_compilation():
+    """Verify call_service and call_action task compilation."""
+    mock_robot = MagicMock()
+    mock_robot.waypoints.return_value = [{"name": "inspection_bay", "x": 1.0, "y": 2.0}]
+    mock_robot.pose.return_value = {"x": 0.0, "y": 0.0}
+    mock_robot.battery.return_value = {"percentage": 90.0}
+    mock_robot.save_mission.return_value = {"id": "ros_mission", "saved": True}
+
+    from navpromini_mcp.tools.missions import register_mission_tools
+    try:
+        from mcp.server.mcpserver import MCPServer
+    except ImportError:
+        from mcp.server.fastmcp import FastMCP as MCPServer
+
+    test_mcp = MCPServer(name="test_mcp_ros")
+    register_mission_tools(test_mcp, mock_robot)
+
+    synth_tool = test_mcp._tool_manager._tools["synthesize_and_save_mission"].fn
+    res = synth_tool(
+        name="ros_mission",
+        tasks=[
+            {
+                "waypoint": "inspection_bay",
+                "action": "call_service",
+                "service": "/camera/capture",
+                "service_type": "std_srvs/srv/Trigger",
+                "request": {},
+                "timeout_sec": 8.0,
+            },
+            {
+                "action": "call_action",
+                "action_name": "/spin",
+                "action_type": "nav2_msgs/action/Spin",
+                "goal": {"target_yaw": 3.14},
+                "timeout_sec": 25.0,
+            }
+        ]
+    )
+
+    assert res["success"] is True
+    steps = res["steps"]
+    assert len(steps) == 3
+    # Step 0: navigate
+    assert steps[0] == {"type": "navigate", "target": "inspection_bay"}
+    # Step 1: call_service
+    assert steps[1]["type"] == "call_service"
+    assert steps[1]["service"] == "/camera/capture"
+    assert steps[1]["service_type"] == "std_srvs/srv/Trigger"
+    assert steps[1]["request"] == {}
+    assert steps[1]["timeout"] == 8.0
+    # Step 2: call_action
+    assert steps[2]["type"] == "call_action"
+    assert steps[2]["action"] == "/spin"
+    assert steps[2]["action_type"] == "nav2_msgs/action/Spin"
+    assert steps[2]["goal"] == {"target_yaw": 3.14}
+    assert steps[2]["timeout"] == 25.0
+
