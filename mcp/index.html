@@ -1280,15 +1280,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#method-2-remote-sse-connection-claude-desktop-cursor-remote-agents" class="md-nav__link">
+  <a href="#method-2-remote-sse-connection-cursor-remote-agents" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Method 2: Remote SSE Connection (Claude Desktop / Cursor / Remote Agents)
+        Method 2: Remote SSE Connection (Cursor / Remote Agents)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Method 2: Remote SSE Connection (Claude Desktop / Cursor / Remote Agents)">
+    <nav class="md-nav" aria-label="Method 2: Remote SSE Connection (Cursor / Remote Agents)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1521,15 +1521,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#method-2-remote-sse-connection-claude-desktop-cursor-remote-agents" class="md-nav__link">
+  <a href="#method-2-remote-sse-connection-cursor-remote-agents" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Method 2: Remote SSE Connection (Claude Desktop / Cursor / Remote Agents)
+        Method 2: Remote SSE Connection (Cursor / Remote Agents)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Method 2: Remote SSE Connection (Claude Desktop / Cursor / Remote Agents)">
+    <nav class="md-nav" aria-label="Method 2: Remote SSE Connection (Cursor / Remote Agents)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1673,7 +1673,7 @@
 
 
 <h1 id="model-context-protocol-mcp-server">Model Context Protocol (MCP) Server<a class="headerlink" href="#model-context-protocol-mcp-server" title="Link to this section">&para;</a></h1>
-<p>The <strong>Model Context Protocol (MCP)</strong> server connects the NavPro Mini AMR to modern AI agents (Google Antigravity, Claude Desktop, Cursor, and custom Python agent frameworks). It allows Large Language Models (LLMs) to reason about the robot's physical environment, synthesize multi-stop missions, monitor live telemetry, and control physical movement.</p>
+<p>The <strong>Model Context Protocol (MCP)</strong> server connects the NavPro Mini AMR to modern AI agents (Google Antigravity, Gemini, Cursor, and custom Python agent frameworks). It allows Large Language Models (LLMs) to reason about the robot's physical environment, synthesize multi-stop missions, monitor live telemetry, and control physical movement.</p>
 <p>Operates purely over <strong>standard JSON-RPC via Stdio or SSE</strong> — no heavy Vision-Language-Action (VLA) neural policies or local GPU hardware required.</p>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Link to this section">&para;</a></h2>
@@ -1719,12 +1719,8 @@
 </span></code></pre></div>
 <em>(Replace <code>192.168.0.129</code> with your robot's IP address).</em></p>
 <hr />
-<h3 id="method-2-remote-sse-connection-claude-desktop-cursor-remote-agents">Method 2: Remote SSE Connection (Claude Desktop / Cursor / Remote Agents)<a class="headerlink" href="#method-2-remote-sse-connection-claude-desktop-cursor-remote-agents" title="Link to this section">&para;</a></h3>
+<h3 id="method-2-remote-sse-connection-cursor-remote-agents">Method 2: Remote SSE Connection (Cursor / Remote Agents)<a class="headerlink" href="#method-2-remote-sse-connection-cursor-remote-agents" title="Link to this section">&para;</a></h3>
 <p>For clients that connect over HTTP Server-Sent Events (SSE) to the robot's built-in <code>navpro-mcp.service</code> on port <strong>8091</strong>:</p>
-<p>Add this to your <code>claude_desktop_config.json</code>:
-- <strong>macOS</strong>: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>
-- <strong>Linux</strong>: <code>~/.config/Claude/claude_desktop_config.json</code>
-- <strong>Windows</strong>: <code>%APPDATA%\Claude\claude_desktop_config.json</code></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">"navpromini"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
