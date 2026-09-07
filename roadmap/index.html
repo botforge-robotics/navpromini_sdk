@@ -137,6 +137,84 @@
         </div>
       </div>
     </div>
+
+    <!-- NavPro Mini Version Selector Dropdown in Header -->
+    <div class="npm-version-dropdown-wrapper">
+      <button class="npm-version-btn" id="npmVersionBtn" type="button" aria-haspopup="true" aria-expanded="false" title="Switch Documentation Version">
+        <span class="npm-version-badge-dot"></span>
+        <span class="npm-version-text">v1.0.0</span>
+        <svg class="npm-version-chevron" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+        </svg>
+      </button>
+      <div class="npm-version-menu" id="npmVersionMenu" role="menu">
+        <div class="npm-version-menu-header">DOCUMENTATION VERSIONS</div>
+        <a href="https://botforge-robotics.github.io/navpromini_sdk/" class="npm-version-option active" role="menuitem">
+          <div class="npm-version-opt-title">
+            <span class="npm-version-opt-ver">v1.0.0</span>
+            <span class="npm-tag-current">current</span>
+          </div>
+          <span class="npm-version-opt-meta">REST API v1 &bull; ROS 2 Jazzy</span>
+        </a>
+        <div class="npm-version-divider"></div>
+        <a href="https://github.com/botforge-robotics/navpromini_sdk/releases" target="_blank" rel="noopener noreferrer" class="npm-version-option" role="menuitem">
+          <div class="npm-version-opt-title">
+            <span>All Releases &amp; Changelogs</span>
+            <span class="npm-tag-ext">GitHub ↗</span>
+          </div>
+          <span class="npm-version-opt-meta">Release assets, tags &amp; history</span>
+        </a>
+        <a href="https://github.com/botforge-robotics/navpromini_sdk/tree/main" target="_blank" rel="noopener noreferrer" class="npm-version-option" role="menuitem">
+          <div class="npm-version-opt-title">
+            <span>Development (main)</span>
+            <span class="npm-tag-dev">dev</span>
+          </div>
+          <span class="npm-version-opt-meta">Bleeding edge repository branch</span>
+        </a>
+      </div>
+    </div>
+    <script>
+      (function() {
+        function initVersionDropdown() {
+          var btn = document.getElementById('npmVersionBtn');
+          var menu = document.getElementById('npmVersionMenu');
+          if (!btn || !menu) return;
+          
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var isOpen = menu.classList.contains('open');
+            if (isOpen) {
+              menu.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            } else {
+              menu.classList.add('open');
+              btn.setAttribute('aria-expanded', 'true');
+            }
+          });
+
+          document.addEventListener('click', function(e) {
+            if (!menu.contains(e.target) && e.target !== btn) {
+              menu.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && menu.classList.contains('open')) {
+              menu.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initVersionDropdown);
+        } else {
+          initVersionDropdown();
+        }
+      })();
+    </script>
+    <!-- End Version Selector Dropdown -->
+
     
       
         <form class="md-header__option" data-md-component="palette">

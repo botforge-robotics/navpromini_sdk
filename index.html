@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#navpromini-sdk" class="md-skip">
+        <a href="#navpro-mini-sdk-api" class="md-skip">
           Skip to content
         </a>
       
@@ -137,6 +137,84 @@
         </div>
       </div>
     </div>
+
+    <!-- NavPro Mini Version Selector Dropdown in Header -->
+    <div class="npm-version-dropdown-wrapper">
+      <button class="npm-version-btn" id="npmVersionBtn" type="button" aria-haspopup="true" aria-expanded="false" title="Switch Documentation Version">
+        <span class="npm-version-badge-dot"></span>
+        <span class="npm-version-text">v1.0.0</span>
+        <svg class="npm-version-chevron" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+        </svg>
+      </button>
+      <div class="npm-version-menu" id="npmVersionMenu" role="menu">
+        <div class="npm-version-menu-header">DOCUMENTATION VERSIONS</div>
+        <a href="https://botforge-robotics.github.io/navpromini_sdk/" class="npm-version-option active" role="menuitem">
+          <div class="npm-version-opt-title">
+            <span class="npm-version-opt-ver">v1.0.0</span>
+            <span class="npm-tag-current">current</span>
+          </div>
+          <span class="npm-version-opt-meta">REST API v1 &bull; ROS 2 Jazzy</span>
+        </a>
+        <div class="npm-version-divider"></div>
+        <a href="https://github.com/botforge-robotics/navpromini_sdk/releases" target="_blank" rel="noopener noreferrer" class="npm-version-option" role="menuitem">
+          <div class="npm-version-opt-title">
+            <span>All Releases &amp; Changelogs</span>
+            <span class="npm-tag-ext">GitHub ↗</span>
+          </div>
+          <span class="npm-version-opt-meta">Release assets, tags &amp; history</span>
+        </a>
+        <a href="https://github.com/botforge-robotics/navpromini_sdk/tree/main" target="_blank" rel="noopener noreferrer" class="npm-version-option" role="menuitem">
+          <div class="npm-version-opt-title">
+            <span>Development (main)</span>
+            <span class="npm-tag-dev">dev</span>
+          </div>
+          <span class="npm-version-opt-meta">Bleeding edge repository branch</span>
+        </a>
+      </div>
+    </div>
+    <script>
+      (function() {
+        function initVersionDropdown() {
+          var btn = document.getElementById('npmVersionBtn');
+          var menu = document.getElementById('npmVersionMenu');
+          if (!btn || !menu) return;
+          
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var isOpen = menu.classList.contains('open');
+            if (isOpen) {
+              menu.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            } else {
+              menu.classList.add('open');
+              btn.setAttribute('aria-expanded', 'true');
+            }
+          });
+
+          document.addEventListener('click', function(e) {
+            if (!menu.contains(e.target) && e.target !== btn) {
+              menu.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && menu.classList.contains('open')) {
+              menu.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initVersionDropdown);
+        } else {
+          initVersionDropdown();
+        }
+      })();
+    </script>
+    <!-- End Version Selector Dropdown -->
+
     
       
         <form class="md-header__option" data-md-component="palette">
@@ -492,10 +570,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-this-is" class="md-nav__link">
+  <a href="#version-ecosystem-matrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What this is
+        Version &amp; Ecosystem Matrix
       
     </span>
   </a>
@@ -503,10 +581,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-in-three-sentences" class="md-nav__link">
+  <a href="#try-it-in-10-seconds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Design in three sentences
+        Try It in 10 Seconds
       
     </span>
   </a>
@@ -514,10 +592,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-going" class="md-nav__link">
+  <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get going
+        Architecture
       
     </span>
   </a>
@@ -525,10 +603,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#status" class="md-nav__link">
+  <a href="#core-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Status
+        Core Capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-quick-jump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Quick Jump
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ready-to-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ready to build?
       
     </span>
   </a>
@@ -1362,10 +1462,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-this-is" class="md-nav__link">
+  <a href="#version-ecosystem-matrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What this is
+        Version &amp; Ecosystem Matrix
       
     </span>
   </a>
@@ -1373,10 +1473,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-in-three-sentences" class="md-nav__link">
+  <a href="#try-it-in-10-seconds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Design in three sentences
+        Try It in 10 Seconds
       
     </span>
   </a>
@@ -1384,10 +1484,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-going" class="md-nav__link">
+  <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get going
+        Architecture
       
     </span>
   </a>
@@ -1395,10 +1495,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#status" class="md-nav__link">
+  <a href="#core-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Status
+        Core Capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-quick-jump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Quick Jump
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ready-to-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ready to build?
       
     </span>
   </a>
@@ -1432,106 +1554,283 @@
   
 
 
+<style>
+  /* Hide 'Edit this page' button on Home */
+  .md-content__button {
+    display: none !important;
+  }
+</style>
+
 <div class="npm-hero">
-<h1 id="navpromini-sdk">NavProMini SDK<a class="headerlink" href="#navpromini-sdk" title="Link to this section">&para;</a></h1>
-<p>Drive, map, navigate and dock a NavProMini robot over plain HTTP.
-No ROS installation, no message definitions, no client library required.</p>
-<div style="display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap;">
-  <span style="background: #1565c0; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">SDK v1.0.0</span>
-  <span style="background: #2e7d32; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">REST API v1</span>
-  <span style="background: #6a1b9a; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">WebSocket v1</span>
-  <span style="background: #37474f; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Companion v1.0.0</span>
-  <span style="background: #00838f; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">GUI App v1.0.0</span>
+<div class="npm-hero-pill">NAVPRO MINI &bull; ROBOTICS DEVELOPER PLATFORM</div>
+<h1 id="navpro-mini-sdk-api">NavPro Mini SDK &amp; API<a class="headerlink" href="#navpro-mini-sdk-api" title="Link to this section">&para;</a></h1>
+<p>Programmatic control, SLAM mapping, autonomous navigation, visual docking, and real-time telemetry over plain HTTP &amp; WebSockets. Zero ROS installation required on client devices.</p>
+<div class="npm-hero-actions">
+<p><a class="md-button md-button--primary" href="getting-started/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m13.13 22.19-1.63-3.83c1.57-.58 3.04-1.36 4.4-2.27zM5.64 12.5l-3.83-1.63 6.1-2.77C7 9.46 6.22 10.93 5.64 12.5M21.61 2.39S16.66.269 11 5.93c-2.19 2.19-3.5 4.6-4.35 6.71-.28.75-.09 1.57.46 2.13l2.13 2.12c.55.56 1.37.74 2.12.46A19.1 19.1 0 0 0 18.07 13c5.66-5.66 3.54-10.61 3.54-10.61m-7.07 7.07c-.78-.78-.78-2.05 0-2.83s2.05-.78 2.83 0c.77.78.78 2.05 0 2.83s-2.05.78-2.83 0m-5.66 7.07-1.41-1.41zM6.24 22l3.64-3.64c-.34-.09-.67-.24-.97-.45L4.83 22zM2 22h1.41l4.77-4.76-1.42-1.41L2 20.59zm0-2.83 4.09-4.08c-.21-.3-.36-.62-.45-.97L2 17.76z"/></svg></span> Quick Start Guide</a>
+<a class="md-button" href="api/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg></span> REST API Reference</a>
+<a class="md-button" href="reference.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span> Interactive OpenAPI Spec</a>
+<a class="md-button" href="clients/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5"/></svg></span> Python SDK &amp; MCP</a></p>
 </div>
 </div>
+<div class="npm-compat-card">
+<h3 id="version-ecosystem-matrix"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10 17-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9m-6-8L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z"/></svg></span> Version &amp; Ecosystem Matrix<a class="headerlink" href="#version-ecosystem-matrix" title="Link to this section">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Active Version</th>
+<th style="text-align: left;">Protocol / Stack</th>
+<th style="text-align: left;">Verification Endpoint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Documentation Portal</strong></td>
+<td style="text-align: left;"><strong><code>v1.0.0</code></strong></td>
+<td style="text-align: left;">Guides &amp; OpenAPI 3.1 Spec</td>
+<td style="text-align: left;"><a href="api/">API Overview</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Robot REST API</strong></td>
+<td style="text-align: left;"><strong><code>v1</code></strong> (<code>:8090/api/v1</code>)</td>
+<td style="text-align: left;">HTTP JSON REST</td>
+<td style="text-align: left;"><code>GET /api/v1/system/info</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Telemetry Event Stream</strong></td>
+<td style="text-align: left;"><strong><code>v1</code></strong> (<code>:8090/ws/telemetry</code>)</td>
+<td style="text-align: left;">WebSocket 10 Hz Streams</td>
+<td style="text-align: left;"><a href="api/events/">Events Guide</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Robot Companion OS</strong></td>
+<td style="text-align: left;"><strong><code>v1.0.0</code></strong></td>
+<td style="text-align: left;">Ubuntu 24.04 &bull; ROS 2 Jazzy</td>
+<td style="text-align: left;"><code>GET /api/v1/system/updates</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Mission Planner GUI</strong></td>
+<td style="text-align: left;"><strong><code>v1.0.0</code></strong></td>
+<td style="text-align: left;">Android, Linux, Windows, Web</td>
+<td style="text-align: left;">App <strong>Settings &rarr; Help &amp; About</strong></td>
+</tr>
+</tbody>
+</table>
 <div class="admonition tip">
-<p class="admonition-title">Verify Your Robot &amp; SDK Version</p>
-<p>You can check the version running on your robot at any time:
-- <strong>In the GUI App</strong>: Open <strong>Settings &rarr; Help &amp; About</strong> or <strong>Settings &rarr; Software Updates</strong>.
-- <strong>Via Terminal / API</strong>: Run <code>curl http://&lt;robot-ip&gt;:8090/api/v1/system/info</code> to view <code>sdk_version</code> and <code>api_version</code>.
-This documentation portal documents <strong>Release v1.0.0 (API v1)</strong>.</p>
+<p class="admonition-title">Verifying Version on Active Hardware</p>
+<p>Check the active SDK and API version on your robot at any time:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>http://&lt;robot-ip&gt;:8090/api/v1/system/info
+</span></code></pre></div>
+Expected response:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"robot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="p">,</span><span class="w"> </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NavProMini"</span><span class="p">},</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"sdk_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">"capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"mapping"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"navigation"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"docking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"missions"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">}</span>
+</span></code></pre></div></p>
 </div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>http://192.168.1.50:8090/api/v1/state/battery
+</div>
+<h2 id="try-it-in-10-seconds">Try It in 10 Seconds<a class="headerlink" href="#try-it-in-10-seconds" title="Link to this section">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">HTTP REST (curl)</label><label for="__tabbed_1_2">Python SDK</label><label for="__tabbed_1_3">WebSocket Stream</label><label for="__tabbed_1_4">AI Agent (MCP Tools)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 1. Read battery and charging status</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>http://192.168.0.129:8090/api/v1/state/battery
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># 2. Dispatch robot to a saved waypoint</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.0.129:8090/api/v1/navigation/navigate<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"waypoint": "ChargingStation"}'</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># 3. Trigger autonomous AprilTag docking</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.0.129:8090/api/v1/docking/dock
 </span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"voltage"</span><span class="p">:</span><span class="w"> </span><span class="mf">14.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"current"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">            </span><span class="nt">"temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">35.0</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span><span class="w"> </span><span class="nt">"charging"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.45</span><span class="w"> </span><span class="p">}</span>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">navpromini</span><span class="w"> </span><span class="kn">import</span> <span class="n">RobotClient</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Connect to robot companion on local network</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">RobotClient</span><span class="p">(</span><span class="s2">"http://192.168.0.129:8090"</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Read live battery</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">battery</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_battery</span><span class="p">()</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Battery: </span><span class="si">{</span><span class="n">battery</span><span class="o">.</span><span class="n">percentage</span><span class="si">}</span><span class="s2">% (Charging: </span><span class="si">{</span><span class="n">battery</span><span class="o">.</span><span class="n">charging</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Navigate to named waypoint</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">client</span><span class="o">.</span><span class="n">navigate_to_waypoint</span><span class="p">(</span><span class="s2">"Lab_Desk_1"</span><span class="p">)</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Return to charging dock</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">client</span><span class="o">.</span><span class="n">dock</span><span class="p">()</span>
 </span></code></pre></div>
-<p>That is the whole learning curve. Everything else is more endpoints in the same shape.</p>
-<h2 id="what-this-is">What this is<a class="headerlink" href="#what-this-is" title="Link to this section">&para;</a></h2>
-<p>NavProMini runs ROS 2 internally. The SDK is a small server that runs <strong>on the robot</strong>
-and translates that into an ordinary REST API plus a WebSocket event stream. You get
-the robot's real capabilities — telemetry, mapping, navigation, autonomous docking,
-direct motion — through an interface any language can call.</p>
+</div>
+<div class="tabbed-block">
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// Stream live robot pose and battery at 10 Hz</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ws</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"ws://192.168.0.129:8090/ws/telemetry"</span><span class="p">);</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Pose: x=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">pose</span><span class="p">.</span><span class="nx">x</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="si">}</span><span class="sb">, y=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">pose</span><span class="p">.</span><span class="nx">y</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="si">}</span><span class="sb">, battery=</span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">battery</span><span class="p">.</span><span class="nx">percentage</span><span class="si">}</span><span class="sb">%`</span><span class="p">);</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">};</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Model Context Protocol (MCP) tool invocation from Claude / Cursor / Antigravity</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"tool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigate_to_waypoint"</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">"waypoint_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Assembly_Line_B"</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Link to this section">&para;</a></h2>
+<p>How the NavPro Mini SDK server bridges web applications and AI agents into native ROS 2:</p>
+<pre class="mermaid"><code>graph LR
+    subgraph Client["Client Applications"]
+        GUI["NavPro Mini GUI&lt;br/&gt;(Android / Desktop / Web)"]
+        WEB["Web &amp; Fleet Dashboards&lt;br/&gt;(HTTP / WebSockets)"]
+        PY["Python Scripts &amp; SDK"]
+        AI["AI Agents &amp; MCP&lt;br/&gt;(Claude / Antigravity)"]
+    end
+
+    subgraph Companion["NavPro Mini Companion (Port 8090)"]
+        TORNADO["Tornado Async Gateway&lt;br/&gt;REST &amp; WS Server"]
+        STATE["State Engine &amp; Cache&lt;br/&gt;(age_sec tracking)"]
+        UPDATER["Companion OTA Updater&lt;br/&gt;(update_companion.sh)"]
+    end
+
+    subgraph ROS2["ROS 2 Jazzy Core"]
+        NAV2["Nav2 Navigation Stack&lt;br/&gt;(SmacPlanner / DWB)"]
+        SLAM["SLAM Toolbox / Cartographer"]
+        DOCK["AprilTag Visual Docking Node"]
+        MICROROS["micro-ROS Motor Controller&lt;br/&gt;(Sensors / Odom / Battery)"]
+    end
+
+    GUI --&gt;|HTTP REST / WS| TORNADO
+    WEB --&gt;|HTTP REST / WS| TORNADO
+    PY --&gt;|HTTP REST| TORNADO
+    AI --&gt;|JSON-RPC Tools| TORNADO
+
+    TORNADO --&gt; STATE
+    TORNADO --&gt; UPDATER
+    TORNADO --&gt;|ROS 2 Actions &amp; Topics| NAV2
+    TORNADO --&gt;|ROS 2 Services| SLAM
+    TORNADO --&gt;|ROS 2 Action| DOCK
+    MICROROS --&gt;|Odom &amp; Battery| TORNADO</code></pre>
+<hr />
+<h2 id="core-capabilities">Core Capabilities<a class="headerlink" href="#core-capabilities" title="Link to this section">&para;</a></h2>
 <div class="grid cards">
 <ul>
 <li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 4A5.5 5.5 0 0 0 2 9.5c0 .5.09 1 .22 1.5H6.3l1.27-3.37c.3-.8 1.48-.88 1.86 0L11.5 13l.59-1.42c.13-.33.48-.58.91-.58h8.78c.13-.5.22-1 .22-1.5A5.5 5.5 0 0 0 16.5 4c-1.86 0-3.5.93-4.5 2.34C11 4.93 9.36 4 7.5 4M3 12.5a1 1 0 0 0-1 1 1 1 0 0 0 1 1h2.44L11 20c1 .9 1 .9 2 0l5.56-5.5H21a1 1 0 0 0 1-1 1 1 0 0 0-1-1h-7.6l-.93 2.3c-.4 1.01-1.55.87-1.92.03L8.5 9.5l-.96 2.33c-.15.38-.49.67-.94.67z"/></svg></span> <strong>Telemetry that admits its age</strong></p>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.5 17-5 5-3.5-3.5 1.5-1.5 2 2 3.5-3.5zM13 19c0-1.5.5-2.8 1.4-3.9L11 13V7h1.5v5.2l3.1 1.9c1-.7 2.1-1.1 3.4-1.1 1 0 2 .3 2.8.7.1-.6.2-1.1.2-1.7 0-5.5-4.5-10-10-10S2 6.5 2 12s4.5 10 10 10c.6 0 1.2-.1 1.7-.2-.4-.8-.7-1.8-.7-2.8"/></svg></span> <strong>Timestamped Telemetry</strong></p>
 <hr />
-<p>Every reading carries <code>age_sec</code>. A battery value from 40 seconds ago and one from
-40 milliseconds ago are very different facts, and the API says which you have.</p>
-<p><a href="api/state/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> State</a></p>
+<p>Every telemetry reading carries an <code>age_sec</code> timestamp. You know instantly whether a reading is 10 ms fresh or stalled, preventing stale decision making in control loops.</p>
+<p><a href="api/state/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Telemetry &amp; State</a></p>
 </li>
 <li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2zm-4-6H5v-2h2z"/></svg></span> <strong>Map, localize, navigate</strong></p>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 15a3 3 0 0 1 3 3 3 3 0 0 1-3 3 2.99 2.99 0 0 1-2.83-2H14v-2h1.17c.41-1.17 1.52-2 2.83-2m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m0-9a1.43 1.43 0 0 0 1.43-1.43 1.43 1.43 0 1 0-2.86 0A1.43 1.43 0 0 0 18 8m0-5.43a4 4 0 0 1 4 4C22 9.56 18 14 18 14s-4-4.44-4-7.43a4 4 0 0 1 4-4M8.83 17H10v2H8.83A2.99 2.99 0 0 1 6 21a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V14h2v1.17c.85.3 1.53.98 1.83 1.83M6 17a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M6 3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83V10H5V8.83A2.99 2.99 0 0 1 3 6a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5 14v-2h2v2zm-4-6H5v-2h2z"/></svg></span> <strong>SLAM Mapping &amp; Navigation</strong></p>
 <hr />
-<p>Build a map with SLAM, save it, activate it, drop named waypoints, then send the
-robot to one by name.</p>
-<p><a href="api/navigation/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Navigation</a></p>
+<p>Stream occupancy grid maps, activate saved environments, save named waypoints, and dispatch point-to-point or waypoint navigation goals with automatic path replanning.</p>
+<p><a href="api/navigation/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Navigation APIs</a></p>
 </li>
 <li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33a2.5 2.5 0 0 0 2.5 2.5c.36 0 .69-.08 1-.21v7.21a1 1 0 0 1-1 1 1 1 0 0 1-1-1V14a2 2 0 0 0-2-2h-1V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16h10v-7.5h1.5v5A2.5 2.5 0 0 0 18 21a2.5 2.5 0 0 0 2.5-2.5V9c0-.69-.28-1.32-.73-1.77M18 10a1 1 0 0 1-1-1 1 1 0 0 1 1-1 1 1 0 0 1 1 1 1 1 0 0 1-1 1M8 18v-4.5H6L10 6v5h2z"/></svg></span> <strong>Autonomous docking</strong></p>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33a2.5 2.5 0 0 0 2.5 2.5c.36 0 .69-.08 1-.21v7.21a1 1 0 0 1-1 1 1 1 0 0 1-1-1V14a2 2 0 0 0-2-2h-1V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16h10v-7.5h1.5v5A2.5 2.5 0 0 0 18 21a2.5 2.5 0 0 0 2.5-2.5V9c0-.69-.28-1.32-.73-1.77M18 10a1 1 0 0 1-1-1 1 1 0 0 1 1-1 1 1 0 0 1 1 1 1 1 0 0 1-1 1M8 18v-4.5H6L10 6v5h2z"/></svg></span> <strong>Autonomous AprilTag Docking</strong></p>
 <hr />
-<p>AprilTag visual servoing onto the charging dock. Success is defined as <em>charging</em> —
-not as arriving, not as stopping.</p>
-<p><a href="api/docking/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Docking</a></p>
+<p>Visual servoing precisely aligns the robot with its charging station using the onboard camera. Progress monitors physical contact switch state and battery charging voltage.</p>
+<p><a href="api/docking/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Docking APIs</a></p>
 </li>
 <li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span> <strong>Push, not poll</strong></p>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5h6v6H3zm2 2v2h2V7zm6 0h10v2H11zm0 8h10v2H11zm-6 5-3.5-3.5 1.41-1.41L5 17.17l4.59-4.58L11 14z"/></svg></span> <strong>Sequenced Mission Engine</strong></p>
 <hr />
-<p>Subscribe to the streams you want over one WebSocket. Pose at 10 Hz, battery on
-change, nothing you did not ask for.</p>
-<p><a href="api/events/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Events</a></p>
+<p>Compose and execute multi-step automated routines combining waypoints, coordinate moves, docking, delays, and audio/visual signals with failure recovery and cron scheduling.</p>
+<p><a href="api/missions/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Mission APIs</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5M11 7h2v6h-2m0 2h2v2h-2"/></svg></span> <strong>Safety &amp; Emergency Stop</strong></p>
+<hr />
+<p>Instant software emergency stop (<code>/api/v1/safety/estop</code>), obstacle avoidance costmaps, velocity limits, and battery low-voltage protective return-to-dock triggers.</p>
+<p><a href="api/motion/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Safety &amp; Motion</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1a6.887 6.887 0 0 0 0 9.8c2.73 2.7 7.15 2.7 9.88 0 1.36-1.35 2.04-2.92 2.04-4.9h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58a8.987 8.987 0 0 1 12.65 0L21 3zM12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8z"/></svg></span> <strong>Detached Software Updates (OTA)</strong></p>
+<hr />
+<p>One-click companion package updates over REST API (<code>/api/v1/system/updates</code>) with preflight safety interlocks, atomic filesystem backup, and automatic compilation rollback.</p>
+<p><a href="api/system/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> System &amp; Updates</a></p>
 </li>
 </ul>
 </div>
-<h2 id="design-in-three-sentences">Design in three sentences<a class="headerlink" href="#design-in-three-sentences" title="Link to this section">&para;</a></h2>
-<p><strong>Resource-oriented.</strong> Nouns in the path, intent in the verb. <code>GET /state/battery</code> reads,
-<code>POST /dock</code> acts, <code>DELETE /navigation/goal</code> cancels. There is no <code>/cmd/</code> prefix, because
-the HTTP method already says whether something is a command.</p>
-<p><strong>Long operations return immediately.</strong> Docking or crossing a room takes minutes — longer
-than any sane HTTP timeout and longer than most proxies allow. Those endpoints answer
-<span class="status warn">202</span> the moment the robot <em>accepts</em> the goal; progress
-comes from the matching status endpoint or the event stream.</p>
-<p><strong>Failures are typed.</strong> Every error is <code>{"error": {"code", "message", "detail"}}</code> with a
-real status code. Branch on <code>code</code>; the prose can improve without breaking your client.</p>
-<h2 id="get-going">Get going<a class="headerlink" href="#get-going" title="Link to this section">&para;</a></h2>
+<hr />
+<h2 id="api-quick-jump">API Quick Jump<a class="headerlink" href="#api-quick-jump" title="Link to this section">&para;</a></h2>
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Section</th>
+<th style="text-align: left;">Endpoints</th>
+<th style="text-align: left;">Key Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><a href="api/system/">System &amp; Updates</a></strong></td>
+<td style="text-align: left;"><code>/system/info</code>, <code>/system/health</code>, <code>/system/updates</code></td>
+<td style="text-align: left;">Robot model, hardware telemetry, OTA update daemon</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><a href="api/state/">Robot State</a></strong></td>
+<td style="text-align: left;"><code>/state/pose</code>, <code>/state/battery</code>, <code>/state/imu</code>, <code>/state/scan</code></td>
+<td style="text-align: left;">Live positioning, power status, sensor telemetry with freshness</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><a href="api/maps/">Maps &amp; Waypoints</a></strong></td>
+<td style="text-align: left;"><code>/maps</code>, <code>/maps/active</code>, <code>/waypoints</code></td>
+<td style="text-align: left;">Map switching, occupancy grids, named navigation waypoints</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><a href="api/navigation/">Navigation</a></strong></td>
+<td style="text-align: left;"><code>/navigation/navigate</code>, <code>/navigation/status</code>, <code>/navigation/cancel</code></td>
+<td style="text-align: left;">Nav2 dispatch, goal tracking, ETA, and cancellation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><a href="api/docking/">Autonomous Docking</a></strong></td>
+<td style="text-align: left;"><code>/docking/dock</code>, <code>/docking/undock</code>, <code>/docking/status</code></td>
+<td style="text-align: left;">AprilTag visual servoing and charger contact validation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><a href="api/missions/">Missions &amp; Schedules</a></strong></td>
+<td style="text-align: left;"><code>/missions</code>, <code>/missions/{id}/execute</code>, <code>/schedules</code></td>
+<td style="text-align: left;">Multi-step task sequencer, loop routines, cron schedules</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><a href="api/events/">Real-time Events</a></strong></td>
+<td style="text-align: left;"><code>/ws/telemetry</code></td>
+<td style="text-align: left;">Low-latency 10 Hz WebSocket streaming</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="ready-to-build">Ready to build?<a class="headerlink" href="#ready-to-build" title="Link to this section">&para;</a></h2>
 <div class="grid cards">
 <ul>
 <li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m13.13 22.19-1.63-3.83c1.57-.58 3.04-1.36 4.4-2.27zM5.64 12.5l-3.83-1.63 6.1-2.77C7 9.46 6.22 10.93 5.64 12.5M21.61 2.39S16.66.269 11 5.93c-2.19 2.19-3.5 4.6-4.35 6.71-.28.75-.09 1.57.46 2.13l2.13 2.12c.55.56 1.37.74 2.12.46A19.1 19.1 0 0 0 18.07 13c5.66-5.66 3.54-10.61 3.54-10.61m-7.07 7.07c-.78-.78-.78-2.05 0-2.83s2.05-.78 2.83 0c.77.78.78 2.05 0 2.83s-2.05.78-2.83 0m-5.66 7.07-1.41-1.41zM6.24 22l3.64-3.64c-.34-.09-.67-.24-.97-.45L4.83 22zM2 22h1.41l4.77-4.76-1.42-1.41L2 20.59zm0-2.83 4.09-4.08c-.21-.3-.36-.62-.45-.97L2 17.76z"/></svg></span> <strong><a href="getting-started/">Getting started</a></strong></p>
-<p>Enable the SDK on a robot and make your first five calls.</p>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17z"/></svg></span> <strong><a href="getting-started/">Getting Started Tutorial</a></strong></p>
+<p>Follow the step-by-step tutorial to configure your environment and issue your first robot commands.</p>
 </li>
 <li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> <strong><a href="concepts/">Core concepts</a></strong></p>
-<p>Modes, coordinate frames, localization, and why some calls return 202.</p>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 3h2v2H5v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5h2v2H5c-1.07-.27-2-.9-2-2v-4a2 2 0 0 0-2-2H0v-2h1a2 2 0 0 0 2-2V5a2 2 0 0 1 2-2m14 0a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1v2h-1a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2v-2h2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5h-2V3zm-7 12a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m-4 0a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m8 0a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1"/></svg></span> <strong><a href="reference.html">Interactive API Explorer</a></strong></p>
+<p>Explore and test every request schema, payload field, and response shape directly in Redoc.</p>
 </li>
 <li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg></span> <strong><a href="reference.html">API reference</a></strong></p>
-<p>The full OpenAPI 3.1 specification, rendered.</p>
-</li>
-<li>
-<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89"/></svg></span> <strong><a href="clients/">Clients &amp; recipes</a></strong></p>
-<p>The Python client, plus curl and JavaScript examples.</p>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2 .9-2 2-2 2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.89 2-2-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73 0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z"/></svg></span> <strong><a href="clients/">Autonomous AI Agents &amp; MCP</a></strong></p>
+<p>Equip LLM assistants with 24 native robotic control tools using the Model Context Protocol.</p>
 </li>
 </ul>
 </div>
-<h2 id="status">Status<a class="headerlink" href="#status" title="Link to this section">&para;</a></h2>
-<p>Version <strong>1.0.0</strong>, API <strong>v1</strong>. Endpoint paths and response shapes under <code>/api/v1</code> are
-stable: fields may be <em>added</em>, never removed or repurposed. Capabilities not yet built —
-virtual walls, fixed routes, stored missions — have their namespace reserved and answer
-<span class="status err">501</span> rather than <span class="status err">404</span>, so
-probing tells you "planned" instead of "typo". See the <a href="roadmap/">roadmap</a>.</p>
 
 
 
