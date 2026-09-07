@@ -1,6 +1,6 @@
 # Model Context Protocol (MCP) Server
 
-The **Model Context Protocol (MCP)** server connects the NavPro Mini AMR to modern AI agents (Google Antigravity, Claude Desktop, Cursor, and custom Python agent frameworks). It allows Large Language Models (LLMs) to reason about the robot's physical environment, synthesize multi-stop missions, monitor live telemetry, and control physical movement.
+The **Model Context Protocol (MCP)** server connects the NavPro Mini AMR to modern AI agents (Google Antigravity, Gemini, Cursor, and custom Python agent frameworks). It allows Large Language Models (LLMs) to reason about the robot's physical environment, synthesize multi-stop missions, monitor live telemetry, and control physical movement.
 
 Operates purely over **standard JSON-RPC via Stdio or SSE** — no heavy Vision-Language-Action (VLA) neural policies or local GPU hardware required.
 
@@ -67,14 +67,9 @@ pip install -e clients/mcp
 
 ---
 
-### Method 2: Remote SSE Connection (Claude Desktop / Cursor / Remote Agents)
+### Method 2: Remote SSE Connection (Cursor / Remote Agents)
 
 For clients that connect over HTTP Server-Sent Events (SSE) to the robot's built-in `navpro-mcp.service` on port **8091**:
-
-Add this to your `claude_desktop_config.json`:
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Linux**: `~/.config/Claude/claude_desktop_config.json`
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
