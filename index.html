@@ -85,7 +85,24 @@
     </div>
     <div data-md-component="announce">
       
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            
+  <div class="npm-version-announcement" style="display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.84rem; padding: 2px 0;">
+    <span style="background: rgba(255, 255, 255, 0.22); color: inherit; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-family: var(--md-code-font-family); letter-spacing: 0.05em;">v1.0.0</span>
+    <span>NavPro Mini SDK &amp; API Documentation &bull; Release v1.0.0 (API v1) &bull; Check your robot version via <code>GET /api/v1/system/info</code></span>
+  </div>
+
+          </div>
+          
+        </aside>
+      
     </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
     
     
       
@@ -1419,6 +1436,20 @@
 <h1 id="navpromini-sdk">NavProMini SDK<a class="headerlink" href="#navpromini-sdk" title="Link to this section">&para;</a></h1>
 <p>Drive, map, navigate and dock a NavProMini robot over plain HTTP.
 No ROS installation, no message definitions, no client library required.</p>
+<div style="display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap;">
+  <span style="background: #1565c0; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">SDK v1.0.0</span>
+  <span style="background: #2e7d32; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">REST API v1</span>
+  <span style="background: #6a1b9a; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">WebSocket v1</span>
+  <span style="background: #37474f; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Companion v1.0.0</span>
+  <span style="background: #00838f; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">GUI App v1.0.0</span>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Verify Your Robot &amp; SDK Version</p>
+<p>You can check the version running on your robot at any time:
+- <strong>In the GUI App</strong>: Open <strong>Settings &rarr; Help &amp; About</strong> or <strong>Settings &rarr; Software Updates</strong>.
+- <strong>Via Terminal / API</strong>: Run <code>curl http://&lt;robot-ip&gt;:8090/api/v1/system/info</code> to view <code>sdk_version</code> and <code>api_version</code>.
+This documentation portal documents <strong>Release v1.0.0 (API v1)</strong>.</p>
 </div>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>http://192.168.1.50:8090/api/v1/state/battery
 </span></code></pre></div>
@@ -1603,7 +1634,7 @@ probing tells you "planned" instead of "typo". See the <a href="roadmap/">roadma
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "1.0.0"}</script>
     
     
       <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
