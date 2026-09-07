@@ -111,3 +111,57 @@
 
 /* Wide endpoint tables must scroll themselves, never the page. */
 .md-typeset__table { width: 100%; }
+
+/* ---- API Section Styling ------------------------------------------------ */
+
+.md-typeset h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-top: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: var(--md-default-fg-color--light);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.md-typeset h4::before {
+  content: "";
+  display: inline-block;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: var(--md-accent-fg-color);
+}
+
+.md-typeset table:not([class]) {
+  width: 100%;
+  margin: 0.6rem 0 1.2rem;
+  font-size: 0.82rem;
+  border-collapse: collapse;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--md-code-bg-color);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.45rem 0.75rem;
+}
+
+.md-typeset table:not([class]) td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+@media print {
+  .md-typeset h3:has(> .verb) {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  .md-typeset pre {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

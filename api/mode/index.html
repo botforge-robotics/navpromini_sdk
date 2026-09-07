@@ -259,7 +259,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../getting-started/" class="md-tabs__link">
+        <a href="../../robot-setup/" class="md-tabs__link">
           
   
   
@@ -502,14 +502,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/" class="md-nav__link">
+      <a href="../../robot-setup/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Getting started
+    Robot setup &amp; lifecycle
   
 
     
@@ -530,14 +530,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../robot-setup/" class="md-nav__link">
+      <a href="../../getting-started/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Robot setup &amp; lifecycle
+    Getting started
   
 
     
@@ -813,6 +813,56 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="GET /mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -823,6 +873,56 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="POST /mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1356,6 +1456,56 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="GET /mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1366,6 +1516,56 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="POST /mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1454,124 +1654,206 @@ change always stops the current mode before starting the next.</p>
 </div>
 <hr />
 <h3 id="get-mode"><span class="verb get">GET</span> <code>/mode</code><a class="headerlink" href="#get-mode" title="Link to this section">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/mode
-</span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigation"</span><span class="p">,</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span><span class="p">,</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"launch_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f2a9c1e-7b40-4d2a-9c33-8a1f6b0e5d77"</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"since_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">42.1</span><span class="w"> </span><span class="p">}</span>
+<p>Check the active operational state of the AMR (idle, mapping, or navigation).</p>
+<h4 id="request">Request<a class="headerlink" href="#request" title="Link to this section">&para;</a></h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>Path</strong>: <code>/mode</code></li>
+<li><strong>Headers</strong>: None required</li>
+<li><strong>Payload</strong>: None</li>
+</ul>
+<h4 id="response">Response<a class="headerlink" href="#response" title="Link to this section">&para;</a></h4>
+<ul>
+<li><strong>Status</strong>: <span class="status ok">200 OK</span></li>
+</ul>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigation"</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"launch_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f2a9c1e-7b40-4d2a-9c33-8a1f6b0e5d77"</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">"since_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">42.1</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
 </span></code></pre></div>
 <table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Meaning</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>mode</code></td>
-<td><code>idle</code>, <code>mapping</code> or <code>navigation</code></td>
+<td><code>string</code></td>
+<td>Currently active mode: <code>idle</code>, <code>mapping</code>, or <code>navigation</code></td>
 </tr>
 <tr>
 <td><code>map</code></td>
-<td>Map in use — <code>null</code> outside navigation</td>
+<td><code>string</code></td>
+<td>Active map name (or <code>null</code> when not in navigation)</td>
 </tr>
 <tr>
 <td><code>launch_id</code></td>
-<td>Handle for the underlying process group; useful in bug reports</td>
+<td><code>string</code></td>
+<td>Process session identifier for the underlying ROS 2 stack</td>
 </tr>
 <tr>
 <td><code>since_sec</code></td>
-<td>Seconds in this mode</td>
+<td><code>number</code></td>
+<td>Seconds elapsed since entering the current mode</td>
 </tr>
 </tbody>
 </table>
+<h4 id="error-codes">Error Codes<a class="headerlink" href="#error-codes" title="Link to this section">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Code</th>
+<th>Cause / Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="status err">401</span></td>
+<td><code>unauthorized</code></td>
+<td>Token authentication enabled and Bearer token missing/invalid</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-curl">Example (cURL)<a class="headerlink" href="#example-curl" title="Link to this section">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/mode
+</span></code></pre></div>
 <hr />
 <h3 id="post-mode"><span class="verb post">POST</span> <code>/mode</code><a class="headerlink" href="#post-mode" title="Link to this section">&para;</a></h3>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigation"</span><span class="p">,</span><span class="w"> </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
+<p>Switch the robot's operational mode to <code>idle</code>, <code>mapping</code>, or <code>navigation</code>.</p>
+<h4 id="request_1">Request<a class="headerlink" href="#request_1" title="Link to this section">&para;</a></h4>
+<ul>
+<li><strong>Method</strong>: <code>POST</code></li>
+<li><strong>Path</strong>: <code>/mode</code></li>
+<li><strong>Headers</strong>: <code>Content-Type: application/json</code></li>
+</ul>
+<p><strong>Payload:</strong></p>
 <table>
 <thead>
 <tr>
 <th>Field</th>
+<th>Type</th>
 <th>Required</th>
-<th>Notes</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>mode</code></td>
-<td>yes</td>
-<td><code>idle</code>, <code>mapping</code> or <code>navigation</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Target mode: <code>idle</code>, <code>mapping</code>, or <code>navigation</code></td>
 </tr>
 <tr>
 <td><code>map</code></td>
-<td>for <code>navigation</code></td>
-<td>Omit to reuse the last activated map</td>
+<td><code>string</code></td>
+<td>For <code>navigation</code></td>
+<td>Map name to navigate on (omit to reuse last activated map)</td>
 </tr>
 </tbody>
 </table>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Start navigation</label><label for="__tabbed_1_2">Start mapping</label><label for="__tabbed_1_3">Stop everything</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/mode<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"mode": "navigation", "map": "workRoom"}'</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigation"</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
 </span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigation"</span><span class="p">,</span><span class="w"> </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span><span class="p">,</span><span class="w"> </span><span class="nt">"launch_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f2a9c1e-…"</span><span class="w"> </span><span class="p">}</span>
+<h4 id="response_1">Response<a class="headerlink" href="#response_1" title="Link to this section">&para;</a></h4>
+<ul>
+<li><strong>Status</strong>: <span class="status warn">202 Accepted</span> (starting stack) or <span class="status ok">200 OK</span> (switched to <code>idle</code>)</li>
+</ul>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navigation"</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workRoom"</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"launch_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f2a9c1e-7b40-4d2a-9c33-8a1f6b0e5d77"</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
 </span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/mode<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"mode": "mapping"}'</span>
-</span></code></pre></div>
-<p>Mapping always begins from a blank map. Save what it builds with
-<a href="../maps/"><code>POST /maps</code></a>.</p>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/mode<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"mode": "idle"}'</span>
-</span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"idle"</span><span class="w"> </span><span class="p">}</span>
-</span></code></pre></div>
-</div>
-</div>
-</div>
-<p><strong>Responses</strong></p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>When</th>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span class="status ok">200</span></td>
-<td>Switched to <code>idle</code> — nothing left to start</td>
+<td><code>mode</code></td>
+<td><code>string</code></td>
+<td>The newly requested mode</td>
 </tr>
 <tr>
-<td><span class="status warn">202</span></td>
-<td>Mode is starting; poll <code>GET /mode</code></td>
+<td><code>map</code></td>
+<td><code>string</code></td>
+<td>Active map name</td>
 </tr>
 <tr>
-<td><span class="status err">400 <code>invalid_mode</code></span></td>
-<td>Not one of the three</td>
-</tr>
-<tr>
-<td><span class="status err">400 <code>map_required</code></span></td>
-<td><code>navigation</code> with no map, and none previously activated</td>
-</tr>
-<tr>
-<td><span class="status err">409 <code>mode_busy</code></span></td>
-<td>Another mode change is already in progress</td>
-</tr>
-<tr>
-<td><span class="status err">500 <code>launch_failed</code></span></td>
-<td>The underlying stack refused to start</td>
+<td><code>launch_id</code></td>
+<td><code>string</code></td>
+<td>Unique process group handle</td>
 </tr>
 </tbody>
 </table>
+<h4 id="error-codes_1">Error Codes<a class="headerlink" href="#error-codes_1" title="Link to this section">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Code</th>
+<th>Cause / Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="status err">400</span></td>
+<td><code>invalid_mode</code></td>
+<td>Mode is not one of <code>idle</code>, <code>mapping</code>, or <code>navigation</code></td>
+</tr>
+<tr>
+<td><span class="status err">400</span></td>
+<td><code>map_required</code></td>
+<td>Navigation requested with no map specified and none previously activated</td>
+</tr>
+<tr>
+<td><span class="status err">409</span></td>
+<td><code>mode_busy</code></td>
+<td>Another mode transition is already in progress</td>
+</tr>
+<tr>
+<td><span class="status err">500</span></td>
+<td><code>launch_failed</code></td>
+<td>ROS 2 launch process failed to start nodes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-curl_1">Example (cURL)<a class="headerlink" href="#example-curl_1" title="Link to this section">&para;</a></h4>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Start navigation</label><label for="__tabbed_1_2">Start mapping</label><label for="__tabbed_1_3">Stop all stacks (idle)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/mode<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">     </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"mode": "navigation", "map": "workRoom"}'</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/mode<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">     </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"mode": "mapping"}'</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="nv">$ROBOT</span>/mode<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">     </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"mode": "idle"}'</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
 <h2 id="timing">Timing<a class="headerlink" href="#timing" title="Link to this section">&para;</a></h2>
 <p>A mode change takes <strong>several seconds</strong> — Nav2 and SLAM each bring up a dozen nodes. The
 call returns as soon as the launch is accepted, not when the stack is ready.</p>

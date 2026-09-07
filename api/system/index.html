@@ -259,7 +259,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../getting-started/" class="md-tabs__link">
+        <a href="../../robot-setup/" class="md-tabs__link">
           
   
   
@@ -502,14 +502,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/" class="md-nav__link">
+      <a href="../../robot-setup/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Getting started
+    Robot setup &amp; lifecycle
   
 
     
@@ -530,14 +530,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../robot-setup/" class="md-nav__link">
+      <a href="../../getting-started/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Robot setup &amp; lifecycle
+    Getting started
   
 
     
@@ -757,6 +757,56 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="GET /system/info">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -767,6 +817,56 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="GET /system/health">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1334,6 +1434,56 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="GET /system/info">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1344,6 +1494,56 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="GET /system/health">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-codes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-curl_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example (cURL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1376,63 +1576,80 @@
 <p>Identity and health. These two endpoints answer "what is this robot?" and "is it well?" —
 the first two questions any integration needs settled.</p>
 <h3 id="get-systeminfo"><span class="verb get">GET</span> <code>/system/info</code><a class="headerlink" href="#get-systeminfo" title="Link to this section">&para;</a></h3>
-<p>Identity, versions, and capabilities.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/system/info
-</span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"robot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="p">,</span><span class="w"> </span><span class="nt">"serial"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46884ab7aa441027"</span><span class="p">,</span><span class="w"> </span><span class="nt">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"sdk_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">"ros_distro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jazzy"</span><span class="p">,</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NavProMini"</span><span class="p">,</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">"uptime_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">812.4</span><span class="p">,</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">"capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nt">"mapping"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">"navigation"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nt">"docking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">"docking_method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"apriltag"</span><span class="p">,</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">"camera"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nt">"virtual_walls"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="nt">"fixed_routes"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nt">"missions"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">}</span>
+<p>Identity, software versions, and hardware capabilities.</p>
+<h4 id="request">Request<a class="headerlink" href="#request" title="Link to this section">&para;</a></h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>Path</strong>: <code>/system/info</code></li>
+<li><strong>Headers</strong>: None required</li>
+<li><strong>Payload</strong>: None</li>
+</ul>
+<h4 id="response">Response<a class="headerlink" href="#response" title="Link to this section">&para;</a></h4>
+<ul>
+<li><strong>Status</strong>: <span class="status ok">200 OK</span></li>
+</ul>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"robot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="p">,</span><span class="w"> </span><span class="nt">"serial"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46884ab7aa441027"</span><span class="p">,</span><span class="w"> </span><span class="nt">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"navpromini"</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"sdk_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"api_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">"ros_distro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jazzy"</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NavProMini"</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">"uptime_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">812.4</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">"capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">"mapping"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">"navigation"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">"docking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">"docking_method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"apriltag"</span><span class="p">,</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nt">"camera"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nt">"virtual_walls"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nt">"fixed_routes"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="nt">"missions"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">}</span>
 </span></code></pre></div>
 <table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Meaning</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>robot.name</code></td>
+<td><code>string</code></td>
 <td>Configured robot name, shown on the robot's own display</td>
 </tr>
 <tr>
 <td><code>robot.serial</code></td>
+<td><code>string</code></td>
 <td>CPU serial — unique per unit, stable across reinstalls</td>
 </tr>
 <tr>
 <td><code>robot.hostname</code></td>
+<td><code>string</code></td>
 <td>Network hostname. Informational — address the robot by IP</td>
 </tr>
 <tr>
 <td><code>sdk_version</code></td>
+<td><code>string</code></td>
 <td>Version of the SDK server</td>
 </tr>
 <tr>
 <td><code>api_version</code></td>
+<td><code>string</code></td>
 <td>URL namespace in use (<code>v1</code>)</td>
 </tr>
 <tr>
 <td><code>uptime_sec</code></td>
+<td><code>number</code></td>
 <td>How long the SDK server has been running — <strong>not</strong> robot uptime</td>
 </tr>
 <tr>
 <td><code>capabilities</code></td>
-<td>What this unit can do</td>
+<td><code>object</code></td>
+<td>Map of enabled subsystem features and behaviors</td>
 </tr>
 </tbody>
 </table>
@@ -1442,47 +1659,110 @@ the first two questions any integration needs settled.</p>
 the outside, and only one is worth retrying. Reading capabilities once at startup
 settles it.</p>
 </div>
-<p><code>serial</code> is <code>null</code> when the CPU serial cannot be read; <code>name</code> falls back to the hostname.
-This endpoint is deliberately the most defensive one in the SDK — it is the first thing
-anyone calls when debugging a robot, so it answers even when parts of the robot stack are
-not installed or not running.</p>
+<h4 id="error-codes">Error Codes<a class="headerlink" href="#error-codes" title="Link to this section">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Code</th>
+<th>Cause / Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="status err">401</span></td>
+<td><code>unauthorized</code></td>
+<td>Token authentication enabled on robot and header missing or incorrect</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-curl">Example (cURL)<a class="headerlink" href="#example-curl" title="Link to this section">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/system/info
+</span></code></pre></div>
 <hr />
 <h3 id="get-systemhealth"><span class="verb get">GET</span> <code>/system/health</code><a class="headerlink" href="#get-systemhealth" title="Link to this section">&para;</a></h3>
-<p>Per-subsystem freshness.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/system/health
-</span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"healthy"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"sources"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">"odom"</span><span class="p">:</span><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.07</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">"battery"</span><span class="p">:</span><span class="w">         </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.44</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">"imu"</span><span class="p">:</span><span class="w">             </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.07</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nt">"lidar"</span><span class="p">:</span><span class="w">           </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.12</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">"cpu_temperature"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.90</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="p">},</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">"cpu_temperature_c"</span><span class="p">:</span><span class="w"> </span><span class="mf">55.1</span><span class="p">,</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nt">"disk"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"total_gb"</span><span class="p">:</span><span class="w"> </span><span class="mf">29.5</span><span class="p">,</span><span class="w"> </span><span class="nt">"free_gb"</span><span class="p">:</span><span class="w"> </span><span class="mf">18.2</span><span class="p">,</span><span class="w"> </span><span class="nt">"used_percent"</span><span class="p">:</span><span class="w"> </span><span class="mf">35.4</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">}</span>
-</span></code></pre></div>
-<p><code>healthy</code> is simply every source being <code>ok</code>. Each source reports:</p>
+<p>Per-subsystem freshness and hardware monitoring.</p>
+<h4 id="request_1">Request<a class="headerlink" href="#request_1" title="Link to this section">&para;</a></h4>
 <ul>
-<li><code>age_sec</code> — seconds since that source last published, or <code>null</code> if it never has</li>
-<li><code>limit_sec</code> — how stale it is allowed to get before <code>ok</code> goes false</li>
-<li><code>ok</code> — <code>age_sec</code> is present and within <code>limit_sec</code></li>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>Path</strong>: <code>/system/health</code></li>
+<li><strong>Headers</strong>: None required</li>
+<li><strong>Payload</strong>: None</li>
 </ul>
-<p>The limits are generous multiples of each source's nominal rate, so a momentarily busy CPU
-does not read as a dead sensor.</p>
-<div class="admonition info">
-<p class="admonition-title">Why per-source instead of one boolean</p>
-<p>"The robot is unhealthy" gives an operator nothing to do. "Lidar last published 40
-seconds ago" points straight at the problem. The overall verdict is included for
-dashboards; the breakdown is for whoever has to fix it.</p>
-</div>
-<p>A source with <code>"age_sec": null</code> has <strong>never</strong> published in this session — usually a driver
-that failed to start, which is a different problem from one that stopped.</p>
-<p>The endpoint always returns <span class="status ok">200</span>, including when the robot
-is unhealthy: the response body is the report, and a non-200 would make a monitoring system
-unable to tell "unhealthy robot" from "unreachable robot".</p>
+<h4 id="response_1">Response<a class="headerlink" href="#response_1" title="Link to this section">&para;</a></h4>
+<ul>
+<li><strong>Status</strong>: <span class="status ok">200 OK</span></li>
+</ul>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"healthy"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"sources"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">"odom"</span><span class="p">:</span><span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.07</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">"battery"</span><span class="p">:</span><span class="w">         </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.44</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">"imu"</span><span class="p">:</span><span class="w">             </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.07</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">"lidar"</span><span class="p">:</span><span class="w">           </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.12</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">"cpu_temperature"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"age_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.90</span><span class="p">,</span><span class="w"> </span><span class="nt">"limit_sec"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="nt">"cpu_temperature_c"</span><span class="p">:</span><span class="w"> </span><span class="mf">55.1</span><span class="p">,</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nt">"disk"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"total_gb"</span><span class="p">:</span><span class="w"> </span><span class="mf">29.5</span><span class="p">,</span><span class="w"> </span><span class="nt">"free_gb"</span><span class="p">:</span><span class="w"> </span><span class="mf">18.2</span><span class="p">,</span><span class="w"> </span><span class="nt">"used_percent"</span><span class="p">:</span><span class="w"> </span><span class="mf">35.4</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>healthy</code></td>
+<td><code>boolean</code></td>
+<td><code>true</code> if every critical sensor and driver source is publishing within its stale limit</td>
+</tr>
+<tr>
+<td><code>sources</code></td>
+<td><code>object</code></td>
+<td>Per-sensor breakdown with <code>ok</code>, <code>age_sec</code>, and maximum allowed <code>limit_sec</code></td>
+</tr>
+<tr>
+<td><code>cpu_temperature_c</code></td>
+<td><code>number</code></td>
+<td>Host processor temperature in degrees Celsius</td>
+</tr>
+<tr>
+<td><code>disk</code></td>
+<td><code>object</code></td>
+<td>Storage breakdown with <code>total_gb</code>, <code>free_gb</code>, and <code>used_percent</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each source reports:
+- <code>age_sec</code> — seconds since that source last published, or <code>null</code> if it never has
+- <code>limit_sec</code> — how stale it is allowed to get before <code>ok</code> goes false
+- <code>ok</code> — <code>age_sec</code> is present and within <code>limit_sec</code></p>
+<p>A source with <code>"age_sec": null</code> has <strong>never</strong> published in this session — usually a driver that failed to start.</p>
+<p>The endpoint always returns <span class="status ok">200</span>, including when the robot is unhealthy: the response body is the report itself.</p>
+<h4 id="error-codes_1">Error Codes<a class="headerlink" href="#error-codes_1" title="Link to this section">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Code</th>
+<th>Cause / Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="status err">401</span></td>
+<td><code>unauthorized</code></td>
+<td>Token authentication enabled on robot and header missing or incorrect</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-curl_1">Example (cURL)<a class="headerlink" href="#example-curl_1" title="Link to this section">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ROBOT</span>/system/health
+</span></code></pre></div>
 
 
 
