@@ -8,7 +8,6 @@ copyright: Copyright &copy; Botforge Robotics — released under the MIT License
 
 theme:
   name: material
-  custom_dir: overrides
   language: en
   icon:
     logo: material/robot-industrial
@@ -61,11 +60,6 @@ extra_css:
 
 extra:
   version: "1.0.0"
-  announcement: >-
-    <div style="display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.82rem;">
-      <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; font-weight: 700;">v1.0.0</span>
-      <span>NavPro Mini SDK &amp; API Documentation &bull; Matches Robot Companion v1.0.0 &amp; GUI v1.0.0 &bull; Verify on robot via <code>GET /api/v1/system/info</code></span>
-    </div>
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/botforge-robotics

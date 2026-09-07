@@ -10,49 +10,24 @@ hide:
   }
 </style>
 
-<div class="npm-hero" markdown>
+<div class="npm-header-block" markdown>
 
-<div class="npm-hero-pill">NAVPRO MINI &bull; ROBOTICS DEVELOPER PLATFORM</div>
+<span class="npm-hero-badge">NavPro Mini AMR &bull; Developer Platform</span>
 
 # NavPro Mini SDK &amp; API
+{: .npm-main-title }
 
-Programmatic control, SLAM mapping, autonomous navigation, visual docking, and real-time telemetry over plain HTTP &amp; WebSockets. Zero ROS installation required on client devices.
+<p class="npm-lead">
+  The HTTP REST and WebSocket developer platform for the <strong>NavPro Mini Autonomous Mobile Robot</strong>. Drive, map, navigate, dock, and stream real-time telemetry from any programming language or framework — no ROS 2 installation required.
+</p>
 
-<div class="npm-hero-actions" markdown>
+<div class="npm-actions-bar" markdown>
 [:material-rocket-launch: Quick Start Guide](getting-started.md){ .md-button .md-button--primary }
 [:material-api: REST API Reference](api/index.md){ .md-button }
 [:material-lightning-bolt: Interactive OpenAPI Spec](reference.html){ .md-button }
 [:material-robot: Python SDK &amp; MCP](clients.md){ .md-button }
+<span class="npm-version-chip">Release <strong>v1.0.0</strong> &bull; API <strong>v1</strong></span>
 </div>
-
-</div>
-
-<div class="npm-compat-card" markdown>
-
-### :material-shield-check: Version &amp; Ecosystem Matrix
-
-| Component | Active Version | Protocol / Stack | Verification Endpoint |
-| :--- | :--- | :--- | :--- |
-| **Documentation Portal** | **`v1.0.0`** | Guides &amp; OpenAPI 3.1 Spec | [API Overview](api/index.md) |
-| **Robot REST API** | **`v1`** (`:8090/api/v1`) | HTTP JSON REST | `GET /api/v1/system/info` |
-| **Telemetry Event Stream** | **`v1`** (`:8090/ws/telemetry`) | WebSocket 10 Hz Streams | [Events Guide](api/events.md) |
-| **Robot Companion OS** | **`v1.0.0`** | Ubuntu 24.04 &bull; ROS 2 Jazzy | `GET /api/v1/system/updates` |
-| **Mission Planner GUI** | **`v1.0.0`** | Android, Linux, Windows, Web | App **Settings &rarr; Help &amp; About** |
-
-!!! tip "Verifying Version on Active Hardware"
-    Check the active SDK and API version on your robot at any time:
-    ```bash
-    curl http://<robot-ip>:8090/api/v1/system/info
-    ```
-    Expected response:
-    ```json
-    {
-      "robot": {"hostname": "navpromini", "model": "NavProMini"},
-      "sdk_version": "1.0.0",
-      "api_version": "v1",
-      "capabilities": {"mapping": true, "navigation": true, "docking": true, "missions": true}
-    }
-    ```
 
 </div>
 
