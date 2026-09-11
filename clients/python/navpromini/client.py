@@ -571,7 +571,7 @@ class NavProMini:
     def get_active_ui_interaction(self) -> Optional[dict]:
         """Fetch any currently active UI interaction prompt if mission is waiting."""
         res = self._get('/missions/active_ui_interaction')
-        return res.get('interaction')
+        return res.get('active_interaction') or res.get('interaction')
 
     def respond_to_ui_interaction(self, interaction_id: str, action: str = 'submit',
                                   selected: Optional[str] = None, form_data: Optional[dict] = None,
