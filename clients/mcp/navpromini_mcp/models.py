@@ -63,3 +63,29 @@ class RobotStatusSummary(BaseModel):
     linear_velocity: float = 0.0
     angular_velocity: float = 0.0
     active_mission_state: Optional[str] = None
+
+
+class GraphNodeSpec(BaseModel):
+    id: str = Field(..., description="Unique node identifier, e.g. 'check_door'")
+    type: str = Field(..., description="Node type (e.g. 'start', 'navigate_waypoint', 'condition', 'ui_interaction', 'wait', 'call_api')")
+    label: str = Field("", description="Display label for the node")
+    position: Optional[Dict[str, float]] = Field(default=None, description="Optional UI layout position {'x': 100.0, 'y': 200.0}")
+    params: Dict[str, Any] = Field(default_factory=dict, description="Node execution parameters")
+
+
+class GraphEdgeSpec(BaseModel):
+    id: Optional[str] = Field(None, description="Unique edge identifier")
+    from_node: str = Field(..., description="Source node ID")
+    from_port: str = Field("next", description="Source output port name (e.g. 'next', 'true', 'false', 'submitted')")
+    to_node: str = Field(..., description="Destination node ID")
+    to_port: str = Field("in", description="Destination input port name (usually 'in')")
+
+
+class GraphMissionSpec(BaseModel):
+    id: str = Field(..., description="Unique alphanumeric mission identifier (no spaces)")
+    name: str = Field(..., description="Human-readable mission name")
+    map: Optional[str] = Field(None, description="Map name this mission belongs to")
+    entrypoint: Optional[str] = Field(None, description="Entrypoint node ID (defaults to first node or 'start')")
+    nodes: List[GraphNodeSpec] = Field(..., min_length=1, description="List of graph nodes")
+    edges: List[GraphEdgeSpec] = Field(default_factory=list, description="List of directed edges connecting ports")
+

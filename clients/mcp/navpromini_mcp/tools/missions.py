@@ -8,7 +8,13 @@ from navpromini_mcp.guardrails import (
     validate_waypoints_exist,
     SafetyInterlockError,
 )
-from navpromini_mcp.models import MissionSpec, MissionTask
+from navpromini_mcp.models import (
+    MissionSpec,
+    MissionTask,
+    GraphNodeSpec,
+    GraphEdgeSpec,
+    GraphMissionSpec,
+)
 
 
 def register_mission_tools(mcp, robot: NavProMini):
@@ -446,4 +452,154 @@ def register_mission_tools(mcp, robot: NavProMini):
             return {"success": True, "count": len(schedules), "schedules": schedules}
         except RobotError as e:
             return {"success": False, "error": f"{e.code}: {e.message}"}
+
+    @mcp.tool()
+    def get_mission_node_types() -> Dict[str, Any]:
+        """Query the full catalog of available visual mission graph node types, their ports, schemas, and supported categories."""
+        try:
+            res = robot.get_mission_node_types()
+            return {"success": True, "node_types": res.get("node_types", {})}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    @mcp.tool()
+    def synthesize_and_save_graph_mission(
+        name: str,
+        nodes: List[Dict[str, Any]],
+        edges: List[Dict[str, Any]],
+        description: str = "",
+        entrypoint: Optional[str] = None,
+        map_name: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Validate, verify safety constraints, and save a conditional visual node-based mission graph.
+        
+        Args:
+            name: Unique mission identifier (alphanumeric and underscores, e.g. 'smart_patrol_v1').
+            nodes: List of graph node objects:
+                   [
+                     {"id": "start", "type": "start", "label": "Start"},
+                     {"id": "nav_a", "type": "navigate_waypoint", "params": {"waypoint": "station_a"}},
+                     {"id": "ask_user", "type": "ui_interaction", "params": {"subtype": "choice", "options": ["Proceed", "Abort"]}},
+                     {"id": "cond", "type": "condition", "params": {"expression": "interaction.selected == 'Proceed'"}}
+                   ]
+            edges: List of directed port connections:
+                   [
+                     {"from_node": "start", "from_port": "next", "to_node": "nav_a", "to_port": "in"},
+                     {"from_node": "nav_a", "from_port": "arrived", "to_node": "ask_user", "to_port": "in"},
+                     {"from_node": "ask_user", "from_port": "submitted", "to_node": "cond", "to_port": "in"}
+                   ]
+            description: Mission description or purpose notes.
+            entrypoint: Starting node ID (defaults to first node or 'start').
+            map_name: Target map name (defaults to robot's currently active map).
+            
+        Returns:
+            Validation and compilation summary with save status.
+        """
+        if not nodes:
+            return {"success": False, "error": "Mission graph must contain at least one node."}
+
+        node_ids = {str(n.get("id")) for n in nodes if n.get("id")}
+        if len(node_ids) != len(nodes):
+            return {"success": False, "error": "Graph contains duplicate or missing node IDs."}
+
+        start_node = entrypoint or (nodes[0].get("id") if nodes else "start")
+        if start_node not in node_ids:
+            return {"success": False, "error": f"Entrypoint node '{start_node}' does not exist in graph nodes."}
+
+        # Check edge validity
+        for i, edge in enumerate(edges):
+            fn = edge.get("from_node")
+            tn = edge.get("to_node")
+            if fn not in node_ids:
+                return {"success": False, "error": f"Edge #{i} references non-existent source node '{fn}'."}
+            if tn not in node_ids:
+                return {"success": False, "error": f"Edge #{i} references non-existent destination node '{tn}'."}
+
+        # Check waypoint existence
+        referenced_wps = []
+        for n in nodes:
+            t = n.get("type", "")
+            p = n.get("params", {})
+            if t in ("navigate_waypoint", "navigate_to_waypoint") and p.get("waypoint"):
+                referenced_wps.append(p["waypoint"])
+
+        if referenced_wps:
+            try:
+                raw_wps = robot.waypoints()
+                known_wps = {w["name"]: w for w in raw_wps}
+                missing = [w for w in referenced_wps if w not in known_wps]
+                if missing:
+                    return {
+                        "success": False,
+                        "error": f"Mission references missing waypoints: {missing}. Available: {list(known_wps.keys())}"
+                    }
+            except Exception as e:
+                return {"success": False, "error": f"Failed checking waypoints: {str(e)}"}
+
+        try:
+            res = robot.save_graph_mission(
+                id=name,
+                name=description or name,
+                nodes=nodes,
+                edges=edges,
+                entrypoint=start_node,
+                map=map_name,
+            )
+            return {
+                "success": True,
+                "mission_id": name,
+                "node_count": len(nodes),
+                "edge_count": len(edges),
+                "entrypoint": start_node,
+                "saved_mission": res,
+            }
+        except Exception as e:
+            return {"success": False, "error": f"Failed saving graph mission: {str(e)}"}
+
+    @mcp.tool()
+    def get_active_ui_interaction() -> Dict[str, Any]:
+        """Check if an active mission is currently suspended waiting for user or agent input via a ui_interaction node.
+        
+        Returns:
+            Interaction payload containing interaction_id, node_id, subtype, title, message, choices, or form fields.
+        """
+        try:
+            interaction = robot.get_active_ui_interaction()
+            return {
+                "success": True,
+                "has_active_interaction": interaction is not None,
+                "interaction": interaction,
+            }
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    @mcp.tool()
+    def respond_to_ui_interaction(
+        interaction_id: str,
+        action: str = "submit",
+        selected: Optional[str] = None,
+        form_data: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """Submit an operator or AI agent response to resume an active mission suspended on a ui_interaction node.
+        
+        Args:
+            interaction_id: The unique interaction ID retrieved from get_active_ui_interaction or get_mission_status.
+            action: Response action ('submit', 'cancel', or custom button action name).
+            selected: Selected choice or radio value if interacting with a choice/kiosk prompt.
+            form_data: Key-value dictionary matching the required fields for a dynamic form prompt.
+            
+        Returns:
+            Response acknowledgment from the robot engine.
+        """
+        try:
+            res = robot.respond_to_ui_interaction(
+                interaction_id=interaction_id,
+                action=action,
+                selected=selected,
+                form_data=form_data,
+            )
+            return {"success": True, "details": res}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
 

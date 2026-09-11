@@ -478,6 +478,22 @@ class NavProMini:
         if isinstance(id, dict):
             data = id
             mission_id = str(data.get('id') or data.get('name') or '')
+            if 'nodes' in data:
+                body: dict[str, Any] = {
+                    'id': mission_id,
+                    'name': data.get('name', mission_id),
+                    'type': 'graph',
+                    'nodes': data['nodes'],
+                    'edges': data.get('edges', []),
+                }
+                if 'entrypoint' in data:
+                    body['entrypoint'] = data['entrypoint']
+                if 'map' in data or target_map:
+                    body['map'] = data.get('map', target_map)
+                if 'settings' in data:
+                    body['settings'] = data['settings']
+                return self._post('/missions', body)['mission']
+
             mission_steps = data.get('steps') or steps or []
             if not mission_steps and 'tasks' in data:
                 mission_steps = []
@@ -502,7 +518,7 @@ class NavProMini:
             l_count = data.get('loop_count', loop_count)
             l_forever = data.get('loop_forever', data.get('loop', loop_forever))
             map_val = data.get('map', target_map)
-            body: dict[str, Any] = {
+            body = {
                 'id': mission_id,
                 'steps': mission_steps,
                 'loop_count': l_count,
@@ -528,6 +544,49 @@ class NavProMini:
         if target_map:
             body['map'] = target_map
         return self._post('/missions', body)['mission']
+
+    def save_graph_mission(self, id: str, nodes: list[dict], edges: Optional[list[dict]] = None,
+                           name: Optional[str] = None, entrypoint: Optional[str] = None,
+                           map: Optional[str] = None, settings: Optional[dict] = None) -> dict:
+        """Create or replace a visual node-based mission graph."""
+        body: dict[str, Any] = {
+            'id': id,
+            'name': name or id,
+            'type': 'graph',
+            'nodes': nodes,
+            'edges': edges or [],
+        }
+        if entrypoint:
+            body['entrypoint'] = entrypoint
+        if map:
+            body['map'] = map
+        if settings:
+            body['settings'] = settings
+        return self._post('/missions', body)['mission']
+
+    def get_mission_node_types(self) -> dict:
+        """Fetch the available visual node types catalog from the robot engine."""
+        return self._get('/missions/node_types')
+
+    def get_active_ui_interaction(self) -> Optional[dict]:
+        """Fetch any currently active UI interaction prompt if mission is waiting."""
+        res = self._get('/missions/active_ui_interaction')
+        return res.get('interaction')
+
+    def respond_to_ui_interaction(self, interaction_id: str, action: str = 'submit',
+                                  selected: Optional[str] = None, form_data: Optional[dict] = None,
+                                  **kwargs) -> dict:
+        """Submit user/agent response to an active Human-in-the-Loop interaction."""
+        body: dict[str, Any] = {
+            'interaction_id': interaction_id,
+            'action': action,
+        }
+        if selected is not None:
+            body['selected'] = selected
+        if form_data is not None:
+            body['form_data'] = form_data
+        body.update(kwargs)
+        return self._post('/missions/ui_response', body)
 
     def delete_mission(self, id: str) -> dict:
         """Delete a saved mission by id."""
