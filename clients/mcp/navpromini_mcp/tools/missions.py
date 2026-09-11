@@ -345,11 +345,16 @@ def register_mission_tools(mcp, robot: NavProMini):
                     '0 9,17 * * 1-5' -> At 9 AM and 5 PM on weekdays
             enabled: Whether the schedule should be active immediately.
         """
-        # Check mission exists
+        # Check mission exists and resolve name to id
         try:
             saved = robot.missions()
-            names = [m.get("name") for m in saved]
-            if mission_name not in names:
+            mission_id = None
+            for m in saved:
+                if m.get("name") == mission_name or m.get("id") == mission_name:
+                    mission_id = m.get("id")
+                    break
+            if not mission_id:
+                names = [m.get("name") for m in saved]
                 return {
                     "success": False,
                     "error": f"Mission '{mission_name}' does not exist. Available missions: {names}"
@@ -357,20 +362,76 @@ def register_mission_tools(mcp, robot: NavProMini):
         except Exception as e:
             return {"success": False, "error": f"Failed checking missions: {str(e)}"}
 
-        schedule_payload = {
-            "id": schedule_id,
-            "mission_name": mission_name,
-            "cron": cron,
-            "enabled": enabled,
-        }
+        # Parse cron expression into hour, minute, repeat
+        # Format: 'minute hour day-of-month month day-of-week'
+        try:
+            parts = cron.strip().split()
+            if len(parts) != 5:
+                return {
+                    "success": False,
+                    "error": f"Invalid cron expression: expected 5 fields (minute hour dom month dow), got {len(parts)}"
+                }
+            cron_min, cron_hour, cron_dom, cron_month, cron_dow = parts
+
+            # Determine repeat mode and schedule parameters
+            # Simple daily: specific hour and minute, all days
+            if cron_dow == '*' and cron_dom == '*':
+                repeat = 'daily'
+                weekdays = None
+                date = None
+            elif cron_dow != '*':
+                repeat = 'weekly'
+                # Parse weekday numbers (cron: 0=Sun, 1=Mon...6=Sat -> robot: 0=Mon...6=Sun)
+                cron_to_robot_day = {0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5}
+                raw_days = []
+                for segment in cron_dow.split(','):
+                    if '-' in segment:
+                        start, end = segment.split('-', 1)
+                        raw_days.extend(range(int(start), int(end) + 1))
+                    else:
+                        raw_days.append(int(segment))
+                weekdays = sorted({cron_to_robot_day.get(d, d) for d in raw_days})
+                date = None
+            else:
+                repeat = 'daily'
+                weekdays = None
+                date = None
+
+            # Extract first matching hour and minute (simple cases)
+            if cron_min.isdigit():
+                minute = int(cron_min)
+            else:
+                minute = 0  # fallback for complex expressions like */30
+            if cron_hour.isdigit():
+                hour = int(cron_hour)
+            else:
+                hour = 0  # fallback for complex expressions
+
+        except Exception as e:
+            return {"success": False, "error": f"Failed to parse cron expression '{cron}': {str(e)}"}
 
         try:
-            res = robot.save_schedule(schedule_payload)
+            kwargs: Dict[str, Any] = {
+                "id": schedule_id,
+                "mission_id": mission_id,
+                "hour": hour,
+                "minute": minute,
+                "repeat": repeat,
+                "enabled": enabled,
+                "name": schedule_id,
+            }
+            if date:
+                kwargs["date"] = date
+            res = robot.save_schedule(**kwargs)
             return {
                 "success": True,
                 "schedule_id": schedule_id,
                 "mission_name": mission_name,
-                "cron": cron,
+                "mission_id": mission_id,
+                "hour": hour,
+                "minute": minute,
+                "repeat": repeat,
+                "cron_input": cron,
                 "enabled": enabled,
                 "details": res,
             }
@@ -385,3 +446,4 @@ def register_mission_tools(mcp, robot: NavProMini):
             return {"success": True, "count": len(schedules), "schedules": schedules}
         except RobotError as e:
             return {"success": False, "error": f"{e.code}: {e.message}"}
+

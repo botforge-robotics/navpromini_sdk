@@ -33,7 +33,8 @@ class RobotError(Exception):
     humans and may change between versions; the code will not.
     """
 
-    def __init__(self, code: str, message: str, detail: dict, status: int) -> None:
+    def __init__(self, code: str, message: str,
+                 detail: Optional[dict] = None, status: int = 400) -> None:
         super().__init__(f'{code}: {message}')
         self.code = code
         self.message = message
@@ -255,22 +256,24 @@ class NavProMini:
 
     # -- waypoints ---------------------------------------------------------
 
-    def waypoints(self, map_name: Optional[str] = None) -> list:
-        return self._get('/waypoints', map=map_name)['waypoints']
+    def waypoints(self, map_name: Optional[str] = None, map: Optional[str] = None) -> list:
+        return self._get('/waypoints', map=map_name or map)['waypoints']
 
-    def waypoint(self, name: str, map_name: Optional[str] = None) -> dict:
-        return self._get(f'/waypoints/{name}', map=map_name)['waypoint']
+    def waypoint(self, name: str, map_name: Optional[str] = None, map: Optional[str] = None) -> dict:
+        return self._get(f'/waypoints/{name}', map=map_name or map)['waypoint']
 
     def save_waypoint(self, name: str, x: Optional[float] = None,
                       y: Optional[float] = None, theta: float = 0.0,
                       type: str = 'waypoint',
-                      map_name: Optional[str] = None) -> dict:
+                      map_name: Optional[str] = None,
+                      map: Optional[str] = None) -> dict:
         """Save a waypoint. With no x/y, captures where the robot is now."""
         body: dict[str, Any] = {'name': name, 'type': type}
         if x is not None and y is not None:
             body.update({'x': x, 'y': y, 'theta': theta})
-        if map_name:
-            body['map'] = map_name
+        target_map = map_name or map
+        if target_map:
+            body['map'] = target_map
         return self._post('/waypoints', body)['waypoint']
 
     def delete_waypoint(self, name: str, map_name: Optional[str] = None) -> dict:
@@ -441,9 +444,9 @@ class NavProMini:
 
     # -- missions ----------------------------------------------------------
 
-    def missions(self, map: Optional[str] = None) -> list:
+    def missions(self, map: Optional[str] = None, map_name: Optional[str] = None) -> list:
         """List all saved missions, optionally filtered by map."""
-        return self._get('/missions', map=map)['missions']
+        return self._get('/missions', map=map_name or map)['missions']
 
     def mission(self, id: str) -> dict:
         """Fetch a single mission by id."""
@@ -451,7 +454,8 @@ class NavProMini:
 
     def save_mission(self, id: Union[str, dict], steps: Optional[list[dict]] = None,
                      name: Optional[str] = None, loop_count: int = 1,
-                     loop_forever: bool = False, map: Optional[str] = None) -> dict:
+                     loop_forever: bool = False, map: Optional[str] = None,
+                     map_name: Optional[str] = None) -> dict:
         """Create or replace a mission by id or config dict.
 
         Args:
@@ -468,7 +472,9 @@ class NavProMini:
             loop_count: Repeat count for the entire sequence (default 1).
             loop_forever: Repeat indefinitely until canceled (default False).
             map: Optional map name to bind the mission to (defaults to active map on robot).
+            map_name: Alias for map parameter.
         """
+        target_map = map_name or map
         if isinstance(id, dict):
             data = id
             mission_id = str(data.get('id') or data.get('name') or '')
@@ -495,7 +501,7 @@ class NavProMini:
             m_name = data.get('name', mission_id)
             l_count = data.get('loop_count', loop_count)
             l_forever = data.get('loop_forever', data.get('loop', loop_forever))
-            map_val = data.get('map', map)
+            map_val = data.get('map', target_map)
             body: dict[str, Any] = {
                 'id': mission_id,
                 'steps': mission_steps,
@@ -519,8 +525,8 @@ class NavProMini:
         }
         if name:
             body['name'] = name
-        if map:
-            body['map'] = map
+        if target_map:
+            body['map'] = target_map
         return self._post('/missions', body)['mission']
 
     def delete_mission(self, id: str) -> dict:
@@ -542,21 +548,21 @@ class NavProMini:
         """Pause a running mission after the currently executing step."""
         mid = id or self.mission_status().get('mission_id')
         if not mid:
-            raise RobotError('no_active_mission', 'No active mission to pause')
+            raise RobotError('no_active_mission', 'No active mission to pause', {}, 400)
         return self._post(f'/missions/{mid}/pause')
 
     def resume_mission(self, id: Optional[str] = None) -> dict:
         """Resume a paused mission. Also overrides low-battery auto-dock."""
         mid = id or self.mission_status().get('mission_id')
         if not mid:
-            raise RobotError('no_active_mission', 'No active mission to resume')
+            raise RobotError('no_active_mission', 'No active mission to resume', {}, 400)
         return self._post(f'/missions/{mid}/resume')
 
     def cancel_mission(self, id: Optional[str] = None) -> dict:
         """Stop and cancel a running or paused mission permanently."""
         mid = id or self.mission_status().get('mission_id')
         if not mid:
-            raise RobotError('no_active_mission', 'No active mission to cancel')
+            raise RobotError('no_active_mission', 'No active mission to cancel', {}, 400)
         return self._post(f'/missions/{mid}/cancel')
 
     def mission_status(self) -> dict:

@@ -80,7 +80,7 @@ def register_spatial_tools(mcp, robot: NavProMini):
             return {
                 "success": True,
                 "count": len(maps),
-                "active_map": current_map.get("name") if current_map else None,
+                "active_map": current_map if current_map else None,
                 "saved_maps": maps,
             }
         except RobotError as e:
