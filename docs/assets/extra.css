@@ -220,3 +220,45 @@
     break-inside: avoid;
   }
 }
+
+/* ---- Setup Guide Screenshot & Photo Styling ---- */
+
+.setup-screenshot {
+  display: block;
+  margin: 1.25rem auto;
+  border-radius: 8px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  max-width: 100%;
+  height: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-md-color-scheme="slate"] .setup-screenshot {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.setup-photo {
+  display: block;
+  margin: 1.25rem auto;
+  max-width: 420px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.14);
+}
+
+[data-md-color-scheme="slate"] .setup-photo {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.setup-caption {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--md-default-fg-color--light);
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}

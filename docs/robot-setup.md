@@ -1,146 +1,188 @@
-# Robot setup & lifecycle
+# Robot Setup & Commissioning Guide
 
-Everything you need to go from unboxing your NavPro Mini AMR to driving autonomously in a mapped environment.
+Welcome to the **NavPro Mini Autonomous Mobile Robot (AMR)** setup guide. This walkthrough explains how to power on your robot, connect using the **NavPro Mini GUI**, configure Wi-Fi, create your facility map, and verify localization at the charging dock.
 
----
-
-## 1. Unboxing & Hardware Power-On
-
-### What's in the Box
-- **NavPro Mini AMR** with 360° LiDAR, front sensor mast, rear AprilTag docking camera, and RGB status ring.
-- **Autonomous Charging Dock Station** with AprilTag visual alignment target and spring-loaded charging contacts.
-- **Power Adapter & Cable** (connect to the charging station).
-
-### Station Placement
-Place the charging dock flat against an open wall or solid vertical boundary. Ensure at least **1.5 meters of clear unobstructed floor space in front** of the dock so the robot can execute visual servoing and standoff staging maneuvers without obstacle interference.
-
-### Powering On & LED Glow Status
-Press and hold the power button on the robot's rear chassis. The circumferential RGB LED ring and onboard display reflect each initialization phase:
-
-| LED Ring Glow | Robot State | Description |
-|---|---|---|
-| **Solid Red** | **Booting** | Microcontroller, single-board computer (SBC), and firmware drivers are powering on. |
-| **Pulsing / Solid Amber (Orange)** | **Provisioning Mode** | No known Wi-Fi found. The robot broadcasts its own setup hotspot: `NavPro-Setup-<id>`. |
-| **Solid Green** | **Idle / Ready** | Connected to your local Wi-Fi. ROS 2 nodes and SDK API daemon are live on port `8090`. The OLED display shows the assigned IP address. |
-| **Cyan / Pulsing Blue** | **Mapping / Active Navigation** | LiDAR SLAM active, or autonomous path planning to a goal/waypoint underway. |
-| **Breathing Green** | **Docked & Charging** | Charging pins engaged, battery management system (BMS) accepting charge current. |
+Whether you are connecting to an **existing robot** already on your network or **commissioning a brand new robot**, follow the steps below.
 
 ---
 
-## 2. Wi-Fi Setup via Nav2 Mission Planner Desktop App
+## 1. Hardware Power-On & LED Status
 
-The recommended way to configure Wi-Fi and commission the robot is via the cross-platform desktop application:
+### Power Button Operation
 
-👉 **[Nav2 Mission Planner GUI (`navpro-mini` branch)](https://github.com/botforge-robotics/nav2_mission_planner_gui/tree/navpro-mini)**  
-*(Cross-platform Flutter application supporting Linux desktop, Windows, and Android).*
+The robot's power button is located inside the recessed cutout on the orange chassis:
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Operator
-    participant App as Desktop App
-    participant Robot as NavPro Mini (AP: 10.42.0.1)
-    participant LAN as Local Wi-Fi Router
+![NavPro Mini Power Button](assets/images/setup/powerbutton.jpeg){: .setup-photo }
+<p class="setup-caption">Figure 1: Push button located in the orange chassis cutout.</p>
 
-    User->>Robot: Power ON (LED: Red -> Amber)
-    User->>App: Launch Nav2 Mission Planner
-    App->>App: Scan Nearby Robots / Hotspots
-    App->>Robot: Connect to NavPro-Setup-* (10.42.0.1)
-    User->>App: Enter Robot Name + Local Wi-Fi SSID & Password
-    App->>Robot: POST /provision (credentials + timezone)
-    Robot-->>App: Provisioning Accepted
-    Robot->>LAN: Drop AP, Connect to Local Wi-Fi & Restart Services
-    Robot-->>LAN: Obtains LAN IP (e.g. 192.168.1.50)
-    Robot-->>User: LED Ring turns Solid Green (OLED displays IP)
-    App->>Robot: Auto-Connect via Local LAN WebSocket/REST
-```
-
-### Step-by-Step Commissioning
-1. **Launch the App**: Open **Nav2 Mission Planner** on your PC.
-2. **Find Nearby Robot**:
-   - On the setup screen, the app scans for nearby robots.
-   - If the robot has no Wi-Fi saved, select **"Set up a new robot"**. The app will detect the broadcasted `NavPro-Setup-*` hotspot.
-   - *(Alternatively, manually connect your PC/phone Wi-Fi to `NavPro-Setup-<id>`, where the setup portal is accessible at `http://10.42.0.1`).*
-3. **Fill in Details**:
-   - Choose or enter your local Wi-Fi **SSID** and **Password**.
-   - Assign a friendly **Robot Name** (e.g., `navpro-mini-01`).
-   - Click **Submit**.
-4. **Automatic Restart & Connection**:
-   - The robot stores the credentials and restarts its network subsystem.
-   - Once connected to your local network, the LED ring transitions to **Solid Green**, and the onboard OLED screen displays its assigned local IP address.
-   - The desktop app detects the newly commissioned robot and transitions to the main Dashboard.
+- **Turn ON**: Press the button down (clicked down / pressed in). The internal computer powers on, and the front and rear chassis LED strips illuminate.
+- **Turn OFF**: Press the button again so it pops up (unpressed / clicked up). Power cuts off immediately and the LED strips will stop glowing.
+- **Initialization**: Allow **25–30 seconds** after pressing the button down for all onboard systems and ROS 2 services to start up.
 
 ---
 
-## 3. Creating Your First Map in the App
+### Robot Body LED Status Meaning Table
 
-Before autonomous navigation can occur, the robot must map its physical operating environment.
+The robot is equipped with **front and rear LED light strips mounted directly on the body chassis**. These strips communicate the robot's real-time state:
 
-1. **Place Robot at the Charger**:
-   Before initiating mapping, place the robot directly against its charging station facing outward. Wherever mapping starts becomes the origin $(0, 0, 0)$ coordinate frame of the new map.
-2. **Start Mapping Session**:
-   In the desktop app, navigate to **Maps** and click **Create Map** (or select **Mapping Mode**). This starts the SLAM mapping stack (`POST /mode {"mode": "mapping"}`).
-3. **Drive to Map the Environment**:
-   Use the on-screen virtual joystick or teleoperation pad to drive the AMR through every room, corridor, and aisle. Watch the 2D LiDAR occupancy grid expand in real-time on the map canvas.
-4. **Finish & Save the Map**:
-   Once all walls, borders, and obstacles are cleanly resolved, click **Finish Mapping** and assign a name (e.g., `warehouse_floor1` or `lab_room`).
-5. **Atomic Navigation Auto-Load**:
-   The robot automatically saves the map, serializes the pose graph, terminates SLAM, **loads the newly saved map into the Nav2 stack, and transitions directly into Navigation mode**. You do not need to restart the robot or manually trigger mode changes.
-
----
-
-## 4. Verifying & Adjusting the Dock Pose
-
-Reliable autonomous docking requires the software dock coordinates to match the physical charging base:
-
-1. **Open Dock Position Editor**:
-   In the desktop app, navigate to **Dock & Charge** $\rightarrow$ **Edit Dock Pose** (or tap the Dock icon ⚡ on the live map).
-2. **Dual-Marker Alignment**:
-   The editor displays two linked markers on your map:
-   - **Dock Marker (⚡)**: The physical contact pose where the robot's rear charging pads engage.
-   - **Standoff Marker (🎯)**: The approach staging pose (~0.6m in front of the dock, facing away).
-3. **Fine-Tuning**:
-   - Drag markers or use the **5mm precision micro-adjustment buttons** to nudge the coordinates.
-   - Heading vectors are automatically maintained between the dock and standoff points.
-4. **Save**: Click **Save Dock Pose**. The coordinates are written to persistent storage (`PUT /dock/pose`).
+| LED Color & Pattern | Robot State | Description & End-User Meaning | Recommended Action |
+|:---|:---|:---|:---|
+| <span style="color:#d32f2f; font-size:1.2em;">●</span> **Solid Red** | **Booting** | Linux OS, onboard computer, and motor controllers are starting up. | Wait ~30 seconds for boot to finish. |
+| <span style="color:#f57c00; font-size:1.2em;">●</span> **Solid Amber / Orange** | **Hotspot (AP Mode)** | No known Wi-Fi network found. Broadcasting setup hotspot: `NavPro-Setup-<id>`. | Open the GUI app and select **Set up a new robot**. |
+| <span style="color:#2e7d32; font-size:1.2em;">●</span> **Solid Green** | **Idle / Ready** | Connected to your local Wi-Fi and ready for operation. SDK API live on port `8090`. | Ready to navigate, dispatch missions, or view the dashboard. |
+| <span style="color:#00acc1; font-size:1.2em;">●</span> **Pulsing Blue / Cyan** | **Navigating / Mapping** | Active autonomous mission in progress, teleoperation driving, or SLAM mapping. | Robot is in motion. Keep clearance around the AMR. |
+| <span style="color:#43a047; font-size:1.2em;">●</span> **Breathing Green** | **Docked & Charging** | Contacts engaged with charging base; battery is actively replenishing. | Leave on dock until desired battery level is reached. |
+| <span style="color:#ffffff; text-shadow:0 0 3px #555; font-size:1.2em;">●</span> **Bright White** | **Docking in Progress** | Front/rear high-intensity docking illumination active for the AprilTag camera. | Ensure no obstacles block the line-of-sight to the dock. |
+| <span style="color:#d32f2f; font-size:1.2em;">●</span> / <span style="color:#f57c00; font-size:1.2em;">●</span> **Flashing Red / Amber** | **E-Stop / Alert** | Emergency stop active, obstacle motor stall detected, or critical low battery. | Check GUI alerts tab, clear obstacles, or release software E-Stop. |
 
 ---
 
-## 5. Next Steps: Two Paths Forward
+## 2. Download the NavPro Mini GUI
 
-Once your map is active and the dock pose is calibrated, you are ready to operate:
+Before launching the setup wizard, download and install the latest desktop app release for your platform (Linux or Windows):
 
-### Path A: Operate Inside the Desktop App
-Continue using the visual interface of [Nav2 Mission Planner GUI](https://github.com/botforge-robotics/nav2_mission_planner_gui/tree/navpro-mini):
-- **Add Locations**: Tap any point on your map to save named landmarks (e.g., `kitchen`, `station_a`, `pickup`).
-- **Mission Planner**: Chain waypoints, pauses, and actions into multi-step patrol routes using the visual drag-and-drop editor.
-- **Mission Scheduler**: Set recurring alarm-style schedules (daily, weekly, or one-time runs) directly from the app bar.
+[:material-download: Download NavPro Mini GUI Releases](https://github.com/botforge-robotics/nav2_mission_planner_gui/releases){ .md-button .md-button--primary target="_blank" rel="noopener noreferrer" }
 
-### Path B: Automate via Plain APIs, Python SDK, or MCP Server
-If you are building custom software, fleet managers, or AI agent integrations:
-- **REST & WebSocket API**: Proceed to [**Getting started**](getting-started.md) to discover endpoints and execute curl commands using the `$ROBOT` environment variable.
-- **Official Python SDK**: Install `pip install -e clients/python` and control the robot with Python ([Clients & Recipes](clients.md)).
-- **Model Context Protocol (MCP)**: Hook into LLMs (Google Antigravity, Gemini, Cursor) to enable natural language autonomous mission dispatch ([MCP Server Guide](mcp.md)).
+*(Download the latest package built from the `navpro-mini` branch).*
 
 ---
 
-## 6. Complete System Lifecycle
+## 3. Launching the Setup Wizard
 
-```mermaid
-stateDiagram-v2
-    [*] --> Booting: Hardware Power ON (Solid Red LED)
-    Booting --> Provisioning: No reachable Wi-Fi (Amber LED / Setup Hotspot)
-    Booting --> Idle: Known Wi-Fi connected (Solid Green LED)
-    Provisioning --> Idle: Wi-Fi credentials submitted via App (LED turns Green)
-    Idle --> Mapping: App: "Create Map" / POST /mode {mapping} (Cyan LED)
-    Mapping --> Navigation: App: "Finish Mapping" / Auto-loads map into Nav2
-    Navigation --> Idle: POST /mode {idle}
-    Navigation --> Charging: POST /dock succeeds (Breathing Green LED)
-    Idle --> Charging: POST /dock succeeds
-    Charging --> Navigation: POST /undock, resume mission
-    Charging --> Idle: POST /undock
-```
+Launch the **NavPro Mini GUI**. If no robot is connected, the app opens to **Step 1 of 5**:
+
+![Step 1 - Power on Your Robot](assets/images/setup/step1.png){: .setup-screenshot }
+<p class="setup-caption">Figure 2: Step 1 of 5 — Verifying the robot is powered on.</p>
+
+1. Confirm the power button is clicked down and the body LED strips are glowing.
+2. Click **My robot is ready &rarr;**.
 
 ---
 
-**Next step**: Proceed to [Getting started](getting-started.md) to query your robot from the command line, verify API communication, and run your first autonomous navigation goals.
+## 4. Connecting to Your Robot (Existing vs. New Robot)
+
+In **Step 2 of 5**, choose how to connect:
+
+![Step 2.1 - Connect to Your Robot](assets/images/setup/step2.1.png){: .setup-screenshot }
+<p class="setup-caption">Figure 3: Step 2 of 5 — Select an existing robot or commission a new one.</p>
+
+### Path A: Connect to an Existing Robot
+
+If your robot is already connected to your Wi-Fi network:
+
+- The app scans your local network and lists active robots under **Found on your network** (e.g., `navpromini` at `192.168.0.128`).
+- Click on the robot's card to connect directly.
+- If your robot is on another subnet, click **Enter its IP address** and enter its address manually.
+
+---
+
+### Path B: Set Up a Brand New Robot (First-Time Commissioning)
+
+If this is a new robot or you are setting it up on a new Wi-Fi network:
+
+1. Click **Set up a new robot**.
+2. With the body LED strips glowing <span style="color:#f57c00; font-size:1.1em;">●</span> **Solid Amber / Orange**, the app scans for the robot's hotspot:
+
+![Step 2.2 - Find Your Robot's Hotspot](assets/images/setup/step2.2.png){: .setup-screenshot }
+<p class="setup-caption">Figure 4: Detecting the robot's broadcasted setup hotspot.</p>
+
+3. When the **`NavPro-Setup-*`** hotspot is detected, click **Next &rarr;**.
+
+!!! tip "Manual Hotspot Connection"
+    You can also connect your computer or smartphone Wi-Fi directly to `NavPro-Setup-XXXX` and navigate to `http://10.42.0.1`.
+
+---
+
+## 5. Configuring Wi-Fi & Regional Settings
+
+In **Step 3 of 5**, provide your network credentials:
+
+![Step 3.1 - Wi-Fi Configuration Form](assets/images/setup/step3.1.png){: .setup-screenshot }
+<p class="setup-caption">Figure 5: Step 3 of 5 — Wi-Fi credentials and configuration.</p>
+
+- **Wi-Fi Network (SSID)**: Select your Wi-Fi network name from the dropdown scan list or enter it manually.
+- **Password**: Enter the Wi-Fi password.
+- **Robot Name**: Enter a name for your AMR (e.g., `navpromini`).
+- **Country Code**: Select your regulatory country domain (e.g., `IN - India`, `US - United States`).
+- **Timezone**: Select your local timezone (e.g., `Asia/Kolkata`) for scheduled missions.
+
+Click **Save & Connect &rarr;**.
+
+![Step 3.2 - Joining Wi-Fi Network](assets/images/setup/step3.2.png){: .setup-screenshot }
+<p class="setup-caption">Figure 6: The robot connects to your local Wi-Fi network.</p>
+
+The robot saves the credentials, turns off its setup hotspot, and joins your Wi-Fi. The body LED strips change from <span style="color:#f57c00; font-size:1.1em;">●</span> **Amber** to <span style="color:#2e7d32; font-size:1.1em;">●</span> **Solid Green**, and the app connects automatically.
+
+---
+
+## 6. Charging Dock Placement & Creating Your First Map
+
+### Dock Placement Guidelines
+
+Before creating your map, position the charging station:
+
+![Step 4.1 - Dock Placement Guidelines](assets/images/setup/step4.1.png){: .setup-screenshot }
+<p class="setup-caption">Figure 7: Step 4 of 5 — Charging dock placement and clearance rules.</p>
+
+- **Solid Wall**: Place the dock firmly against a flat wall so it cannot push back.
+- **Clearance**: Leave at least **0.5 m** clearance on both sides and **1.0 m** clear straight space in front.
+- **Starting Position**: Place the robot against the dock contacts **facing outward** into the room. This starting position becomes the $(0, 0)$ origin of your map.
+
+Click **Start Mapping &rarr;**.
+
+---
+
+### Driving with SLAM to Map Your Environment
+
+![Step 4.2 - Live SLAM Mapping Interface](assets/images/setup/step4.2.png){: .setup-screenshot }
+<p class="setup-caption">Figure 8: Live SLAM mapping with virtual joystick.</p>
+
+- **Drive Around**: Use the center orange joystick ("Drag to drive") or the rotation buttons to drive the robot smoothly through all rooms and corridors.
+- **Observe the Map**: Watch the map form in real time — white indicates free walkable space, black lines represent walls, and <span style="color:#d32f2f; font-size:1.1em;">●</span> red dots show real-time laser reflections.
+- **Finish & Save**: Once the perimeter of your rooms is mapped with no gaps, click **Finish & Save**, give the map a name (e.g., `t202`), and save. The map is automatically compiled and loaded into Nav2 navigation.
+
+---
+
+## 7. Setup Complete & Operational Dashboard
+
+![Step 5 - Setup Complete](assets/images/setup/step5.png){: .setup-screenshot }
+<p class="setup-caption">Figure 9: Step 5 of 5 — Setup complete.</p>
+
+Click **Go to Dashboard &rarr;** to access the main operations view:
+
+![Dashboard Overview](assets/images/setup/dashboard.png){: .setup-screenshot }
+<p class="setup-caption">Figure 10: NavPro Mini GUI operational dashboard.</p>
+
+The dashboard gives you an at-a-glance view of your robot: live battery percentage, connection status, driving speed, AMCL localization state, charger status, and a real-time map preview. Use the left sidebar to navigate between **Dashboard**, **Maps**, **Missions**, and **Teleop**.
+
+---
+
+## 8. Relocalizing at the Dock After Mapping
+
+After finishing mapping, place or drive the robot back onto its charging station. If the robot does not automatically localize to the dock position, use the relocalization tools:
+
+1. Click **Maps** in the left sidebar:
+
+![Maps Screen](assets/images/setup/relocalisation1.png){: .setup-screenshot }
+<p class="setup-caption">Figure 11: Maps screen showing active map and Open 2D Cockpit button.</p>
+
+2. Click **Open 2D Cockpit** to enter the cartography workspace:
+
+![2D Map Cockpit and Relocalization](assets/images/setup/relocalisation2.png){: .setup-screenshot }
+<p class="setup-caption">Figure 12: 2D Map Cockpit with Cartography Tools panel.</p>
+
+3. In the right-hand **Cartography Tools** panel:
+   - **Relocalize at Dock**: If the robot is sitting on the charging dock, click **Relocalize at Dock**. The robot will immediately snap its position to the dock origin, and the confirmation banner *"Localized to the dock position"* will appear.
+   - **Set 2D Pose on Map**: If the robot is somewhere else in the room, click this button, then click on the map at the robot's physical location and drag the arrow in the direction the robot is facing.
+   - **Global Relocalize (Recovery)**: If the robot is lost, click this to disperse AMCL particles across the map; rotate or nudge the robot so the laser scan matches the walls.
+   - **Save Location**: Tap any spot on the map to save named navigation waypoints.
+
+---
+
+## Next Steps
+
+With your robot commissioned, mapped, and localized at the dock, you can automate missions:
+
+- **[Getting Started with APIs](getting-started.md)**: Control the robot via HTTP REST curl commands.
+- **[Python SDK & MCP Guide](clients.md)**: Automate in Python or hook into AI agents (Antigravity, Claude, Cursor).
+- **[API Reference](api/index.md)**: Explore the complete REST and WebSocket endpoints.

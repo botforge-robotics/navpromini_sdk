@@ -1,7 +1,7 @@
 # Getting started
 
 !!! info "Prerequisite: Robot Setup & Commissioning"
-    This guide assumes your robot has been unboxed, connected to your Wi-Fi, and commissioned. If you are setting up a new robot, configuring Wi-Fi, or creating your first map using the desktop app, follow the complete guide in [Robot setup & lifecycle](robot-setup.md).
+    This guide assumes your robot has been unboxed, connected to your Wi-Fi, and commissioned. If you are setting up a new robot, configuring Wi-Fi, creating your first map, or using the GUI app, follow the step-by-step visual walkthrough in the [Robot Setup & Commissioning Guide](robot-setup.md).
 
 ## 1. Find the robot
 
