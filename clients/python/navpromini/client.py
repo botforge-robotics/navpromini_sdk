@@ -310,6 +310,46 @@ class NavProMini:
             return final
         return result
 
+    def follow_route(self, goal_id: Optional[str] = None,
+                     start_id: Optional[str] = None,
+                     waypoint: Optional[str] = None,
+                     x: Optional[float] = None, y: Optional[float] = None,
+                     theta: float = 0.0,
+                     reroute_policy: str = 'wait_then_reroute',
+                     wait_timeout_sec: float = 5.0,
+                     replace: bool = False,
+                     wait: bool = False, timeout: float = 300.0) -> dict:
+        """Send a road network navigation goal along topological lanes and junctions.
+
+        Supports dynamic obstacle blockage rerouting policies ('wait_then_reroute',
+        'immediate', 'halt_only').
+        """
+        body: dict[str, Any] = {
+            'reroute_policy': reroute_policy,
+            'wait_timeout_sec': wait_timeout_sec,
+            'replace': replace,
+        }
+        if goal_id is not None:
+            body['goal_id'] = goal_id
+        if start_id is not None:
+            body['start_id'] = start_id
+        if waypoint is not None:
+            body['waypoint'] = waypoint
+        if x is not None and y is not None:
+            body.update({'x': x, 'y': y, 'theta': theta})
+        if goal_id is None and waypoint is None and (x is None or y is None):
+            raise ValueError('provide either goal_id=, waypoint=, or both x= and y=')
+
+        result = self._post('/navigation/route', body)
+        if wait:
+            final = self.wait_for_goal(timeout)
+            if final['state'] != 'succeeded':
+                raise RobotError('goal_' + final['state'],
+                                 final.get('message') or f"goal {final['state']}",
+                                 final, 0)
+            return final
+        return result
+
     def nav_status(self) -> dict:
         return self._get('/navigation/status')
 
@@ -321,9 +361,55 @@ class NavProMini:
         return self._post('/navigation/localize',
                           {'x': x, 'y': y, 'theta': theta})
 
-    def global_relocalize(self) -> dict:
-        """Disperse AMCL particles across the map for global relocalization."""
-        return self._post('/navigation/relocalize/global')
+    def global_relocalize(self, spin: bool = True, max_tries: int = 3,
+                          timeout_sec: float = 50.0, angular_vel: float = 0.38,
+                          target_cov: float = 0.15, target_cov_yaw: float = 0.12) -> dict:
+        """Disperse AMCL particles across the map for global relocalization.
+
+        When spin=True (default), undocks if docked and executes autonomous
+        multi-cycle in-place rotation scan sweeps until AMCL covariance converges.
+        """
+        return self._post('/navigation/relocalize/global', {
+            'spin': spin,
+            'max_tries': max_tries,
+            'timeout_sec': timeout_sec,
+            'angular_vel': angular_vel,
+            'target_cov': target_cov,
+            'target_cov_yaw': target_cov_yaw,
+        })
+
+    def relocalize_recover(self, max_tries: int = 3, timeout_sec: float = 50.0,
+                           angular_vel: float = 0.38, target_cov: float = 0.15,
+                           target_cov_yaw: float = 0.12) -> dict:
+        """Execute autonomous multi-cycle particle convergence recovery."""
+        return self._post('/navigation/relocalize/recover', {
+            'max_tries': max_tries,
+            'timeout_sec': timeout_sec,
+            'angular_vel': angular_vel,
+            'target_cov': target_cov,
+            'target_cov_yaw': target_cov_yaw,
+        })
+
+    # -- road network ------------------------------------------------------
+
+    def road_network(self, map_name: Optional[str] = None) -> dict:
+        """Retrieve the road network GeoJSON FeatureCollection for a map."""
+        return self._get('/road_network', map=map_name)
+
+    def save_road_network(self, geojson: dict, map_name: Optional[str] = None) -> dict:
+        """Save a road network GeoJSON to central storage and hot-reload RouteServer."""
+        body: dict[str, Any] = {'geojson': geojson}
+        if map_name:
+            body['map'] = map_name
+        return self._post('/road_network', body)
+
+    def delete_road_network(self, map_name: Optional[str] = None) -> dict:
+        """Delete the road network for a map from database and disk."""
+        return self._delete('/road_network', map=map_name)
+
+    def reroute(self) -> dict:
+        """Trigger immediate dynamic RouteServer reroute around road blockage."""
+        return self._post('/road_network/reroute')
 
     def path(self) -> list:
         return self._get('/navigation/path')['data']

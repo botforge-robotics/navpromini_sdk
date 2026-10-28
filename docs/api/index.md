@@ -55,10 +55,17 @@ JSON in, JSON out. `Content-Type: application/json` on any request with a body.
 | <span class="verb get">GET</span> | `/waypoints/{name}` | Read one waypoint |
 | <span class="verb delete">DELETE</span> | `/waypoints/{name}` | Delete a waypoint |
 | <span class="verb post">POST</span> | `/navigation/goto` | Send a goal |
+| <span class="verb post">POST</span> | `/navigation/route` | Send a road network goal with rerouting |
 | <span class="verb get">GET</span> | `/navigation/status` | Goal progress |
 | <span class="verb delete">DELETE</span> | `/navigation/goal` | Cancel the active goal |
 | <span class="verb post">POST</span> | `/navigation/localize` | Seed the pose estimate |
+| <span class="verb post">POST</span> | `/navigation/relocalize/global` | Disperse AMCL particles & auto-spin scan |
+| <span class="verb post">POST</span> | `/navigation/relocalize/recover` | Autonomous multi-try relocalization recovery |
 | <span class="verb get">GET</span> | `/navigation/path` | Current planned path |
+| <span class="verb get">GET</span> | `/road_network` | Get topological road network graph |
+| <span class="verb post">POST</span> | `/road_network` | Save road network & hot-reload RouteServer |
+| <span class="verb delete">DELETE</span> | `/road_network` | Delete road network graph |
+| <span class="verb post">POST</span> | `/road_network/reroute` | Trigger dynamic RouteServer reroute |
 | <span class="verb post">POST</span> | `/dock` | Dock autonomously |
 | <span class="verb post">POST</span> | `/undock` | Leave the dock and stop |
 | <span class="verb get">GET</span> | `/dock/status` | Docking state and charging |

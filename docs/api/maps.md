@@ -146,7 +146,7 @@ curl -s $ROBOT/maps/current
 
 ### <span class="verb delete">DELETE</span> `/maps/{name}`
 
-Delete a saved map by name from the robot's storage.
+Delete a saved map by name from the robot's storage. Deleting a map cascades and purges all associated waypoints, missions, schedules, and topological road networks (`<name>_roadnet.geojson`) tied to that map.
 
 #### Request
 - **Method**: `DELETE`
@@ -194,7 +194,7 @@ curl -s -X DELETE $ROBOT/maps/oldRoom
 
 ### <span class="verb post">POST</span> `/maps/{name}/activate`
 
-Switch navigation mode to a different map. This restarts the navigation stack with the chosen map.
+Switch navigation mode to a different map. This restarts the navigation stack with the chosen map and automatically hot-loads the map's [Road Network](road_network.md) into Nav2 RouteServer if configured.
 
 #### Request
 - **Method**: `POST`

@@ -214,15 +214,171 @@ curl -s -X POST $ROBOT/navigation/localize \
 
 ---
 
+### <span class="verb post">POST</span> `/navigation/route`
+
+Command the AMR to drive strictly along defined **Road Network** lanes and junctions. See [Road Network](road_network.md) for topology management.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/navigation/route`
+- **Headers**: `Content-Type: application/json`
+
+**Payload:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `goal_id` | `string` | Either this... | Road network node identifier (e.g. `"node_4"`) |
+| `waypoint` | `string` | ...or this | Saved waypoint name (resolved along nearest road network junction) |
+| `x`, `y` | `number` | ...or coordinates | Explicit destination coordinates |
+| `start_id` | `string` | Optional | Start node identifier (defaults to closest node to current robot pose) |
+| `theta` | `number` | Optional | Target heading angle in radians (default: `0.0`) |
+| `reroute_policy` | `string` | Optional | Obstacle blockage policy: `wait_then_reroute` (default), `immediate`, or `halt_only` |
+| `wait_timeout_sec` | `number` | Optional | Seconds to pause before rerouting around obstacle (default: `5.0`) |
+| `replace` | `boolean` | Optional | If `true`, supersedes active goal (default: `false`) |
+
+```json
+{
+  "goal_id": "node_4",
+  "reroute_policy": "wait_then_reroute",
+  "wait_timeout_sec": 5.0,
+  "replace": true
+}
+```
+
+#### Response
+- **Status**: <span class="status warn">202 Accepted</span>
+
+```json
+{
+  "accepted": true,
+  "routing_mode": "road_network",
+  "target": {
+    "goal_id": "node_4",
+    "routing_mode": "road_network",
+    "reroute_policy": "wait_then_reroute",
+    "wait_timeout_sec": 5.0
+  }
+}
+```
+
+#### Example (cURL)
+
+```bash
+curl -s -X POST $ROBOT/navigation/route \
+     -H 'Content-Type: application/json' \
+     -d '{"goal_id": "node_4", "reroute_policy": "wait_then_reroute"}'
+```
+
+---
+
 ### <span class="verb post">POST</span> `/navigation/relocalize/global`
 
-Disperse AMCL particle cloud uniformly across the entire map to recover from lost/kidnapped state.
+Disperse AMCL particle cloud uniformly across the entire map space and autonomously scan surroundings to recover from lost or kidnapped robot state.
 
 #### Request
 - **Method**: `POST`
 - **Path**: `/navigation/relocalize/global`
-- **Headers**: None required
-- **Payload**: None
+- **Headers**: `Content-Type: application/json`
+
+**Payload (Optional):**
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `spin` | `boolean` | `true` | If `true`, undocks if docked and executes autonomous in-place rotation scan cycles with covariance monitoring until localized |
+| `angular_vel` | `number` | `0.38` | Scan rotation speed in radians per second |
+| `max_tries` | `integer` | `3` | Maximum 360-degree rotation scan sweeps before timeout |
+| `timeout_sec` | `number` | `50.0` | Maximum overall duration allowed |
+| `target_cov` | `number` | `0.15` | Position covariance threshold in m² for convergence |
+| `target_cov_yaw` | `number` | `0.12` | Yaw covariance threshold in rad² for convergence |
+
+```json
+{
+  "spin": true,
+  "max_tries": 3,
+  "timeout_sec": 50.0
+}
+```
+
+#### Response
+- **Status**: <span class="status ok">200 OK</span>
+
+=== "Autonomous Auto-Spin Scan (Default)"
+
+    ```json
+    {
+      "status": "ok",
+      "converged": true,
+      "tries": 1,
+      "elapsed_sec": 14.2,
+      "covariance": {
+        "cov_x": 0.042,
+        "cov_y": 0.038,
+        "cov_yaw": 0.081
+      },
+      "message": "Relocalized successfully in 14.2s (1 scan cycles). AMCL converged."
+    }
+    ```
+
+=== "Disperse Particles Only (`spin: false`)"
+
+    ```json
+    {
+      "status": "ok",
+      "message": "AMCL particles dispersed across map"
+    }
+    ```
+
+| Field | Type | Description |
+|---|---|---|
+| `status` | `string` | Execution verdict (`ok` or `timeout`) |
+| `converged` | `boolean` | `true` if AMCL position and yaw covariance met convergence thresholds |
+| `tries` | `integer` | Number of 360-degree scan sweeps completed |
+| `elapsed_sec` | `number` | Total elapsed scan duration |
+| `covariance` | `object` | Final AMCL covariance values (`cov_x`, `cov_y`, `cov_yaw`) |
+| `message` | `string` | Outcome summary |
+
+#### Error Codes
+
+| Status | Code | Cause / Resolution |
+|---|---|---|
+| <span class="status err">503</span> | `action_unavailable` | Navigation mode is not active |
+| <span class="status err">503</span> | `service_unavailable` | AMCL `/reinitialize_global_localization` service unavailable |
+
+#### Example (cURL)
+
+=== "Full autonomous recovery (disperse + scan)"
+
+    ```bash
+    curl -s -X POST $ROBOT/navigation/relocalize/global \
+         -H 'Content-Type: application/json' \
+         -d '{"spin": true, "max_tries": 3}'
+    ```
+
+=== "Disperse particles only"
+
+    ```bash
+    curl -s -X POST $ROBOT/navigation/relocalize/global \
+         -H 'Content-Type: application/json' \
+         -d '{"spin": false}'
+    ```
+
+---
+
+### <span class="verb post">POST</span> `/navigation/relocalize/recover`
+
+Execute autonomous multi-cycle particle convergence recovery. Disperses particles across map space and rotates in alternating directions while tracking live covariance until AMCL converges.
+
+#### Request
+- **Method**: `POST`
+- **Path**: `/navigation/relocalize/recover`
+- **Headers**: `Content-Type: application/json`
+
+```json
+{
+  "max_tries": 3,
+  "timeout_sec": 50.0
+}
+```
 
 #### Response
 - **Status**: <span class="status ok">200 OK</span>
@@ -230,25 +386,24 @@ Disperse AMCL particle cloud uniformly across the entire map to recover from los
 ```json
 {
   "status": "ok",
-  "message": "AMCL particles dispersed across map"
+  "converged": true,
+  "tries": 1,
+  "elapsed_sec": 14.8,
+  "covariance": {
+    "cov_x": 0.038,
+    "cov_y": 0.031,
+    "cov_yaw": 0.075
+  },
+  "message": "Relocalized successfully in 14.8s (1 scan cycles). AMCL converged."
 }
 ```
-
-| Field | Type | Description |
-|---|---|---|
-| `status` | `string` | Execution verdict (`ok`) |
-| `message` | `string` | Service outcome summary |
-
-#### Error Codes
-
-| Status | Code | Cause / Resolution |
-|---|---|---|
-| <span class="status err">503</span> | `action_unavailable` | Navigation mode is not active |
 
 #### Example (cURL)
 
 ```bash
-curl -s -X POST $ROBOT/navigation/relocalize/global
+curl -s -X POST $ROBOT/navigation/relocalize/recover \
+     -H 'Content-Type: application/json' \
+     -d '{"max_tries": 3}'
 ```
 
 ---

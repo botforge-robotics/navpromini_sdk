@@ -86,6 +86,7 @@ def test_server_creation_and_registration():
     assert "get_active_map_info" in tool_names
     assert "navigate_to_waypoint" in tool_names
     assert "navigate_to_coordinates" in tool_names
+    assert "navigate_via_road_network" in tool_names
     assert "cancel_navigation_goal" in tool_names
     assert "trigger_global_relocalization" in tool_names
     assert "dock_robot" in tool_names

@@ -125,24 +125,78 @@ def register_navigation_tools(mcp, robot: NavProMini):
             return {"success": False, "error": f"{e.code}: {e.message}"}
 
     @mcp.tool()
-    def trigger_global_relocalization() -> Dict[str, Any]:
+    def trigger_global_relocalization(
+        max_tries: int = 3,
+        timeout_sec: float = 50.0,
+    ) -> Dict[str, Any]:
         """Recover localization when the robot is lost.
         
-        Disperses AMCL particles uniformly across the map space and rotates in place
-        to let the 2D LiDAR integrate environment geometry.
+        Disperses AMCL particles uniformly across the map space and autonomously executes
+        multi-cycle scan sweeps with real-time covariance monitoring until AMCL converges.
         """
         try:
-            robot.global_relocalize()
-            # Perform slow 360-degree rotation to observe surrounding obstacles
-            robot.rotate(6.283)
+            res = robot.global_relocalize(spin=True, max_tries=max_tries, timeout_sec=timeout_sec)
             pose = robot.pose()
             return {
-                "success": True,
-                "message": "AMCL particles dispersed and 360° scan sweep executed.",
+                "success": bool(res.get("converged", True)),
+                "message": res.get("message", "Relocalization complete."),
+                "details": res,
                 "current_pose": pose,
             }
         except RobotError as e:
             return {"success": False, "error": f"Relocalization failed: {e.code} - {e.message}"}
+
+    @mcp.tool()
+    def navigate_via_road_network(
+        goal_id: Optional[str] = None,
+        waypoint: Optional[str] = None,
+        reroute_policy: str = "wait_then_reroute",
+        wait_for_arrival: bool = True,
+        timeout_sec: int = config.default_nav_timeout_sec,
+        replace_active_goal: bool = True,
+    ) -> Dict[str, Any]:
+        """Navigate the robot strictly along defined road network topological lanes and junctions.
+        
+        Args:
+            goal_id: Destination road network node identifier (e.g. 'junction_1').
+            waypoint: Destination waypoint name (resolved to road network graph).
+            reroute_policy: Policy when blocked: 'wait_then_reroute', 'immediate', or 'halt_only'.
+            wait_for_arrival: If True, blocks until arrival.
+            timeout_sec: Maximum seconds to allow for navigation before aborting.
+            replace_active_goal: If True, replaces active goal.
+        """
+        try:
+            check_preflight_safety(robot)
+        except SafetyInterlockError as err:
+            return {"success": False, "error": str(err)}
+
+        try:
+            res = robot.follow_route(
+                goal_id=goal_id,
+                waypoint=waypoint,
+                reroute_policy=reroute_policy,
+                wait=wait_for_arrival,
+                timeout=timeout_sec,
+                replace=replace_active_goal,
+            )
+            return {
+                "success": True,
+                "goal": goal_id or waypoint,
+                "routing_mode": "road_network",
+                "status": "reached" if wait_for_arrival else "goal_accepted",
+                "details": res,
+            }
+        except RobotError as e:
+            return {"success": False, "error": f"Road network navigation failed: {e.code} - {e.message}"}
+        except TimeoutError:
+            try:
+                robot.cancel_goal()
+            except Exception:
+                pass
+            return {
+                "success": False,
+                "error": f"Road network navigation timed out after {timeout_sec}s. Goal was cancelled.",
+            }
 
     @mcp.tool()
     def set_initial_pose(x: float, y: float, yaw: float = 0.0) -> Dict[str, Any]:

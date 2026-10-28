@@ -123,6 +123,7 @@ nav:
       - api/maps.md
       - api/waypoints.md
       - api/navigation.md
+      - api/road_network.md
       - api/docking.md
       - api/motion.md
       - api/missions.md
