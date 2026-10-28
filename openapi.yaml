@@ -49,6 +49,8 @@ tags:
     description: Named poses stored on the robot, per map.
   - name: Navigation
     description: Send goals, track them, cancel, localize.
+  - name: Road Network
+    description: Topological graph routing, traffic network lanes, junctions, and dynamic blockage rerouting.
   - name: Docking
     description: Autonomous AprilTag docking and undocking.
   - name: Motion
@@ -784,6 +786,83 @@ paths:
         "409": { $ref: '#/components/responses/Conflict' }
         "503": { $ref: '#/components/responses/Unavailable' }
 
+  /navigation/route:
+    post:
+      tags: [Navigation, Road Network]
+      summary: Send a road network navigation goal
+      description: |
+        Directs the robot to a target junction node or waypoint strictly along the defined
+        topological road network graph using Nav2 RouteServer.
+
+        Includes configurable blockage rerouting policy (`wait_then_reroute`, `immediate`, `halt_only`)
+        to safely manage human and obstacle blockages on the road network.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                goal_id:
+                  type: string
+                  description: Destination road node identifier or target waypoint.
+                start_id:
+                  type: string
+                  description: Optional start node identifier (defaults to closest node to current robot pose).
+                waypoint:
+                  type: string
+                  description: Waypoint name (resolved to coordinates/node).
+                x:
+                  type: number
+                  description: Target X coordinate in metres.
+                y:
+                  type: number
+                  description: Target Y coordinate in metres.
+                theta:
+                  type: number
+                  default: 0
+                  description: Target heading angle on arrival in radians.
+                reroute_policy:
+                  type: string
+                  enum: [wait_then_reroute, immediate, halt_only]
+                  default: wait_then_reroute
+                  description: Behavior when an obstacle blocks the active roadway lane.
+                wait_timeout_sec:
+                  type: number
+                  default: 5.0
+                  description: Delay before rerouting when reroute_policy is wait_then_reroute.
+                replace:
+                  type: boolean
+                  default: false
+                  description: Cancel any running goal and take over.
+            examples:
+              by_node_id:
+                value:
+                  goal_id: "junction_2"
+                  reroute_policy: "wait_then_reroute"
+                  wait_timeout_sec: 5.0
+              by_waypoint:
+                value:
+                  waypoint: "kitchen"
+                  reroute_policy: "immediate"
+      responses:
+        "202":
+          description: Road network goal accepted.
+          content:
+            application/json:
+              example:
+                accepted: true
+                routing_mode: road_network
+                target:
+                  goal_id: junction_2
+                  routing_mode: road_network
+                  reroute_policy: wait_then_reroute
+                  wait_timeout_sec: 5.0
+        "400": { $ref: '#/components/responses/BadRequest' }
+        "404": { $ref: '#/components/responses/NotFound' }
+        "409": { $ref: '#/components/responses/Conflict' }
+        "503": { $ref: '#/components/responses/Unavailable' }
+
   /navigation/status:
     get:
       tags: [Navigation]
@@ -832,16 +911,109 @@ paths:
   /navigation/relocalize/global:
     post:
       tags: [Navigation]
-      summary: Global relocalization (AMCL disperse)
-      description: Disperses AMCL particles uniformly across the map to recover when lost or kidnapped.
+      summary: Global relocalization (AMCL disperse & auto-spin scan)
+      description: |
+        Disperses AMCL particles uniformly across the map space.
+        When `spin: true` (default), the robot undocks if docked and autonomously
+        executes multi-cycle in-place rotation scan sweeps, monitoring real-time
+        particle covariance until convergence.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                spin:
+                  type: boolean
+                  default: true
+                  description: Execute autonomous 360-degree rotation scan sweeps.
+                angular_vel:
+                  type: number
+                  default: 0.38
+                  description: Rotation velocity in rad/s.
+                max_tries:
+                  type: integer
+                  default: 3
+                  description: Maximum rotation scan cycles.
+                timeout_sec:
+                  type: number
+                  default: 50.0
+                  description: Global timeout in seconds.
+                target_cov:
+                  type: number
+                  default: 0.15
+                  description: Position covariance threshold (m²).
+                target_cov_yaw:
+                  type: number
+                  default: 0.12
+                  description: Yaw covariance threshold (rad²).
+            examples:
+              auto_spin:
+                value:
+                  spin: true
+                  max_tries: 3
+                  timeout_sec: 50.0
+              disperse_only:
+                value:
+                  spin: false
       responses:
         "200":
-          description: Particles dispersed.
+          description: Relocalization outcome.
+          content:
+            application/json:
+              examples:
+                converged:
+                  value:
+                    status: ok
+                    converged: true
+                    tries: 1
+                    elapsed_sec: 14.2
+                    covariance:
+                      cov_x: 0.042
+                      cov_y: 0.038
+                      cov_yaw: 0.081
+                    message: "Relocalized successfully in 14.2s (1 scan cycles). AMCL converged."
+                dispersed_only:
+                  value:
+                    status: ok
+                    message: AMCL particles dispersed across map
+        "503": { $ref: '#/components/responses/Unavailable' }
+
+  /navigation/relocalize/recover:
+    post:
+      tags: [Navigation]
+      summary: Autonomous relocalization recovery sweep
+      description: |
+        Explicit relocalization recovery procedure. Disperses AMCL particles and
+        executes multi-cycle alternating rotation scan sweeps until particle covariance
+        indicates unambiguous pose convergence.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                angular_vel: { type: number, default: 0.38 }
+                max_tries: { type: integer, default: 3 }
+                timeout_sec: { type: number, default: 50.0 }
+                target_cov: { type: number, default: 0.15 }
+                target_cov_yaw: { type: number, default: 0.12 }
+      responses:
+        "200":
+          description: Autonomous recovery result.
           content:
             application/json:
               example:
                 status: ok
-                message: AMCL particles dispersed across map
+                converged: true
+                tries: 1
+                elapsed_sec: 15.3
+                covariance:
+                  cov_x: 0.035
+                  cov_y: 0.029
+                  cov_yaw: 0.076
+                message: "Relocalized successfully in 15.3s (1 scan cycles). AMCL converged."
+        "503": { $ref: '#/components/responses/Unavailable' }
 
   /navigation/path:
     get:
@@ -850,6 +1022,132 @@ paths:
       responses:
         "200": { description: Planned path as a list of points. }
         "503": { $ref: '#/components/responses/Unavailable' }
+
+  /road_network:
+    get:
+      tags: [Road Network]
+      summary: Get road network graph for a map
+      description: |
+        Retrieves topological junctions (nodes) and roadways (edges) for the specified map
+        (or active map) formatted as GeoJSON FeatureCollection compatible with Nav2 RouteServer.
+      parameters:
+        - name: map
+          in: query
+          required: false
+          schema: { type: string }
+          description: Target map name (defaults to currently active map)
+      responses:
+        "200":
+          description: GeoJSON FeatureCollection of nodes and edges.
+          content:
+            application/json:
+              example:
+                map: workRoom
+                features_count: 5
+                geojson:
+                  type: FeatureCollection
+                  name: graph
+                  crs: { type: name, properties: { name: "urn:ogc:def:crs:EPSG::3857" } }
+                  features:
+                    - type: Feature
+                      id: "node_1"
+                      geometry: { type: Point, coordinates: [1.5, 2.0] }
+                      properties: { type: node, name: "Junction 1" }
+                    - type: Feature
+                      id: "edge_1_2"
+                      geometry: { type: LineString, coordinates: [[1.5, 2.0], [4.0, 2.0]] }
+                      properties: { type: edge, start_id: "node_1", goal_id: "node_2", bidirectional: true, speed_limit: 0.45 }
+    post:
+      tags: [Road Network]
+      summary: Save or update road network graph
+      description: |
+        Persists road network graph in SQLite central storage and exports `<map>_roadnet.geojson` on disk.
+        If navigation mode is active on this map, automatically calls `/route_server/set_route_graph`
+        to hot-reload the graph into Nav2 RouteServer without restarting nodes.
+      parameters:
+        - name: map
+          in: query
+          required: false
+          schema: { type: string }
+          description: Target map name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, features]
+              properties:
+                type: { type: string, enum: [FeatureCollection] }
+                map: { type: string }
+                features:
+                  type: array
+                  items: { type: object }
+            example:
+              type: FeatureCollection
+              features:
+                - type: Feature
+                  id: "node_1"
+                  geometry: { type: Point, coordinates: [1.5, 2.0] }
+                  properties: { type: node, name: "Junction 1" }
+                - type: Feature
+                  id: "node_2"
+                  geometry: { type: Point, coordinates: [4.0, 2.0] }
+                  properties: { type: node, name: "Junction 2" }
+                - type: Feature
+                  id: "edge_1_2"
+                  geometry: { type: LineString, coordinates: [[1.5, 2.0], [4.0, 2.0]] }
+                  properties: { type: edge, start_id: "node_1", goal_id: "node_2", bidirectional: true, speed_limit: 0.45 }
+      responses:
+        "200":
+          description: Road network saved and loaded.
+          content:
+            application/json:
+              example:
+                saved: true
+                map: workRoom
+                path: "/home/navpromini/NavProMini_ws/install/navpromini_mapping/share/navpromini_mapping/maps/workRoom_roadnet.geojson"
+                nodes_count: 2
+                edges_count: 1
+                loaded_live: true
+        "400": { $ref: '#/components/responses/BadRequest' }
+    delete:
+      tags: [Road Network]
+      summary: Delete road network graph
+      description: |
+        Deletes the road network graph from central storage and removes `<map>_roadnet.geojson`
+        from disk for the specified map.
+      parameters:
+        - name: map
+          in: query
+          required: false
+          schema: { type: string }
+          description: Target map name (defaults to active map)
+      responses:
+        "200":
+          description: Road network deleted.
+          content:
+            application/json:
+              example:
+                deleted: true
+                map: workRoom
+
+  /road_network/reroute:
+    post:
+      tags: [Road Network]
+      summary: Trigger dynamic RouteServer reroute
+      description: |
+        Invokes `/route_server/ReroutingService/reroute` to immediately recalculate
+        an alternative path around detected blockage or traffic on the road network.
+      responses:
+        "200":
+          description: Reroute executed.
+          content:
+            application/json:
+              example:
+                ok: true
+                message: "Route recalculated successfully"
+        "500": { $ref: '#/components/responses/InternalError' }
 
   /dock:
     post:

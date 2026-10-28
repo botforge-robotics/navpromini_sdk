@@ -629,6 +629,8 @@
       
         
       
+        
+      
     
     
     
@@ -1398,6 +1400,34 @@
     
   
     Navigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../road_network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Road Network Planning &amp; Traffic Control
   
 
     
@@ -2595,7 +2625,7 @@ then activate it for navigation.</p>
 </span></code></pre></div>
 <hr />
 <h3 id="delete-mapsname"><span class="verb delete">DELETE</span> <code>/maps/{name}</code><a class="headerlink" href="#delete-mapsname" title="Link to this section">&para;</a></h3>
-<p>Delete a saved map by name from the robot's storage.</p>
+<p>Delete a saved map by name from the robot's storage. Deleting a map cascades and purges all associated waypoints, missions, schedules, and topological road networks (<code>&lt;name&gt;_roadnet.geojson</code>) tied to that map.</p>
 <h4 id="request_3">Request<a class="headerlink" href="#request_3" title="Link to this section">&para;</a></h4>
 <ul>
 <li><strong>Method</strong>: <code>DELETE</code></li>
@@ -2687,7 +2717,7 @@ then activate it for navigation.</p>
 </span></code></pre></div>
 <hr />
 <h3 id="post-mapsnameactivate"><span class="verb post">POST</span> <code>/maps/{name}/activate</code><a class="headerlink" href="#post-mapsnameactivate" title="Link to this section">&para;</a></h3>
-<p>Switch navigation mode to a different map. This restarts the navigation stack with the chosen map.</p>
+<p>Switch navigation mode to a different map. This restarts the navigation stack with the chosen map and automatically hot-loads the map's <a href="../road_network/">Road Network</a> into Nav2 RouteServer if configured.</p>
 <h4 id="request_4">Request<a class="headerlink" href="#request_4" title="Link to this section">&para;</a></h4>
 <ul>
 <li><strong>Method</strong>: <code>POST</code></li>

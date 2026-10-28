@@ -629,6 +629,8 @@
       
         
       
+        
+      
     
     
     
@@ -841,6 +843,34 @@
     
   
     Navigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="road_network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Road Network Planning &amp; Traffic Control
   
 
     
@@ -1453,6 +1483,11 @@ Expected output:
 <td>Send a goal</td>
 </tr>
 <tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/navigation/route</code></td>
+<td>Send a road network goal with rerouting</td>
+</tr>
+<tr>
 <td><span class="verb get">GET</span></td>
 <td><code>/navigation/status</code></td>
 <td>Goal progress</td>
@@ -1468,9 +1503,39 @@ Expected output:
 <td>Seed the pose estimate</td>
 </tr>
 <tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/navigation/relocalize/global</code></td>
+<td>Disperse AMCL particles &amp; auto-spin scan</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/navigation/relocalize/recover</code></td>
+<td>Autonomous multi-try relocalization recovery</td>
+</tr>
+<tr>
 <td><span class="verb get">GET</span></td>
 <td><code>/navigation/path</code></td>
 <td>Current planned path</td>
+</tr>
+<tr>
+<td><span class="verb get">GET</span></td>
+<td><code>/road_network</code></td>
+<td>Get topological road network graph</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/road_network</code></td>
+<td>Save road network &amp; hot-reload RouteServer</td>
+</tr>
+<tr>
+<td><span class="verb delete">DELETE</span></td>
+<td><code>/road_network</code></td>
+<td>Delete road network graph</td>
+</tr>
+<tr>
+<td><span class="verb post">POST</span></td>
+<td><code>/road_network/reroute</code></td>
+<td>Trigger dynamic RouteServer reroute</td>
 </tr>
 <tr>
 <td><span class="verb post">POST</span></td>
