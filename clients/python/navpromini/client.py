@@ -478,11 +478,11 @@ class NavProMini:
 
     def wait_for_charging(self, timeout: float = 300.0,
                           poll: float = 1.0) -> dict:
-        """Block until charging starts, or the dock operation gives up."""
+        """Block until charging starts, or the dock operation completes/gives up."""
         deadline = time.time() + timeout
         while time.time() < deadline:
             status = self.dock_status()
-            if status.get('charging'):
+            if status.get('charging') or status.get('operation') == 'docked' or status.get('state') in ('charging', 'full', 'docked'):
                 return status
             if status.get('operation') == 'failed':
                 raise RobotError('dock_failed',

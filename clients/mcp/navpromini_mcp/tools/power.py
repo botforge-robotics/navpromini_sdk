@@ -34,10 +34,13 @@ def register_power_tools(mcp, robot: NavProMini):
             return {"success": False, "error": f"Docking timed out after {timeout_sec}s."}
 
     @mcp.tool()
-    def undock_robot() -> Dict[str, Any]:
+    def undock_robot(
+        wait_for_undock: bool = True,
+        timeout_sec: int = 120,
+    ) -> Dict[str, Any]:
         """Command the robot to disengage and reverse out of the charging dock."""
         try:
-            res = robot.undock()
+            res = robot.undock(wait=wait_for_undock, timeout=timeout_sec)
             return {"success": True, "status": "undocked", "details": res}
         except RobotError as e:
             return {"success": False, "error": f"Undock failed: {e.code} - {e.message}"}
