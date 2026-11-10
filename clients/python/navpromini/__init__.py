@@ -11,4 +11,4 @@
 from .client import ApiError, NavProMini, RobotError
 
 __all__ = ['NavProMini', 'RobotError', 'ApiError']
-__version__ = '1.0.0'
+__version__ = '1.2.0'
